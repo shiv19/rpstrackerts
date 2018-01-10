@@ -17,46 +17,60 @@
 
                         <StackLayout class="input-field with-validation">
                             <GridLayout columns="*, 25" class="login-field-wrapper">
-                                <TextField class="{{ !emailEmpty && emailValid ? 'login-field valid' : 'login-field invalid' }}" hint="Email" text="{{ email }}" col="0">
-                                </TextField>
-                                <Label class="fa login-icon" text="&#xf0e0;" col="1"></Label>
+                                <TextField col="0"
+                                    class="{{ !emailEmpty && emailValid ? 'login-field valid' : 'login-field invalid' }}" 
+                                    hint="Email" keyboardType="email"
+                                    text="{{ email }}"/>
+                                <Label col="1"
+                                    class="fa login-icon" 
+                                    text="&#xf0e0;" />
                             </GridLayout>
 
                             <StackLayout class="login-field-validation-wrapper">
-                                <Label visibility="{{ emailEmpty ? 'visible' : 'collapsed' }}" text="email is missing" class="validation">
-                                </Label>
-                                <Label visibility="{{ !emailValid ? 'visible' : 'collapsed' }}" text="the email is not in the correct format" class="validation">
-                                </Label>
+                                <Label 
+                                    visibility="{{ emailEmpty ? 'visible' : 'collapsed' }}" 
+                                    text="email is missing" 
+                                    class="validation"/>
+                                <Label 
+                                    visibility="{{ !emailValid ? 'visible' : 'collapsed' }}" 
+                                    text="the email is not in the correct format"
+                                    class="validation"/>
                             </StackLayout>
                         </StackLayout>
 
                         <StackLayout class="input-field with-validation">
                             <GridLayout columns="*, 25" class="login-field-wrapper">
-                                <TextField class="{{ !passwordEmpty ? 'login-field valid' : 'login-field invalid' }}" hint="Password" secure="true" text="{{ password }}" col="0">
-                                </TextField>
-                                <Label class="fa login-icon" text="&#xf023;" col="1"></Label>
+                                <TextField col="0"
+                                    class="{{ !passwordEmpty ? 'login-field valid' : 'login-field invalid' }}"
+                                    hint="Password" secure="true"
+                                    text="{{ password }}"/>
+                                <Label col="1"
+                                    class="fa login-icon"
+                                    text="&#xf023;"></Label>
                             </GridLayout>
 
                             <StackLayout>
                                 <StackLayout>
                                     <Label visibility="{{ passwordEmpty ? 'visible' : 'collapsed' }}"
-                                        text="password is required" class="validation">
-                                    </Label>
+                                        text="password is required" class="validation"/>
                                 </StackLayout>
                             </StackLayout>
                         </StackLayout>
 
-                        <Button text="Login" tap="onLoginTap"
-                            class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}">
-                        </Button>
+                        <Button text="Login" tap="onLoginTap" 
+                            isEnabled="{{ formValid }}"
+                            class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}"/>
 
-                        <Label class="hr"></Label>
+                        <Label class="hr"/>
 
                     </StackLayout>
                 </StackLayout>
                 <StackLayout row="2" class="bottom-safe-nav">
                     <Label text="Need an account?" class="smaller"/>
-                    <Label textTransform="uppercase" class="text-center m-20" color="white" text="Register"/>
+                    <Label tap="onGotoRegister"
+                        textTransform="uppercase" 
+                        class="text-center m-20" 
+                        color="white" text="Register"/>
                 </StackLayout>
             </GridLayout>
         </StackLayout>

@@ -8,6 +8,18 @@ import * as app from "application";
 import "./bundle-config";
 import { Routes } from "./shared/routes";
 
+// Enable back button handling
+const frame = require('ui/frame');
+if (app.android) {
+    app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
+}
+function backEvent(args) {
+    const currentPage = frame.topmost().currentPage;
+    if (currentPage && currentPage.exports && typeof currentPage.exports.backEvent === "function") {
+        currentPage.exports.backEvent(args);
+    }
+}
+
 app.start({ moduleName: Routes.login });
 
 /*
