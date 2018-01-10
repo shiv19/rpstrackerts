@@ -1,0 +1,5 @@
+{
+    "apiEndpoint": "http://10.142.34.208:8080/api",
+    "loggingEnabled": true,
+    "loggingLevel": "Error"
+}
