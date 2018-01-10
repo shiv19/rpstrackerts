@@ -1,0 +1,12 @@
+{
+    "modules": {
+        "auth": {
+            "pages": {
+                "auth": {
+                    "login": "Login",
+                    "register": "Register"
+                }
+            }
+        }
+    }
+}
