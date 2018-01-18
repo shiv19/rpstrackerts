@@ -2,6 +2,7 @@
     class="page"
     navigatingTo="onNavigatingTo"  
     xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns:PullRefresh="nativescript-pulltorefresh"
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar title="Backlog">
@@ -44,7 +45,31 @@
             <StackLayout class="mainContent">
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
-                        <Label text="list goes here" />
+                        <PullRefresh:PullToRefresh refresh="refreshList">
+                            <ListView class="items-list" items="{{ items }}" itemTap="listItemTap" separatorColor="#97a879">
+                                <list-view.itemTemplate>
+                                    <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
+                                        <StackLayout class="li-indicator" row="0" col="0">
+                                            <Label class="getIndicatorClass" />
+                                        </StackLayout>
+
+                                        <GridLayout col="1" class="li-avatar">
+                                            <Image src="{{ assignee.avatar }}" stretch="aspectFit" />
+                                        </GridLayout>
+
+                                        <StackLayout class="li-info-wrapper" col="2">
+                                            <Label class="li-title" textWrap="true" text="{{ title }}" />
+                                            <Label class="li-estimate" text="{{ 'estimate: ' + estimate }}" />
+                                        </StackLayout>
+
+                                        <StackLayout col="3">
+                                            <Label text="{{ dateCreated | dateConvertor }}" class="li-date" />
+                                        </StackLayout>
+
+                                    </GridLayout>                            
+                                </list-view.itemTemplate>
+                            </ListView>
+                        </PullRefresh:PullToRefresh>
                     </GridLayout>
 
                     <StackLayout row="1" class="btn-add-wrapper">
