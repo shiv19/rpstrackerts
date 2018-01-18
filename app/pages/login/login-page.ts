@@ -1,6 +1,6 @@
 import { StackLayout } from "ui/layouts/stack-layout";
 import { NavigatedData } from "ui/page";
-import { Routes } from "../../../../shared/routes";
+import { Routes } from "../../shared/routes";
 
 import { LoginViewModel } from "./login-view-model";
 
@@ -16,5 +16,5 @@ export function onGotoRegister(args: any) {
     args.object.page.frame.navigate({
         moduleName: Routes.register,
         animated: false
-    })
+    });
 }

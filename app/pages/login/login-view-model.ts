@@ -1,10 +1,11 @@
 import { Observable, PropertyChangeData } from "data/observable";
-import { EventData } from "tns-core-modules/ui/frame/frame";
 import * as emailValidator from "email-validator";
 
-export class RegisterViewModel extends Observable {
-    name: string;
-    nameEmpty: boolean;
+import { Routes } from "../../shared/routes";
+import { PtLoginModel } from "../../core/models/domain";
+import { AuthService } from "../../services/auth-service";
+
+export class LoginViewModel extends Observable {
     email: string;
     emailValid: boolean;
     emailEmpty: boolean;
@@ -15,27 +16,17 @@ export class RegisterViewModel extends Observable {
     constructor() {
         super();
 
-        this.set("name", "");
-        this.set("nameEmpty", false);
-        this.set("email", "");
+        this.set("email", "alex@email.com");
         this.set("emailValid", true);
         this.set("emailEmpty", false);
-        this.set("password", "");
+        this.set("password", "nuvious");
         this.set("passwordEmpty", false);
-        this.set("formValid", false);
+        this.set("formValid", true);
 
         this.on(
             Observable.propertyChangeEvent,
             (propertyChangeData: PropertyChangeData) => {
                 switch (propertyChangeData.propertyName) {
-                    case "name":
-                        if (this.name.trim() === "") {
-                            this.set("nameEmpty", true);
-                        } else {
-                            this.set("nameEmpty", false);
-                        }
-                        break;
-
                     case "email":
                         if (this.email.trim() === "") {
                             this.set("emailEmpty", true);
@@ -61,7 +52,6 @@ export class RegisterViewModel extends Observable {
                         return;
                 }
                 if (
-                    !this.nameEmpty &&
                     this.emailValid &&
                     !this.emailEmpty &&
                     !this.passwordEmpty
@@ -72,5 +62,21 @@ export class RegisterViewModel extends Observable {
                 }
             }
         );
+    }
+
+    onLogin(args: any) {
+        const loginModel: PtLoginModel = {
+            username: this.email,
+            password: this.password
+        };
+        const authService = new AuthService();
+        authService
+            .login(loginModel)
+            .then(response => {
+                args.object.page.frame.navigate(Routes.backlog);
+            })
+            .catch(error => {
+                console.error(error);
+            });
     }
 }

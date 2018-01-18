@@ -57,7 +57,7 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <Button text="Login" tap="onLoginTap" 
+                        <Button text="Login" tap="{{ onLogin }}" 
                             isEnabled="{{ formValid }}"
                             class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}"/>
 

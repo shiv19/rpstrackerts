@@ -4,15 +4,13 @@
 	"readme": "NativeScript Application",
 	"repository": "<fill-your-repository-here>",
 	"nativescript": {
-		"id": "org.nativescript.rpstrackernsts",
-		"tns-android": {
-			"version": "3.4.0"
-		}
+		"id": "org.nativescript.rpstrackernsts"
 	},
 	"dependencies": {
 		"email-validator": "^1.1.1",
 		"lodash": "^4.17.4",
 		"nativescript-pro-ui": "^3.3.0",
+		"nativescript-pulltorefresh": "^2.0.3",
 		"nativescript-theme-core": "1.0.4",
 		"tns-core-modules": "3.4.0"
 	},

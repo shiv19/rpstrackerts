@@ -3,6 +3,13 @@ const config = require("../config/app-config");
 const fetchModule = require("fetch");
 const h = require("../shared/helpers");
 
+import {
+    PtUser,
+    PtLoginModel,
+    PtAuthToken,
+    PtRegisterModel
+} from "../core/models/domain";
+
 const CURRENT_USER_KEY = "CURRENT_USER_KEY";
 const AUTH_TOKEN_KEY = "AUTH_TOKEN_KEY";
 
@@ -31,7 +38,7 @@ export class AuthService {
         return hasToken && hasCurrentUser;
     }
 
-    public login(loginModel) {
+    public login(loginModel: PtLoginModel) {
         const request = new Promise((resolve, reject) => {
             fetchModule
                 .fetch(this.loginUrl, {
@@ -49,8 +56,18 @@ export class AuthService {
                     if (response.error) {
                         reject(response);
                     } else {
-                        // TODO: save the user and token
-
+                        const data: {
+                            authToken: PtAuthToken;
+                            user: PtUser;
+                        } = response;
+                        appSettings.setString(
+                            AUTH_TOKEN_KEY,
+                            JSON.stringify(data.authToken)
+                        );
+                        appSettings.setString(
+                            CURRENT_USER_KEY,
+                            JSON.stringify(data.user)
+                        );
                         resolve(true);
                     }
                 });
@@ -59,7 +76,7 @@ export class AuthService {
         return Promise.race([new h.Timeout(), request]);
     }
 
-    public register(registerModel) {
+    public register(registerModel: PtRegisterModel) {
         const request = new Promise((resolve, reject) => {
             fetchModule
                 .fetch(this.registerUrl, {
@@ -76,8 +93,18 @@ export class AuthService {
                     if (response.error) {
                         reject(response);
                     } else {
-                        // TODO: save the user and token
-
+                        const data: {
+                            authToken: PtAuthToken;
+                            user: PtUser;
+                        } = response;
+                        appSettings.setString(
+                            AUTH_TOKEN_KEY,
+                            JSON.stringify(data.authToken)
+                        );
+                        appSettings.setString(
+                            CURRENT_USER_KEY,
+                            JSON.stringify(data.user)
+                        );
                         resolve(true);
                     }
                 });

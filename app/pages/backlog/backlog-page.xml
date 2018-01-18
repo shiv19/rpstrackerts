@@ -1,0 +1,58 @@
+<Page
+    class="page"
+    navigatingTo="onNavigatingTo"  
+    xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns="http://schemas.nativescript.org/tns.xsd">
+
+    <ActionBar title="Backlog">
+        <ActionItem tap="toggleDrawer" ios.position="right">
+            <StackLayout class="navbar_image_wrapper" ios:horizontalAlignment="right">
+                <Image src="res://iconelipseswhite" />
+            </StackLayout>
+        </ActionItem>
+    </ActionBar>
+
+    <nsDrawer:RadSideDrawer id="sideDrawer" drawerLocation="Right">
+
+        <nsDrawer:RadSideDrawer.drawerTransition>
+            <nsDrawer:SlideInOnTopTransition/>
+        </nsDrawer:RadSideDrawer.drawerTransition>
+
+        <nsDrawer:RadSideDrawer.drawerContent>
+            <StackLayout>
+                <GridLayout class="side-drawer-panel" rows="auto, *, 100">
+                    <StackLayout row="0">
+                        <Image src="res://rpslogo" class="slide-out-img" stretch="aspectFit" />
+                    </StackLayout>
+                    <StackLayout row="1" class="menu-container">
+                        <FlexboxLayout class="menu-wrapper">
+                            <Button tap="onSelectPresetTap" text="MY ITEMS" />
+                            <Button tap="onSelectPresetTap" text="OPEN ITEMS" />
+                            <Button tap="onSelectPresetTap" text="FINISHED ITEMS" />
+
+                            <Button tap="onSettingsTap" text="SETTINGS" />
+                        </FlexboxLayout>
+                    </StackLayout>
+                    <StackLayout row="2" class="menu-container">
+                        <Button text="LOGOUT" />
+                    </StackLayout>
+                </GridLayout>
+            </StackLayout>
+        </nsDrawer:RadSideDrawer.drawerContent>
+
+        <nsDrawer:RadSideDrawer.mainContent>
+            <StackLayout class="mainContent">
+                <GridLayout class="backlog-container" rows="*, auto">
+                    <GridLayout row="0" class="list-container">
+                        <Label text="list goes here" />
+                    </GridLayout>
+
+                    <StackLayout row="1" class="btn-add-wrapper">
+                        <Button text="Add" class="btn-add bottom-safe-nav" tap="onAddTap" />
+                    </StackLayout>
+
+                </GridLayout>
+            </StackLayout>
+        </nsDrawer:RadSideDrawer.mainContent>
+    </nsDrawer:RadSideDrawer>
+</Page>

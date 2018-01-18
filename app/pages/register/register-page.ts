@@ -1,6 +1,6 @@
 import { StackLayout } from "ui/layouts/stack-layout";
 import { NavigatedData } from "ui/page";
-import { Routes } from "../../../../shared/routes";
+import { Routes } from "../../shared/routes";
 
 import { RegisterViewModel } from "./register-view-model";
 
@@ -17,5 +17,5 @@ export function onGotoLogin(args: any) {
         moduleName: Routes.login,
         animated: false,
         clearHistory: true
-    })
+    });
 }

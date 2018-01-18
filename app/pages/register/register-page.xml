@@ -19,7 +19,7 @@
                             <GridLayout columns="*, 25" class="login-field-wrapper">
                                 <TextField col="0"  
                                     class="{{ !nameEmpty ? 'login-field valid' : 'login-field invalid' }}"
-                                    hint="Name" text="{{ name }}" />
+                                    hint="Name" text="{{ fullName }}" />
                                 <Label col="1" 
                                     class="fa login-icon" 
                                     text="&#xf007;" />
