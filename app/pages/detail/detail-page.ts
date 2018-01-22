@@ -1,10 +1,9 @@
 import { StackLayout } from "ui/layouts/stack-layout";
-import { NavigatedData } from "ui/page";
-import { Routes } from "../../shared/routes";
+import { NavigatedData, Page } from "ui/page";
 
 require("../../shared/convertors"); // register convertors
 
-import { BacklogViewModel } from "./backlog-view-model";
+import { DetailViewModel } from "./detail-view-model";
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -16,8 +15,8 @@ export function toggleDrawer() {
 }
 
 export function onNavigatingTo(args: NavigatedData) {
-    const page = <StackLayout>args.object;
-    page.bindingContext = new BacklogViewModel();
+    const page = <Page>args.object;
+    page.bindingContext = new DetailViewModel(page.navigationContext);
     drawer = page.getViewById("sideDrawer");
 }
 
@@ -29,16 +28,18 @@ export function refreshList(args) {
     pullRefresh.refreshing = false;
 }
 
-export function listItemTap(args) {
-    const page = args.object.page;
+export function onNavBackTap(args) {
+    args.object.page.frame.goBack();
+}
 
-    page.frame.navigate({
-        moduleName: Routes.detail,
-        animated: true,
-        transition: {
-            name: "slide",
-            duration: 380
-        },
-        context: args.view.bindingContext
-    });
+export function onDetailsTap(args) {
+    args.object.page.bindingContext.set("selectedScreen", "details");
+}
+
+export function onTasksTap(args) {
+    args.object.page.bindingContext.set("selectedScreen", "tasks");
+}
+
+export function onChitchatTap(args) {
+    args.object.page.bindingContext.set("selectedScreen", "chitchat");
 }

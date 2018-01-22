@@ -4,7 +4,7 @@ const moment = require("moment");
 // Date convertor
 const dateConvertor = function(value) {
     if (value !== undefined) {
-        return moment(value).format("Do MMM YYYY");
+        return moment(value).format("MMM D, YYYY");
     } else {
         return "";
     }
