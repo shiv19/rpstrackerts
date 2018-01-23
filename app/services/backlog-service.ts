@@ -56,6 +56,21 @@ export class BacklogService {
         });
     }
 
+    public updatePtItem(item: PtItem) {
+        return new Promise((resolve, reject) => {
+            this.repo.updatePtItem(
+                item,
+                error => {
+                    reject(error);
+                    console.dir(error);
+                },
+                (updatedItem: PtItem) => {
+                    resolve(updatedItem);
+                }
+            );
+        });
+    }
+
     private setUserAvatar(user: PtUser) {
         user.avatar = getUserAvatarUrl(config.apiEndpoint, user.id);
     }

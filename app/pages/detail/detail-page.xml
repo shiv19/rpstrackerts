@@ -15,7 +15,7 @@
         <GridLayout class="pt-item-detail-header" rows="*, 40">
 
             <GridLayout row="0" columns="auto, *" class="pt-item-detail-header-title-row">
-                <Image width="50" height="50" class="pt-item-detail-avatar" src="{{ item.assignee.avatar }}" col="0" />
+                <Image id="assigneeImg" width="50" height="50" class="pt-item-detail-avatar" src="{{ item.assignee.avatar }}" col="0" />
                 <Label text="{{ item.title }}" class="pt-item-detail-header-title" col="1"></Label>
             </GridLayout>
 
@@ -40,9 +40,14 @@
         <StackLayout>
             <!-- Details -->
             <GridLayout visibility="{{ selectedScreen === 'details' ? 'visible' : 'collapsed' }}"
-                rows="*" class="pt-item-details-container">
+                rows="auto, auto" class="pt-item-details-container">
 
-                <df:RadDataForm source="{{ form }}" metadata="{{ formMetaData }}" />
+                <df:RadDataForm row="0" source="{{ form }}" metadata="{{ formMetaData }}" propertyCommitted="{{ onPropertyCommitted }}" />
+                <StackLayout row="1">
+                    <Label text="Assignee" fontSize="12" paddingLeft="18" color="#808080" />
+                    <Button id="assigneeBtn" class="btn btn-primary" backgroundColor="lightgray"
+                        text="{{ item.assignee.fullName }}" tap="{{ onAssigneeSelect }}" />
+                </StackLayout>
 
             </GridLayout>
 
