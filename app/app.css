@@ -204,3 +204,16 @@ TextView {
 .input-field.with-validation {
     height: 70;
 }
+
+button {
+    color: #ffffff;
+    border-radius: 0;
+    border-color: transparent;
+    border-width: 1;
+    background-color: transparent;
+    padding: 10 10 10 10;
+}
+
+button:highlighted {
+    color: #4b5833;
+}

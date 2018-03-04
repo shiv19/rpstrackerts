@@ -35,7 +35,7 @@
                         </FlexboxLayout>
                     </StackLayout>
                     <StackLayout row="2" class="menu-container">
-                        <Button text="LOGOUT" />
+                        <Button tap="onLogout" text="LOGOUT" />
                     </StackLayout>
                 </GridLayout>
             </StackLayout>

@@ -1,5 +1,6 @@
 import { Observable, PropertyChangeData } from "data/observable";
 import * as emailValidator from "email-validator";
+import * as appSettings from "application-settings";
 
 import { Routes } from "../../shared/routes";
 import { PtLoginModel } from "../../core/models/domain";
@@ -12,6 +13,7 @@ export class LoginViewModel extends Observable {
     password: string;
     passwordEmpty: boolean;
     formValid: boolean;
+    loggedIn: boolean;
 
     constructor() {
         super();
@@ -22,6 +24,7 @@ export class LoginViewModel extends Observable {
         this.set("password", "nuvious");
         this.set("passwordEmpty", false);
         this.set("formValid", true);
+        this.set("loggedIn", true);
 
         this.on(
             Observable.propertyChangeEvent,
@@ -73,7 +76,14 @@ export class LoginViewModel extends Observable {
         authService
             .login(loginModel)
             .then(response => {
-                args.object.page.frame.navigate(Routes.backlog);
+                appSettings.setString(
+                    "loginDetails",
+                    JSON.stringify(loginModel)
+                );
+                args.object.page.frame.navigate({
+                    moduleName: Routes.backlog,
+                    clearHistory: true
+                });
             })
             .catch(error => {
                 console.error(error);

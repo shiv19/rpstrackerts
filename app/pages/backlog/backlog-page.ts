@@ -7,7 +7,7 @@ require("../../shared/convertors"); // register convertors
 
 import { BacklogViewModel } from "./backlog-view-model";
 import { PtNewItem } from "../../shared/models/dto";
-import { CURRENT_USER_KEY } from "../../services/auth-service";
+import { CURRENT_USER_KEY, AuthService } from "../../services/auth-service";
 import { PtUser } from "../../core/models/domain";
 
 /************************************************************
@@ -15,6 +15,7 @@ import { PtUser } from "../../core/models/domain";
  *************************************************************/
 let drawer;
 let backLogVm;
+let authService = new AuthService();
 
 export function toggleDrawer() {
     drawer.showDrawer();
@@ -65,4 +66,8 @@ export function onAddTap(args) {
         },
         true
     );
+}
+
+export function onLogout(args) {
+    authService.logout();
 }
