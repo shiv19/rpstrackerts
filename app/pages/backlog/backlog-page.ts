@@ -59,10 +59,12 @@ export function onAddTap(args) {
             btnOkText: "Save"
         },
         newItem => {
-            const assignee: PtUser = JSON.parse(
-                appSettings.getString(CURRENT_USER_KEY, "{}")
-            );
-            backLogVm.addItem(newItem, assignee);
+            if (newItem) {
+                const assignee: PtUser = JSON.parse(
+                    appSettings.getString(CURRENT_USER_KEY, "{}")
+                );
+                backLogVm.addItem(newItem, assignee);
+            }
         },
         true
     );

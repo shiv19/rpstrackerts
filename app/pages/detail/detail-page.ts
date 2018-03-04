@@ -12,6 +12,8 @@ import { BacklogService } from "../../services/backlog-service";
  *************************************************************/
 let drawer;
 let backlogService = new BacklogService();
+let currentItem;
+let detailsVm;
 
 export function toggleDrawer() {
     drawer.showDrawer();
@@ -19,7 +21,9 @@ export function toggleDrawer() {
 
 export function onNavigatingTo(args: NavigatedData) {
     const page = <Page>args.object;
-    page.bindingContext = new DetailViewModel(page.navigationContext);
+    currentItem = page.navigationContext;
+    detailsVm = new DetailViewModel(currentItem);
+    page.bindingContext = detailsVm;
     drawer = page.getViewById("sideDrawer");
 }
 
@@ -69,7 +73,7 @@ export function onDeleteTap(args) {
         // result can be true/false/undefined
         if (result) {
             backlogService
-                .deletePtItem(page.navigationContext)
+                .deletePtItem(currentItem)
                 .then(() => {
                     page.frame.goBack();
                 })
@@ -79,4 +83,12 @@ export function onDeleteTap(args) {
                 });
         }
     });
+}
+
+export function toggleTapped(args) {
+    const page = args.object.page;
+    const item = currentItem;
+    const task = args.view.bindingContext;
+    currentItem = backlogService.updatePtTask(item, task, true, task.title);
+    detailsVm.set("item", currentItem);
 }

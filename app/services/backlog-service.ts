@@ -137,4 +137,45 @@ export class BacklogService {
             );
         });
     }
+
+    public updatePtTask(
+        currentItem: PtItem,
+        task: PtTask,
+        toggle: boolean,
+        newTitle?: string
+    ) {
+        const taskToUpdate: PtTask = {
+            id: task.id,
+            title: newTitle ? newTitle : task.title,
+            completed: toggle ? !task.completed : task.completed,
+            dateCreated: task.dateCreated,
+            dateModified: new Date()
+        };
+
+        const updatedTasks = currentItem.tasks.map(t => {
+            if (t.id === task.id) {
+                return taskToUpdate;
+            } else {
+                return t;
+            }
+        });
+
+        const updatedItem = Object.assign({}, currentItem, {
+            tasks: updatedTasks
+        });
+
+        this.repo.updatePtTask(
+            taskToUpdate,
+            currentItem.id,
+            error => {
+                console.dir(error);
+            },
+            (_updatedTask: PtTask) => {
+                // do nothing
+            }
+        );
+
+        // Optimistically return updated item
+        return updatedItem;
+    }
 }

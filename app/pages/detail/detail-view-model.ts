@@ -82,7 +82,7 @@ export class DetailViewModel extends Observable {
     private itemTypeEditorViewConnected = false;
     private itemTypeNativeView;
 
-    constructor(item) {
+    constructor(item, selectedScreen = "details") {
         super();
         this.item = item;
         this.form = {
@@ -95,7 +95,7 @@ export class DetailViewModel extends Observable {
             assigneeName: item.assigneeName
         };
 
-        this.selectedScreen = "details";
+        this.selectedScreen = selectedScreen;
         this.backlogService = new BacklogService();
     }
 
