@@ -6,6 +6,7 @@ require("../../shared/convertors"); // register convertors
 
 import { DetailViewModel } from "./detail-view-model";
 import { BacklogService } from "../../services/backlog-service";
+import { PtNewTask } from "../../shared/models/dto";
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -91,4 +92,29 @@ export function toggleTapped(args) {
     const task = args.view.bindingContext;
     currentItem = backlogService.updatePtTask(item, task, true, task.title);
     detailsVm.set("item", currentItem);
+}
+
+export function onAddTask(args) {
+    const page = args.object.page;
+    const tasksList = page.getViewById("tasksList");
+    const newTitle = detailsVm.newTaskTitle.trim();
+    if (newTitle.length === 0) {
+        return;
+    }
+
+    const newTask: PtNewTask = {
+        title: newTitle,
+        completed: false
+    };
+
+    detailsVm.set("newTaskTitle", "");
+    backlogService
+        .addNewPtTask(newTask, currentItem)
+        .then(addedTask => {
+            detailsVm.item.tasks.unshift(addedTask);
+            tasksList.refresh(); // Because tasks object is not an observable
+        })
+        .catch(error => {
+            console.log("something went wrong when adding task");
+        });
 }

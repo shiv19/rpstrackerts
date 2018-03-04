@@ -138,6 +138,29 @@ export class BacklogService {
         });
     }
 
+    public addNewPtTask(newTask: PtNewTask, currentItem: PtItem) {
+        const task: PtTask = {
+            id: 0,
+            title: newTask.title,
+            completed: false,
+            dateCreated: new Date(),
+            dateModified: new Date()
+        };
+
+        return new Promise((resolve, reject) => {
+            this.repo.insertPtTask(
+                task,
+                currentItem.id,
+                error => {
+                    console.dir(error);
+                },
+                (_nextTask: PtTask) => {
+                    resolve(_nextTask);
+                }
+            );
+        });
+    }
+
     public updatePtTask(
         currentItem: PtItem,
         task: PtTask,

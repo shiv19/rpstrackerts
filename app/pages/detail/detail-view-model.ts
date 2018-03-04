@@ -77,6 +77,7 @@ export class DetailViewModel extends Observable {
             }
         ]
     };
+    newTaskTitle: string;
 
     private itemTypeEditorBtnHelper: ButtonEditorHelper;
     private itemTypeEditorViewConnected = false;
@@ -96,6 +97,7 @@ export class DetailViewModel extends Observable {
         };
 
         this.selectedScreen = selectedScreen;
+        this.newTaskTitle = "";
         this.backlogService = new BacklogService();
     }
 
