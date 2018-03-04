@@ -10,7 +10,7 @@ import {
     PtRegisterModel
 } from "../core/models/domain";
 
-const CURRENT_USER_KEY = "CURRENT_USER_KEY";
+export const CURRENT_USER_KEY = "CURRENT_USER_KEY";
 const AUTH_TOKEN_KEY = "AUTH_TOKEN_KEY";
 
 export class AuthService {

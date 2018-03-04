@@ -13,4 +13,15 @@ export class BacklogViewModel extends Observable {
             this.items.push(r);
         });
     }
+
+    addItem(newItem, assignee) {
+        this.backlogService
+            .addNewPtItem(newItem, assignee)
+            .then((r: PtItem) => {
+                this.items.unshift(r);
+            })
+            .catch(() => {
+                console.log("some error occured");
+            });
+    }
 }

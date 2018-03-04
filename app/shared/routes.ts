@@ -4,5 +4,6 @@ export const Routes = {
     backlog: "./pages/backlog/backlog-page",
     detail: "./pages/detail/detail-page",
     assigneeSelectorModal:
-        "./pages/detail/assignee-selector-modal/assignee-selector-modal"
+        "./modals/assignee-selector-modal/assignee-selector-modal",
+    newItemModal: "./modals/new-item-modal/new-item-modal"
 };

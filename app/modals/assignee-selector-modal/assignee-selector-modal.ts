@@ -1,5 +1,5 @@
-import { PtUserService } from "../../../core/services/pt-user.service";
-import { PtUser } from "../../../core/models/domain";
+import { PtUserService } from "../../core/services/pt-user.service";
+import { PtUser } from "../../core/models/domain";
 import { topmost } from "ui/frame";
 
 let closeCallback;

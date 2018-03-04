@@ -74,4 +74,42 @@ export class BacklogService {
     private setUserAvatar(user: PtUser) {
         user.avatar = getUserAvatarUrl(config.apiEndpoint, user.id);
     }
+
+    public addNewPtItem(newItem: PtNewItem, assignee: PtUser) {
+        const item: PtItem = {
+            id: 0,
+            title: newItem.title,
+            description: newItem.description,
+            type: newItem.type,
+            estimate: 0,
+            priority: PriorityEnum.Medium,
+            status: StatusEnum.Open,
+            assignee: assignee,
+            tasks: [],
+            comments: [],
+            dateCreated: new Date(),
+            dateModified: new Date()
+        };
+        return new Promise((resolve, reject) => {
+            this.repo.insertPtItem(
+                item,
+                error => {
+                    reject(error);
+                    console.dir(error);
+                },
+                (nextItem: PtItem) => {
+                    this.setUserAvatar(nextItem.assignee);
+                    let backlogItems = JSON.parse(
+                        appSettings.getString("backlogItems", "[]")
+                    );
+                    backlogItems = [nextItem, ...backlogItems];
+                    appSettings.setString(
+                        "backlogItems",
+                        JSON.stringify(backlogItems)
+                    );
+                    resolve(nextItem);
+                }
+            );
+        });
+    }
 }

@@ -1,15 +1,20 @@
 import { StackLayout } from "ui/layouts/stack-layout";
 import { NavigatedData } from "ui/page";
 import { Routes } from "../../shared/routes";
+import * as appSettings from "application-settings";
 
 require("../../shared/convertors"); // register convertors
 
 import { BacklogViewModel } from "./backlog-view-model";
+import { PtNewItem } from "../../shared/models/dto";
+import { CURRENT_USER_KEY } from "../../services/auth-service";
+import { PtUser } from "../../core/models/domain";
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
  *************************************************************/
 let drawer;
+let backLogVm;
 
 export function toggleDrawer() {
     drawer.showDrawer();
@@ -17,7 +22,8 @@ export function toggleDrawer() {
 
 export function onNavigatingTo(args: NavigatedData) {
     const page = <StackLayout>args.object;
-    page.bindingContext = new BacklogViewModel();
+    backLogVm = new BacklogViewModel();
+    page.bindingContext = backLogVm;
     drawer = page.getViewById("sideDrawer");
 }
 
@@ -41,4 +47,22 @@ export function listItemTap(args) {
         },
         context: args.view.bindingContext
     });
+}
+
+export function onAddTap(args) {
+    const page = args.object.page;
+
+    page.showModal(
+        Routes.newItemModal,
+        {
+            btnOkText: "Save"
+        },
+        newItem => {
+            const assignee: PtUser = JSON.parse(
+                appSettings.getString(CURRENT_USER_KEY, "{}")
+            );
+            backLogVm.addItem(newItem, assignee);
+        },
+        true
+    );
 }
