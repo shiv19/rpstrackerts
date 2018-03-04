@@ -1,7 +1,8 @@
 import * as app from "application";
+import * as appSettings from "application-settings";
 import { Observable, PropertyChangeData } from "data/observable";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
-import { PtItem } from "../../core/models/domain";
+import { PtItem, PtUser } from "../../core/models/domain";
 import { PtItemType } from "../../core/models/domain/types";
 import { ItemType } from "../../core/constants/pt-item-types";
 import { BacklogService } from "../../services/backlog-service";
@@ -24,6 +25,7 @@ import {
 } from "./helpers/ui-data-form";
 import { CustomPropertyEditor } from "nativescript-pro-ui/dataform";
 import { Routes } from "../../shared/routes";
+import { CURRENT_USER_KEY } from "../../services/auth-service";
 
 export class DetailViewModel extends Observable {
     backlogService: BacklogService;
@@ -77,7 +79,9 @@ export class DetailViewModel extends Observable {
             }
         ]
     };
+    currentUser: PtUser;
     newTaskTitle: string;
+    newCommentText: string;
 
     private itemTypeEditorBtnHelper: ButtonEditorHelper;
     private itemTypeEditorViewConnected = false;
@@ -98,7 +102,11 @@ export class DetailViewModel extends Observable {
 
         this.selectedScreen = selectedScreen;
         this.newTaskTitle = "";
+        this.newCommentText = "";
         this.backlogService = new BacklogService();
+        this.currentUser = JSON.parse(
+            appSettings.getString(CURRENT_USER_KEY, "{}")
+        );
     }
 
     onPropertyCommitted() {

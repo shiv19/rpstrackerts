@@ -201,4 +201,27 @@ export class BacklogService {
         // Optimistically return updated item
         return updatedItem;
     }
+
+    public addNewPtComment(newComment: PtNewComment, currentItem: PtItem) {
+        const comment: PtComment = {
+            id: 0,
+            title: newComment.title,
+            user: JSON.parse(appSettings.getString(CURRENT_USER_KEY, "{}")),
+            dateCreated: new Date(),
+            dateModified: new Date()
+        };
+
+        return new Promise((resolve, reject) => {
+            this.repo.insertPtComment(
+                comment,
+                currentItem.id,
+                error => {
+                    console.dir(error);
+                },
+                (_nextComment: PtComment) => {
+                    resolve(_nextComment);
+                }
+            );
+        });
+    }
 }

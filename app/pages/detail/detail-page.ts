@@ -6,7 +6,7 @@ require("../../shared/convertors"); // register convertors
 
 import { DetailViewModel } from "./detail-view-model";
 import { BacklogService } from "../../services/backlog-service";
-import { PtNewTask } from "../../shared/models/dto";
+import { PtNewTask, PtNewComment } from "../../shared/models/dto";
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -113,6 +113,30 @@ export function onAddTask(args) {
         .then(addedTask => {
             detailsVm.item.tasks.unshift(addedTask);
             tasksList.refresh(); // Because tasks object is not an observable
+        })
+        .catch(error => {
+            console.log("something went wrong when adding task");
+        });
+}
+
+export function onAddComment(args) {
+    const page = args.object.page;
+    const commentsList = page.getViewById("commentsList");
+    const newCommentTxt = detailsVm.newCommentText.trim();
+    if (newCommentTxt.length === 0) {
+        return;
+    }
+
+    const newComment: PtNewComment = {
+        title: newCommentTxt
+    };
+
+    detailsVm.set("newCommentText", "");
+    backlogService
+        .addNewPtComment(newComment, currentItem)
+        .then(addedComment => {
+            detailsVm.item.comments.unshift(addedComment);
+            commentsList.refresh(); // Because tasks object is not an observable
         })
         .catch(error => {
             console.log("something went wrong when adding task");
