@@ -56,21 +56,6 @@ export class BacklogService {
         });
     }
 
-    public updatePtItem(item: PtItem) {
-        return new Promise((resolve, reject) => {
-            this.repo.updatePtItem(
-                item,
-                error => {
-                    reject(error);
-                    console.dir(error);
-                },
-                (updatedItem: PtItem) => {
-                    resolve(updatedItem);
-                }
-            );
-        });
-    }
-
     private setUserAvatar(user: PtUser) {
         user.avatar = getUserAvatarUrl(config.apiEndpoint, user.id);
     }
@@ -108,6 +93,46 @@ export class BacklogService {
                         JSON.stringify(backlogItems)
                     );
                     resolve(nextItem);
+                }
+            );
+        });
+    }
+
+    public updatePtItem(item: PtItem) {
+        return new Promise((resolve, reject) => {
+            this.repo.updatePtItem(
+                item,
+                error => {
+                    reject(error);
+                    console.dir(error);
+                },
+                (updatedItem: PtItem) => {
+                    resolve(updatedItem);
+                }
+            );
+        });
+    }
+
+    public deletePtItem(item: PtItem) {
+        return new Promise((resolve, reject) => {
+            this.repo.deletePtItem(
+                item.id,
+                error => {
+                    reject(error);
+                    console.dir(error);
+                },
+                () => {
+                    const backlogItems = JSON.parse(
+                        appSettings.getString("backlogItems", "[]")
+                    );
+                    const updatedItems = backlogItems.filter(i => {
+                        return i.id !== item.id;
+                    });
+                    appSettings.setString(
+                        "backlogItems",
+                        JSON.stringify(updatedItems)
+                    );
+                    resolve(true);
                 }
             );
         });
