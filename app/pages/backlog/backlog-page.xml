@@ -50,7 +50,7 @@
                                 <list-view.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">
-                                            <Label class="getIndicatorClass" />
+                                            <Label class="{{ $value | itemToIndicatorClassConvertor }}" />
                                         </StackLayout>
 
                                         <GridLayout col="1" class="li-avatar">
