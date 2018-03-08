@@ -7,18 +7,25 @@ purpose of the file is to pass control to the app’s first module.
 import * as app from "application";
 import "./bundle-config";
 import { Routes } from "./shared/routes";
+import * as appSettings from "application-settings";
 
 // Enable back button handling
-const frame = require('ui/frame');
+const frame = require("ui/frame");
 if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
 function backEvent(args) {
     const currentPage = frame.topmost().currentPage;
-    if (currentPage && currentPage.exports && typeof currentPage.exports.backEvent === "function") {
+    if (
+        currentPage &&
+        currentPage.exports &&
+        typeof currentPage.exports.backEvent === "function"
+    ) {
         currentPage.exports.backEvent(args);
     }
 }
+
+appSettings.setString("currentPreset", "open");
 
 app.start({ moduleName: Routes.login });
 

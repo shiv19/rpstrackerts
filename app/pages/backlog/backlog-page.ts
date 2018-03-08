@@ -32,7 +32,8 @@ export function refreshList(args) {
     // Get reference to the PullToRefresh;
     var pullRefresh = args.object;
 
-    // TODO: perform API call
+    backLogVm.refresh();
+
     pullRefresh.refreshing = false;
 }
 
@@ -72,4 +73,9 @@ export function onAddTap(args) {
 
 export function onLogout(args) {
     authService.logout();
+}
+
+export function onSelectPresetTap(args) {
+    appSettings.setString("currentPreset", args.object.preset);
+    backLogVm.refresh();
 }

@@ -27,9 +27,9 @@
                     </StackLayout>
                     <StackLayout row="1" class="menu-container">
                         <FlexboxLayout class="menu-wrapper">
-                            <Button tap="onSelectPresetTap" text="MY ITEMS" />
-                            <Button tap="onSelectPresetTap" text="OPEN ITEMS" />
-                            <Button tap="onSelectPresetTap" text="FINISHED ITEMS" />
+                            <Button tap="onSelectPresetTap" preset="my" text="MY ITEMS" />
+                            <Button tap="onSelectPresetTap" preset="open" text="OPEN ITEMS" />
+                            <Button tap="onSelectPresetTap" preset="closed" text="FINISHED ITEMS" />
 
                             <Button tap="onSettingsTap" text="SETTINGS" />
                         </FlexboxLayout>
@@ -46,7 +46,7 @@
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
                         <PullRefresh:PullToRefresh refresh="refreshList">
-                            <ListView class="items-list" items="{{ items }}" itemTap="listItemTap" separatorColor="#97a879">
+                            <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="listItemTap" separatorColor="#97a879">
                                 <list-view.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">
