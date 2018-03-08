@@ -11,7 +11,7 @@
 
         <StackLayout row="1" visibility="{{ !loggedIn ? 'visible' : 'collapsed' }}">
             <GridLayout rows="50, *, auto" class="login-page-wrapper">
-                <Label class="title" row="0" text="Login"/>
+                <Label class="title" row="0" text="{{ L('Login') }}"/>
                 <StackLayout row="1">
                     <StackLayout>
 
@@ -57,7 +57,7 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <Button text="Login" tap="{{ onLogin }}" 
+                        <Button text="{{ L('Login') }}" tap="{{ onLogin }}" 
                             isEnabled="{{ formValid }}"
                             class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}"/>
 
@@ -70,7 +70,7 @@
                     <Label tap="onGotoRegister"
                         textTransform="uppercase" 
                         class="text-center m-20" 
-                        color="white" text="Register"/>
+                        color="white" text="{{ L('Register') }}"/>
                 </StackLayout>
             </GridLayout>
         </StackLayout>

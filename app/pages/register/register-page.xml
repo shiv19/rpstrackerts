@@ -11,7 +11,7 @@
 
         <StackLayout row="1">
             <GridLayout rows="50, *, auto" class="register-page-wrapper">
-                <Label class="title" row="0" text="Register"/>
+                <Label class="title" row="0" text="{{ L('Register') }}"/>
                 <StackLayout row="1">
                     <StackLayout>
 
@@ -69,7 +69,7 @@
                         </StackLayout>
 
 
-                        <Button text="Register" tap="onRegisterTap"
+                        <Button text="{{ L('Register') }}" tap="onRegisterTap"
                             isEnabled="{{ formValid }}"
                             class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}"/>
 
@@ -81,7 +81,7 @@
                     <Label tap="onGotoLogin"
                         textTransform="uppercase" 
                         class="text-center m-20" 
-                        color="white" text="Login"/>
+                        color="white" text="{{ L('Login') }}"/>
                 </StackLayout>
             </GridLayout>
         </StackLayout>
