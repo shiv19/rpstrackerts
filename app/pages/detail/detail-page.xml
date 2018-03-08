@@ -69,6 +69,8 @@
                                     <Image tap="toggleTapped" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
                                         col="0" />
                                     <TextField col="1" text="{{ title }}"
+                                        focus="taskFocused"
+                                        blur="taskBlurred"
                                         class="task-title" />
                                 </GridLayout>
                             </Repeater.itemTemplate>

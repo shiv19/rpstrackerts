@@ -6,7 +6,7 @@ require("../../shared/convertors"); // register convertors
 
 import { DetailViewModel } from "./detail-view-model";
 import { BacklogService } from "../../services/backlog-service";
-import { PtNewTask, PtNewComment } from "../../shared/models/dto";
+import { PtNewTask, PtNewComment, PtTaskUpdate } from "../../shared/models/dto";
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -15,6 +15,7 @@ let drawer;
 let backlogService = new BacklogService();
 let currentItem;
 let detailsVm;
+let lastUpdatedTitle;
 
 export function toggleDrawer() {
     drawer.showDrawer();
@@ -141,4 +142,34 @@ export function onAddComment(args) {
         .catch(error => {
             console.log("something went wrong when adding task");
         });
+}
+
+export function taskFocused(args) {
+    lastUpdatedTitle = args.object.text;
+    args.object.on("textChange", onTextChange);
+}
+
+export function taskBlurred(args) {
+    args.object.off("textChange");
+    lastUpdatedTitle = null;
+}
+
+function onTextChange(args) {
+    const newTitle = args.object.text;
+    if (lastUpdatedTitle !== newTitle) {
+        lastUpdatedTitle = newTitle;
+        const taskUpdate: PtTaskUpdate = {
+            task: args.object.bindingContext,
+            toggle: false,
+            newTitle: lastUpdatedTitle
+        };
+
+        // Dont't care about return value
+        backlogService.updatePtTask(
+            currentItem,
+            taskUpdate.task,
+            taskUpdate.toggle,
+            taskUpdate.newTitle
+        );
+    }
 }
