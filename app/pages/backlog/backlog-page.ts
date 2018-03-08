@@ -79,3 +79,14 @@ export function onSelectPresetTap(args) {
     appSettings.setString("currentPreset", args.object.preset);
     backLogVm.refresh();
 }
+
+export function onSettingsTap(args) {
+    args.object.page.frame.navigate({
+        moduleName: Routes.settings,
+        animated: true,
+        transition: {
+            name: "slide",
+            duration: 380
+        }
+    });
+}
