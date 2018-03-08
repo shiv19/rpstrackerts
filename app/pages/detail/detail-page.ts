@@ -29,14 +29,6 @@ export function onNavigatingTo(args: NavigatedData) {
     drawer = page.getViewById("sideDrawer");
 }
 
-export function refreshList(args) {
-    // Get reference to the PullToRefresh;
-    var pullRefresh = args.object;
-
-    // TODO: perform API call
-    pullRefresh.refreshing = false;
-}
-
 export function onNavBackTap(args) {
     args.object.page.frame.goBack();
 }
@@ -135,7 +127,8 @@ export function onAddComment(args) {
     detailsVm.set("newCommentText", "");
     backlogService
         .addNewPtComment(newComment, currentItem)
-        .then(addedComment => {
+        .then((addedComment: any) => {
+            addedComment.user.avatar = detailsVm.currentUserAvatar;
             detailsVm.item.comments.unshift(addedComment);
             commentsList.refresh(); // Because tasks object is not an observable
         })

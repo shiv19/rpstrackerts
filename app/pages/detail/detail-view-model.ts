@@ -80,6 +80,7 @@ export class DetailViewModel extends Observable {
         ]
     };
     currentUser: PtUser;
+    currentUserAvatar: string;
     newTaskTitle: string;
     newCommentText: string;
 
@@ -107,6 +108,7 @@ export class DetailViewModel extends Observable {
         this.currentUser = JSON.parse(
             appSettings.getString(CURRENT_USER_KEY, "{}")
         );
+        this.currentUserAvatar = this.backlogService.getCurrentUserAvatar();
     }
 
     onPropertyCommitted() {

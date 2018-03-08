@@ -84,8 +84,7 @@
                 rows="70, *" class="pt-item-chitchat-container">
 
                 <GridLayout row="0" columns="60, *, 80" class="pt-comments-add-row">
-                    <!-- TODO: Replace with avatar of currently loggedin user -->
-                    <Image src="{{ item.assignee.avatar }}" stretch="aspectFit" class="pt-img-comment-add" col="0" />
+                    <Image src="{{ currentUserAvatar }}" stretch="aspectFit" class="pt-img-comment-add" col="0" />
                     <TextField text="" hint="Enter new comment..." text="{{ newCommentText }}" col="1" class="pt-text-comment-add" />
                     <Button tap="onAddComment" text="Add" col="2"
                         class="{{ newCommentText.length > 0 ? 'pt-btn-comment-add enabled' : 'pt-btn-comment-add' }}"

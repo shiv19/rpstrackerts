@@ -60,6 +60,10 @@ export class BacklogService {
         user.avatar = getUserAvatarUrl(config.apiEndpoint, user.id);
     }
 
+    public getCurrentUserAvatar() {
+        return getUserAvatarUrl(config.apiEndpoint, this.currentUserId);
+    }
+
     public addNewPtItem(newItem: PtNewItem, assignee: PtUser) {
         const item: PtItem = {
             id: 0,
