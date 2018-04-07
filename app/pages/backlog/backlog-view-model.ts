@@ -1,20 +1,20 @@
 import { Observable, PropertyChangeData } from "data/observable";
 import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
 import { PtItem } from "../../core/models/domain";
-import { BacklogService } from "../../services/backlog-service";
+import * as backlogService from "../../services/backlog-service";
 
 export class BacklogViewModel extends Observable {
     public items: ObservableArray<PtItem>;
-    backlogService: BacklogService;
+
+
     constructor() {
         super();
         this.items = new ObservableArray();
-        this.backlogService = new BacklogService();
         this.refresh();
     }
 
     refresh() {
-        this.backlogService.fetchItems().then((r: PtItem[]) => {
+        backlogService.fetchItems().then((r: PtItem[]) => {
             // empty the array
             this.items.length = 0;
 
@@ -24,8 +24,7 @@ export class BacklogViewModel extends Observable {
     }
 
     addItem(newItem, assignee) {
-        this.backlogService
-            .addNewPtItem(newItem, assignee)
+        backlogService.addNewPtItem(newItem, assignee)
             .then((r: PtItem) => {
                 this.items.unshift(r);
             })

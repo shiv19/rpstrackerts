@@ -5,7 +5,7 @@ import { ObservableArray } from "tns-core-modules/data/observable-array/observab
 import { PtItem, PtUser } from "../../core/models/domain";
 import { PtItemType } from "../../core/models/domain/types";
 import { ItemType } from "../../core/constants/pt-item-types";
-import { BacklogService } from "../../services/backlog-service";
+import * as backlogService from "../../services/backlog-service";
 import { Button } from "ui/button";
 import {
     PT_ITEM_STATUSES,
@@ -28,7 +28,7 @@ import { Routes } from "../../shared/routes";
 import { CURRENT_USER_KEY } from "../../services/auth-service";
 
 export class DetailViewModel extends Observable {
-    backlogService: BacklogService;
+
     item: PtItem;
     selectedScreen: string;
     form;
@@ -104,11 +104,11 @@ export class DetailViewModel extends Observable {
         this.selectedScreen = selectedScreen;
         this.newTaskTitle = "";
         this.newCommentText = "";
-        this.backlogService = new BacklogService();
+
         this.currentUser = JSON.parse(
             appSettings.getString(CURRENT_USER_KEY, "{}")
         );
-        this.currentUserAvatar = this.backlogService.getCurrentUserAvatar();
+        this.currentUserAvatar = backlogService.getCurrentUserAvatar();
     }
 
     onPropertyCommitted() {
@@ -118,7 +118,7 @@ export class DetailViewModel extends Observable {
         this.item.status = this.form.status;
         this.item.estimate = this.form.estimate;
         this.item.priority = this.form.priority;
-        this.backlogService.updatePtItem(this.item);
+        backlogService.updatePtItem(this.item);
     }
 
     onAssigneeSelect(args) {
