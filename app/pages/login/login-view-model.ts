@@ -4,7 +4,7 @@ import * as appSettings from "application-settings";
 
 import { Routes } from "../../shared/routes";
 import { PtLoginModel } from "../../core/models/domain";
-import { AuthService } from "../../services/auth-service";
+import { login } from "../../services/auth-service";
 
 export class LoginViewModel extends Observable {
     email: string;
@@ -72,9 +72,8 @@ export class LoginViewModel extends Observable {
             username: this.email,
             password: this.password
         };
-        const authService = new AuthService();
-        authService
-            .login(loginModel)
+
+        login(loginModel)
             .then(response => {
                 appSettings.setString(
                     "loginDetails",

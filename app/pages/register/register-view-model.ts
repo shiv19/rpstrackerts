@@ -4,7 +4,7 @@ import * as emailValidator from "email-validator";
 
 import { Routes } from "../../shared/routes";
 import { PtRegisterModel } from "../../core/models/domain";
-import { AuthService } from "../../services/auth-service";
+import { register } from "../../services/auth-service";
 
 export class RegisterViewModel extends Observable {
     fullName: string;
@@ -84,9 +84,8 @@ export class RegisterViewModel extends Observable {
             password: this.password,
             fullName: this.fullName
         };
-        const authService = new AuthService();
-        authService
-            .register(registerModel)
+
+        register(registerModel)
             .then(response => {
                 args.object.page.frame.navigate(Routes.backlog);
             })
