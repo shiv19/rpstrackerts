@@ -13,7 +13,7 @@ export class BacklogViewModel extends Observable {
         this.refresh();
     }
 
-    refresh() {
+    public refresh() {
         backlogService.fetchItems().then((r: PtItem[]) => {
             // empty the array
             this.items.length = 0;
@@ -23,7 +23,7 @@ export class BacklogViewModel extends Observable {
         });
     }
 
-    addItem(newItem, assignee) {
+    public addItem(newItem, assignee) {
         backlogService.addNewPtItem(newItem, assignee)
             .then((r: PtItem) => {
                 this.items.unshift(r);

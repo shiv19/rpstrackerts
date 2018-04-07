@@ -30,7 +30,7 @@ export function onNavigatingTo(args: NavigatedData) {
 
 export function refreshList(args) {
     // Get reference to the PullToRefresh;
-    var pullRefresh = args.object;
+    const pullRefresh = args.object;
 
     backLogVm.refresh();
 
