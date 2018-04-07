@@ -50,7 +50,7 @@
                                 <list-view.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">
-                                            <Label class="{{ $value | itemToIndicatorClassConvertor }}" />
+                                            <Label class="{{ $value | itemToIndicatorClassConverter }}" />
                                         </StackLayout>
 
                                         <GridLayout col="1" class="li-avatar">
@@ -63,7 +63,7 @@
                                         </StackLayout>
 
                                         <StackLayout col="3">
-                                            <Label text="{{ dateCreated | dateConvertor }}" class="li-date" />
+                                            <Label text="{{ dateCreated | dateConverter }}" class="li-date" />
                                         </StackLayout>
 
                                     </GridLayout>                            

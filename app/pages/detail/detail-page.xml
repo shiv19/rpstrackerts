@@ -100,7 +100,7 @@
 
                                     <GridLayout col="1" rows="20, *" columns="*, 150" class="comment-text-wrapper">
                                         <Label col="0" row="0" text="{{ user.fullName }}" class="comment-name"></Label>
-                                        <Label col="1" row="0" text="{{ dateCreated | dateConvertor }}" class="comment-date"></Label>
+                                        <Label col="1" row="0" text="{{ dateCreated | dateConverter }}" class="comment-date"></Label>
 
                                         <TextView colSpan="2" row="1" text="{{ title }}" editable="false" class="comment-text"></TextView>
                                     </GridLayout>

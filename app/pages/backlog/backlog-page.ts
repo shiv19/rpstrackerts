@@ -3,7 +3,7 @@ import { NavigatedData } from "ui/page";
 import { Routes } from "../../shared/routes";
 import * as appSettings from "application-settings";
 
-require("../../shared/convertors"); // register convertors
+require("../../shared/converters"); // register converters
 
 import { BacklogViewModel } from "./backlog-view-model";
 import { PtNewItem } from "../../shared/models/dto";

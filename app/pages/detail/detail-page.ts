@@ -2,7 +2,7 @@ import { StackLayout } from "ui/layouts/stack-layout";
 import { NavigatedData, Page } from "ui/page";
 import { confirm, ConfirmOptions } from "ui/dialogs";
 
-require("../../shared/convertors"); // register convertors
+require("../../shared/converters"); // register converters
 
 import { DetailViewModel } from "./detail-view-model";
 import * as backlogService from "../../services/backlog-service";
