@@ -1,7 +1,7 @@
 <Page
     class="page"
     navigatingTo="onNavigatingTo"
-    xmlns:df="nativescript-pro-ui/dataform"
+    xmlns:df="nativescript-ui-dataform"
     xmlns="http://schemas.nativescript.org/tns.xsd">
     <ActionBar title="Item">
         <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="onNavBackTap"></NavigationButton>

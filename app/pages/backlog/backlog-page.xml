@@ -1,7 +1,7 @@
 <Page
     class="page"
     navigatingTo="onNavigatingTo"  
-    xmlns:nsDrawer="nativescript-pro-ui/sidedrawer"
+    xmlns:nsDrawer="nativescript-ui-sidedrawer"
     xmlns:PullRefresh="nativescript-pulltorefresh"
     xmlns="http://schemas.nativescript.org/tns.xsd">
 

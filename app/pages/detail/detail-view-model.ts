@@ -23,7 +23,7 @@ import {
     setSegmentedEditorColor,
     getPickerEditorValueText
 } from "./helpers/ui-data-form";
-import { CustomPropertyEditor } from "nativescript-pro-ui/dataform";
+import { CustomPropertyEditor } from "nativescript-ui-dataform";
 import { Routes } from "../../shared/routes";
 import { CURRENT_USER_KEY } from "../../services/auth-service";
 

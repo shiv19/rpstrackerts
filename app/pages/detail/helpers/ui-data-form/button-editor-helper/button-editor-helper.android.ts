@@ -1,4 +1,4 @@
-import { CustomPropertyEditor } from 'nativescript-pro-ui/dataform';
+import { CustomPropertyEditor } from 'nativescript-ui-dataform';
 
 
 export class ButtonEditorHelper {
