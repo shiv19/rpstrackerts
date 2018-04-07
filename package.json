@@ -12,6 +12,9 @@
       "version": "3.4.1"
     }
   },
+  "scripts": {
+    "lint": "tslint 'app/**/*.ts' -t verbose"
+  },
   "dependencies": {
     "email-validator": "^1.1.1",
     "lodash": "^4.17.4",
@@ -30,6 +33,7 @@
     "lazy": "1.0.11",
     "nativescript-dev-typescript": "0.5.1",
     "tns-platform-declarations": "^3.3.0",
+    "tslint": "^5.8.0",
     "typescript": "2.7.2"
   }
 }

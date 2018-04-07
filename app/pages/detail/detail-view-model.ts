@@ -1,18 +1,18 @@
-import * as app from "application";
-import * as appSettings from "application-settings";
-import { Observable, PropertyChangeData } from "data/observable";
-import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
-import { PtItem, PtUser } from "../../core/models/domain";
-import { PtItemType } from "../../core/models/domain/types";
-import { ItemType } from "../../core/constants/pt-item-types";
-import * as backlogService from "../../services/backlog-service";
-import { Button } from "ui/button";
+import * as app from 'application';
+import * as appSettings from 'application-settings';
+import { Observable, PropertyChangeData } from 'data/observable';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { PtItem, PtUser } from '../../core/models/domain';
+import { PtItemType } from '../../core/models/domain/types';
+import { ItemType } from '../../core/constants/pt-item-types';
+import * as backlogService from '../../services/backlog-service';
+import { Button } from 'ui/button';
 import {
     PT_ITEM_STATUSES,
     PT_ITEM_PRIORITIES,
     COLOR_LIGHT,
     COLOR_DARK
-} from "../../core/constants";
+} from '../../core/constants';
 import {
     ButtonEditorHelper,
     setMultiLineEditorFontSize,
@@ -22,10 +22,10 @@ import {
     setStepperEditorColors,
     setSegmentedEditorColor,
     getPickerEditorValueText
-} from "./helpers/ui-data-form";
-import { CustomPropertyEditor } from "nativescript-ui-dataform";
-import { Routes } from "../../shared/routes";
-import { CURRENT_USER_KEY } from "../../services/auth-service";
+} from './helpers/ui-data-form';
+import { CustomPropertyEditor } from 'nativescript-ui-dataform';
+import { Routes } from '../../shared/routes';
+import { CURRENT_USER_KEY } from '../../services/auth-service';
 
 export class DetailViewModel extends Observable {
 
@@ -34,47 +34,47 @@ export class DetailViewModel extends Observable {
     form;
     formMetaData = {
         isReadOnly: false,
-        commitMode: "Immediate",
-        validationMode: "Immediate",
+        commitMode: 'Immediate',
+        validationMode: 'Immediate',
         propertyAnnotations: [
             {
-                name: "title",
-                displayName: "Title",
+                name: 'title',
+                displayName: 'Title',
                 index: 1
             },
             {
-                name: "description",
-                displayName: "Description",
+                name: 'description',
+                displayName: 'Description',
                 index: 2
             },
             {
-                name: "type",
-                displayName: "Type",
+                name: 'type',
+                displayName: 'Type',
                 index: 3,
-                editor: "Picker",
+                editor: 'Picker',
                 valuesProvider: ItemType.List.map(t => t.PtItemType)
             },
             {
-                name: "status",
-                displayName: "Status",
+                name: 'status',
+                displayName: 'Status',
                 index: 4,
-                editor: "Picker",
+                editor: 'Picker',
                 valuesProvider: PT_ITEM_STATUSES
             },
             {
-                name: "estimate",
-                displayName: "Estimate",
+                name: 'estimate',
+                displayName: 'Estimate',
                 index: 5,
-                editor: "Stepper",
+                editor: 'Stepper',
                 minimum: 1,
                 maximum: 10,
                 step: 1
             },
             {
-                name: "priority",
-                displayName: "Priority",
+                name: 'priority',
+                displayName: 'Priority',
                 index: 6,
-                editor: "SegmentedPicker",
+                editor: 'SegmentedPicker',
                 valuesProvider: PT_ITEM_PRIORITIES
             }
         ]
@@ -88,7 +88,7 @@ export class DetailViewModel extends Observable {
     private itemTypeEditorViewConnected = false;
     private itemTypeNativeView;
 
-    constructor(item, selectedScreen = "details") {
+    constructor(item, selectedScreen = 'details') {
         super();
         this.item = item;
         this.form = {
@@ -102,11 +102,11 @@ export class DetailViewModel extends Observable {
         };
 
         this.selectedScreen = selectedScreen;
-        this.newTaskTitle = "";
-        this.newCommentText = "";
+        this.newTaskTitle = '';
+        this.newCommentText = '';
 
         this.currentUser = JSON.parse(
-            appSettings.getString(CURRENT_USER_KEY, "{}")
+            appSettings.getString(CURRENT_USER_KEY, '{}')
         );
         this.currentUserAvatar = backlogService.getCurrentUserAvatar();
     }
@@ -129,8 +129,8 @@ export class DetailViewModel extends Observable {
             assignee => {
                 if (assignee) {
                     this.item.assignee = assignee;
-                    page.getViewById("assigneeBtn").text = assignee.fullName;
-                    page.getViewById("assigneeImg").src = assignee.avatar;
+                    page.getViewById('assigneeBtn').text = assignee.fullName;
+                    page.getViewById('assigneeImg').src = assignee.avatar;
                     this.onPropertyCommitted();
                 }
             },

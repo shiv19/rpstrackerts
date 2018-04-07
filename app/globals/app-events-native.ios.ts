@@ -1,4 +1,4 @@
-import * as app from "application";
+import * as app from 'application';
 
 class MyDelegate extends UIResponder implements UIApplicationDelegate {
     public static ObjCProtocols = [UIApplicationDelegate];
@@ -7,7 +7,7 @@ class MyDelegate extends UIResponder implements UIApplicationDelegate {
         _application: UIApplication,
         _launchOptions: NSDictionary<any, any>
     ): boolean {
-        console.logIos("applicationWillFinishLaunchingWithOptions");
+        console.logIos('applicationWillFinishLaunchingWithOptions');
         return true;
     }
 
@@ -15,28 +15,28 @@ class MyDelegate extends UIResponder implements UIApplicationDelegate {
         _application: UIApplication,
         _launchOptions: NSDictionary<any, any>
     ): boolean {
-        console.logIos("applicationDidFinishLaunchingWithOptions");
+        console.logIos('applicationDidFinishLaunchingWithOptions');
         return true;
     }
 
     applicationDidBecomeActive(_application: UIApplication): void {
-        console.logIos("applicationDidBecomeActive");
+        console.logIos('applicationDidBecomeActive');
     }
 
     applicationDidEnterBackground(_application: UIApplication): void {
-        console.logIos("applicationDidEnterBackground");
+        console.logIos('applicationDidEnterBackground');
     }
 
     applicationWillResignActive(_application: UIApplication) {
-        console.logIos("applicationWillResignActive");
+        console.logIos('applicationWillResignActive');
     }
 
     applicationWillEnterForeground(_application: UIApplication) {
-        console.logIos("applicationWillEnterForeground");
+        console.logIos('applicationWillEnterForeground');
     }
 
     applicationWillTerminate(_application: UIApplication) {
-        console.logIos("applicationWillTerminate");
+        console.logIos('applicationWillTerminate');
     }
 }
 

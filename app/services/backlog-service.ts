@@ -1,27 +1,27 @@
-import * as _ from "lodash";
+import * as _ from 'lodash';
 
-const config = require("../config/app-config");
+const config = require('../config/app-config');
 
-import * as appSettings from "application-settings";
-import { PtItem, PtUser, PtTask, PtComment } from "../core/models/domain";
-import { PtNewItem, PtNewTask, PtNewComment } from "../shared/models/dto";
-import { PriorityEnum, StatusEnum } from "../core/models/domain/enums";
-import { getUserAvatarUrl } from "../core/helpers/user-avatar-helper";
-import * as backlogRepo from "../repositories/backlog.respository";
-import { PresetType } from "../shared/models/ui/types";
+import * as appSettings from 'application-settings';
+import { PtItem, PtUser, PtTask, PtComment } from '../core/models/domain';
+import { PtNewItem, PtNewTask, PtNewComment } from '../shared/models/dto';
+import { PriorityEnum, StatusEnum } from '../core/models/domain/enums';
+import { getUserAvatarUrl } from '../core/helpers/user-avatar-helper';
+import * as backlogRepo from '../repositories/backlog.respository';
+import { PresetType } from '../shared/models/ui/types';
 
-const CURRENT_USER_KEY = "CURRENT_USER_KEY";
-const AUTH_TOKEN_KEY = "AUTH_TOKEN_KEY";
+const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
+const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
 
 
 
 function getCurrentPreset(): PresetType {
-    return <PresetType>appSettings.getString("currentPreset", "open");
+    return <PresetType>appSettings.getString('currentPreset', 'open');
 }
 
 function getCurrentUserId() {
     const user = JSON.parse(
-        appSettings.getString("CURRENT_USER_KEY", "{}")
+        appSettings.getString('CURRENT_USER_KEY', '{}')
     );
 
     return user.id ? user.id : undefined;
@@ -43,7 +43,7 @@ export function fetchItems() {
                 });
 
                 appSettings.setString(
-                    "backlogItems",
+                    'backlogItems',
                     JSON.stringify(ptItems)
                 );
                 resolve(ptItems);
@@ -85,11 +85,11 @@ export function addNewPtItem(newItem: PtNewItem, assignee: PtUser) {
             (nextItem: PtItem) => {
                 setUserAvatar(nextItem.assignee);
                 let backlogItems = JSON.parse(
-                    appSettings.getString("backlogItems", "[]")
+                    appSettings.getString('backlogItems', '[]')
                 );
                 backlogItems = [nextItem, ...backlogItems];
                 appSettings.setString(
-                    "backlogItems",
+                    'backlogItems',
                     JSON.stringify(backlogItems)
                 );
                 resolve(nextItem);
@@ -123,13 +123,13 @@ export function deletePtItem(item: PtItem) {
             },
             () => {
                 const backlogItems = JSON.parse(
-                    appSettings.getString("backlogItems", "[]")
+                    appSettings.getString('backlogItems', '[]')
                 );
                 const updatedItems = backlogItems.filter(i => {
                     return i.id !== item.id;
                 });
                 appSettings.setString(
-                    "backlogItems",
+                    'backlogItems',
                     JSON.stringify(updatedItems)
                 );
                 resolve(true);
@@ -206,7 +206,7 @@ export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem) {
     const comment: PtComment = {
         id: 0,
         title: newComment.title,
-        user: JSON.parse(appSettings.getString(CURRENT_USER_KEY, "{}")),
+        user: JSON.parse(appSettings.getString(CURRENT_USER_KEY, '{}')),
         dateCreated: new Date(),
         dateModified: new Date()
     };

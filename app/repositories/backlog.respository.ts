@@ -1,8 +1,8 @@
-const config = require("../config/app-config");
-const fetchModule = require("fetch");
-const helpers = require("../shared/helpers");
-import { PtTask, PtItem, PtComment } from "../core/models/domain";
-import { PresetType } from "../shared/models/ui/types";
+const config = require('../config/app-config');
+const fetchModule = require('fetch');
+const helpers = require('../shared/helpers');
+import { PtTask, PtItem, PtComment } from '../core/models/domain';
+import { PresetType } from '../shared/models/ui/types';
 
 
 function getFilteredBacklogUrl(
@@ -10,7 +10,7 @@ function getFilteredBacklogUrl(
     currentUserId?: number
 ) {
     switch (currentPreset) {
-        case "my":
+        case 'my':
             if (currentUserId) {
                 return `${
                     config.apiEndpoint
@@ -18,9 +18,9 @@ function getFilteredBacklogUrl(
             } else {
                 return `${config.apiEndpoint}/backlog`;
             }
-        case "open":
+        case 'open':
             return `${config.apiEndpoint}/openItems`;
-        case "closed":
+        case 'closed':
             return `${config.apiEndpoint}/closedItems`;
         default:
             return `${config.apiEndpoint}/backlog`;
@@ -67,7 +67,7 @@ export function getPtItems(
 ) {
     fetchModule
         .fetch(getFilteredBacklogUrl(currentPreset, currentUserId), {
-            method: "GET"
+            method: 'GET'
         })
         .then(helpers.handleErrors)
         .then(response => {
@@ -86,7 +86,7 @@ export function getPtItem(
 ) {
     fetchModule
         .fetch(getPtItemUrl(ptItemId), {
-            method: "GET"
+            method: 'GET'
         })
         .then(helpers.handleErrors)
         .then(response => {
@@ -105,9 +105,9 @@ export function insertPtItem(
 ) {
     fetchModule
         .fetch(postPtItemUrl(), {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ item: item })
         })
@@ -128,9 +128,9 @@ export function updatePtItem(
 ) {
     fetchModule
         .fetch(putPtItemUrl(item.id), {
-            method: "PUT",
+            method: 'PUT',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ item: item })
         })
@@ -151,7 +151,7 @@ export function deletePtItem(
 ) {
     fetchModule
         .fetch(deletePtItemUrl(itemId), {
-            method: "DELETE"
+            method: 'DELETE'
         })
         .then(helpers.handleErrors)
         .then(response => {
@@ -171,9 +171,9 @@ export function insertPtTask(
 ) {
     fetchModule
         .fetch(postPtTaskUrl(), {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ task: task, itemId: ptItemId })
         })
@@ -195,9 +195,9 @@ export function updatePtTask(
 ) {
     fetchModule
         .fetch(putPtTaskUrl(task.id), {
-            method: "PUT",
+            method: 'PUT',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({ task: task, itemId: ptItemId })
         })
@@ -219,9 +219,9 @@ export function insertPtComment(
 ) {
     fetchModule
         .fetch(postPtCommentUrl(), {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 comment: comment,
@@ -245,7 +245,7 @@ export function deletePtComment(
 ) {
     fetchModule
         .fetch(deletePtCommentUrl(ptCommentId), {
-            method: "DELETE"
+            method: 'DELETE'
         })
         .then(helpers.handleErrors)
         .then(response => {

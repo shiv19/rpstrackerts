@@ -1,13 +1,13 @@
-import * as app from "application";
-import { ItemType } from "../core/constants";
-const moment = require("moment");
+import * as app from 'application';
+import { ItemType } from '../core/constants';
+const moment = require('moment');
 
 // Date converter
 const dateConverter = function (value) {
     if (value !== undefined) {
-        return moment(value).format("MMM D, YYYY");
+        return moment(value).format('MMM D, YYYY');
     } else {
-        return "";
+        return '';
     }
 };
 
@@ -16,7 +16,7 @@ const itemToIndicatorClassConverter = function (value) {
     if (value !== undefined) {
         return ItemType.indicatorClassFromType(value.type);
     } else {
-        return "";
+        return '';
     }
 };
 

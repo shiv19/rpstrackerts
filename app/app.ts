@@ -4,16 +4,16 @@ You can use this file to perform app-level initialization, but the primary
 purpose of the file is to pass control to the app’s first module.
 */
 
-import * as app from "application";
-import "./bundle-config";
-import { Routes } from "./shared/routes";
-import * as appSettings from "application-settings";
-import * as localize from "nativescript-localize";
+import * as app from 'application';
+import './bundle-config';
+import { Routes } from './shared/routes';
+import * as appSettings from 'application-settings';
+import * as localize from 'nativescript-localize';
 
 app.setResources({ L: localize });
 
 // Enable back button handling
-const frame = require("ui/frame");
+const frame = require('ui/frame');
 if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
@@ -22,13 +22,13 @@ function backEvent(args) {
     if (
         currentPage &&
         currentPage.exports &&
-        typeof currentPage.exports.backEvent === "function"
+        typeof currentPage.exports.backEvent === 'function'
     ) {
         currentPage.exports.backEvent(args);
     }
 }
 
-appSettings.setString("currentPreset", "open");
+appSettings.setString('currentPreset', 'open');
 
 app.start({ moduleName: Routes.login });
 

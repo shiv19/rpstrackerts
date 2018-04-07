@@ -1,19 +1,19 @@
-import * as appSettings from "application-settings";
-const config = require("../config/app-config");
-const fetchModule = require("fetch");
-const h = require("../shared/helpers");
+import * as appSettings from 'application-settings';
+const config = require('../config/app-config');
+const fetchModule = require('fetch');
+const h = require('../shared/helpers');
 
 import {
     PtUser,
     PtLoginModel,
     PtAuthToken,
     PtRegisterModel
-} from "../core/models/domain";
-import { topmost } from "tns-core-modules/ui/frame/frame";
-import { Routes } from "../shared/routes";
+} from '../core/models/domain';
+import { topmost } from 'tns-core-modules/ui/frame/frame';
+import { Routes } from '../shared/routes';
 
-export const CURRENT_USER_KEY = "CURRENT_USER_KEY";
-const AUTH_TOKEN_KEY = "AUTH_TOKEN_KEY";
+export const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
+const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
 
 
 
@@ -25,7 +25,7 @@ function getRegisterUrl() {
 }
 
 function getCurrentUser() {
-    const user = appSettings.getString(CURRENT_USER_KEY, "");
+    const user = appSettings.getString(CURRENT_USER_KEY, '');
     return user;
 }
 
@@ -36,8 +36,8 @@ function setCurrentUser(ptUser: any) {
 
 export function isLoggedIn(): boolean {
     const hasToken =
-        appSettings.getString(AUTH_TOKEN_KEY, "") === "" ? false : true;
-    const hasCurrentUser = getCurrentUser() === "" ? false : true;
+        appSettings.getString(AUTH_TOKEN_KEY, '') === '' ? false : true;
+    const hasCurrentUser = getCurrentUser() === '' ? false : true;
     return hasToken && hasCurrentUser;
 }
 
@@ -45,13 +45,13 @@ export function login(loginModel: PtLoginModel) {
     const request = new Promise((resolve, reject) => {
         fetchModule
             .fetch(getLoginUrl(), {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     loginModel: loginModel,
-                    grant_type: "password"
+                    grant_type: 'password'
                 })
             })
             .then(h.handleErrors)
@@ -83,9 +83,9 @@ export function register(registerModel: PtRegisterModel) {
     const request = new Promise((resolve, reject) => {
         fetchModule
             .fetch(getRegisterUrl(), {
-                method: "POST",
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
                     registerModel: registerModel

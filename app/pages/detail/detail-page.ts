@@ -1,12 +1,12 @@
-import { StackLayout } from "ui/layouts/stack-layout";
-import { NavigatedData, Page } from "ui/page";
-import { confirm, ConfirmOptions } from "ui/dialogs";
+import { StackLayout } from 'ui/layouts/stack-layout';
+import { NavigatedData, Page } from 'ui/page';
+import { confirm, ConfirmOptions } from 'ui/dialogs';
 
-require("../../shared/converters"); // register converters
+require('../../shared/converters'); // register converters
 
-import { DetailViewModel } from "./detail-view-model";
-import * as backlogService from "../../services/backlog-service";
-import { PtNewTask, PtNewComment, PtTaskUpdate } from "../../shared/models/dto";
+import { DetailViewModel } from './detail-view-model';
+import * as backlogService from '../../services/backlog-service';
+import { PtNewTask, PtNewComment, PtTaskUpdate } from '../../shared/models/dto';
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -25,7 +25,7 @@ export function onNavigatingTo(args: NavigatedData) {
     currentItem = page.navigationContext;
     detailsVm = new DetailViewModel(currentItem);
     page.bindingContext = detailsVm;
-    drawer = page.getViewById("sideDrawer");
+    drawer = page.getViewById('sideDrawer');
 }
 
 export function onNavBackTap(args) {
@@ -33,15 +33,15 @@ export function onNavBackTap(args) {
 }
 
 export function onDetailsTap(args) {
-    args.object.page.bindingContext.set("selectedScreen", "details");
+    args.object.page.bindingContext.set('selectedScreen', 'details');
 }
 
 export function onTasksTap(args) {
-    args.object.page.bindingContext.set("selectedScreen", "tasks");
+    args.object.page.bindingContext.set('selectedScreen', 'tasks');
 }
 
 export function onChitchatTap(args) {
-    args.object.page.bindingContext.set("selectedScreen", "chitchat");
+    args.object.page.bindingContext.set('selectedScreen', 'chitchat');
 }
 
 export function onDeleteTap(args) {
@@ -54,10 +54,10 @@ export function onDeleteTap(args) {
 
     // Better approach with promise
     const options: ConfirmOptions = {
-        title: "Delete Item",
-        message: "Are you sure you want to delete this item?",
-        okButtonText: "Yes",
-        cancelButtonText: "Cancel"
+        title: 'Delete Item',
+        message: 'Are you sure you want to delete this item?',
+        okButtonText: 'Yes',
+        cancelButtonText: 'Cancel'
     };
     // confirm without options, with promise
     // confirm('Are you sure you want to delete this item?')
@@ -71,7 +71,7 @@ export function onDeleteTap(args) {
                     page.frame.goBack();
                 })
                 .catch(() => {
-                    console.log("some error occured");
+                    console.log('some error occured');
                     page.frame.goBack();
                 });
         }
@@ -83,12 +83,12 @@ export function toggleTapped(args) {
     const item = currentItem;
     const task = args.view.bindingContext;
     currentItem = backlogService.updatePtTask(item, task, true, task.title);
-    detailsVm.set("item", currentItem);
+    detailsVm.set('item', currentItem);
 }
 
 export function onAddTask(args) {
     const page = args.object.page;
-    const tasksList = page.getViewById("tasksList");
+    const tasksList = page.getViewById('tasksList');
     const newTitle = detailsVm.newTaskTitle.trim();
     if (newTitle.length === 0) {
         return;
@@ -99,7 +99,7 @@ export function onAddTask(args) {
         completed: false
     };
 
-    detailsVm.set("newTaskTitle", "");
+    detailsVm.set('newTaskTitle', '');
     backlogService
         .addNewPtTask(newTask, currentItem)
         .then(addedTask => {
@@ -107,13 +107,13 @@ export function onAddTask(args) {
             tasksList.refresh(); // Because tasks object is not an observable
         })
         .catch(error => {
-            console.log("something went wrong when adding task");
+            console.log('something went wrong when adding task');
         });
 }
 
 export function onAddComment(args) {
     const page = args.object.page;
-    const commentsList = page.getViewById("commentsList");
+    const commentsList = page.getViewById('commentsList');
     const newCommentTxt = detailsVm.newCommentText.trim();
     if (newCommentTxt.length === 0) {
         return;
@@ -123,7 +123,7 @@ export function onAddComment(args) {
         title: newCommentTxt
     };
 
-    detailsVm.set("newCommentText", "");
+    detailsVm.set('newCommentText', '');
     backlogService
         .addNewPtComment(newComment, currentItem)
         .then((addedComment: any) => {
@@ -132,17 +132,17 @@ export function onAddComment(args) {
             commentsList.refresh(); // Because tasks object is not an observable
         })
         .catch(error => {
-            console.log("something went wrong when adding task");
+            console.log('something went wrong when adding task');
         });
 }
 
 export function taskFocused(args) {
     lastUpdatedTitle = args.object.text;
-    args.object.on("textChange", onTextChange);
+    args.object.on('textChange', onTextChange);
 }
 
 export function taskBlurred(args) {
-    args.object.off("textChange");
+    args.object.off('textChange');
     lastUpdatedTitle = null;
 }
 

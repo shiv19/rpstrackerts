@@ -1,9 +1,9 @@
-import { StackLayout } from "ui/layouts/stack-layout";
-import { NavigatedData } from "ui/page";
-import { Routes } from "../../shared/routes";
-import * as appSettings from "application-settings";
+import { StackLayout } from 'ui/layouts/stack-layout';
+import { NavigatedData } from 'ui/page';
+import { Routes } from '../../shared/routes';
+import * as appSettings from 'application-settings';
 
-import { LoginViewModel } from "./login-view-model";
+import { LoginViewModel } from './login-view-model';
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -14,14 +14,14 @@ export function onNavigatingTo(args: NavigatedData) {
     page.bindingContext = loginVm;
 
     const loginDetails = JSON.parse(
-        appSettings.getString("loginDetails", "{}")
+        appSettings.getString('loginDetails', '{}')
     );
     if (loginDetails.username && loginDetails.password) {
         loginVm.email = loginDetails.username;
         loginVm.password = loginDetails.password;
         loginVm.onLogin(args);
     } else {
-        loginVm.set("loggedIn", false);
+        loginVm.set('loggedIn', false);
     }
 }
 

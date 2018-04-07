@@ -1,8 +1,8 @@
-import { StackLayout } from "ui/layouts/stack-layout";
-import { NavigatedData } from "ui/page";
-import { Routes } from "../../shared/routes";
+import { StackLayout } from 'ui/layouts/stack-layout';
+import { NavigatedData } from 'ui/page';
+import { Routes } from '../../shared/routes';
 
-import { RegisterViewModel } from "./register-view-model";
+import { RegisterViewModel } from './register-view-model';
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.

@@ -1,4 +1,4 @@
-import * as utils from "utils/utils";
+import * as utils from 'utils/utils';
 
 declare const UIApplication: any;
 declare const UIStatusBarStyle: any;

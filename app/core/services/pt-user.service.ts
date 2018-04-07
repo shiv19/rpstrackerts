@@ -1,21 +1,21 @@
-import * as fetchModule from "fetch";
-import * as h from "../../shared/helpers";
-const config = require("../../config/app-config");
+import * as fetchModule from 'fetch';
+import * as h from '../../shared/helpers';
+const config = require('../../config/app-config');
 
-import { PtUser } from "../models/domain";
+import { PtUser } from '../models/domain';
 
 export class PtUserService {
     private get usersUrl() {
         return `${config.apiEndpoint}/users`;
     }
 
-    constructor() {}
+    constructor() { }
 
     public fetchUsers() {
         return new Promise((resolve, reject) => {
             fetchModule
                 .fetch(this.usersUrl, {
-                    method: "GET"
+                    method: 'GET'
                 })
                 .then(h.handleErrors)
                 .then(response => {

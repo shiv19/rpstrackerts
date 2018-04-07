@@ -1,10 +1,10 @@
-import * as observableModule from "data/observable";
-import { ItemType } from "../../core/constants/pt-item-types";
-import { topmost } from "ui/frame";
-import { isIOS } from "platform";
-import { PtItemType } from "../../core/models/domain/types";
+import * as observableModule from 'data/observable';
+import { ItemType } from '../../core/constants/pt-item-types';
+import { topmost } from 'ui/frame';
+import { isIOS } from 'platform';
+import { PtItemType } from '../../core/models/domain/types';
 
-let selectedTypeValue;
+// let selectedTypeValue;
 let modal;
 let closeCallback;
 export function onShownModally(args) {
@@ -13,8 +13,8 @@ export function onShownModally(args) {
     const context = args.context;
     const newItemVm = observableModule.fromObject({
         form: {
-            title: "",
-            description: "",
+            title: '',
+            description: '',
             type: ItemType.List[0].PtItemType
         },
         typesProvider: ItemType.List.map(t => t.PtItemType),
@@ -25,14 +25,14 @@ export function onShownModally(args) {
 }
 
 export function onSaveTap(args) {
-    const newItemForm = modal.getViewById("newItemForm");
+    const newItemForm = modal.getViewById('newItemForm');
     newItemForm.validateAndCommitAll().then(ok => {
         if (ok) {
         }
     });
     if (
-        modal.bindingContext.form.title.trim() !== "" &&
-        modal.bindingContext.form.description.trim() !== ""
+        modal.bindingContext.form.title.trim() !== '' &&
+        modal.bindingContext.form.description.trim() !== ''
     ) {
         closeCallback(modal.bindingContext.form);
     }
@@ -47,10 +47,10 @@ export function onCancelTap(args) {
 
 export function onEditorUpdate(args) {
     switch (args.propertyName) {
-        case "title":
+        case 'title':
             editorSetupMultiLine(args.editor);
             break;
-        case "description":
+        case 'description':
             editorSetupMultiLine(args.editor);
             break;
     }

@@ -1,7 +1,7 @@
-import { Observable, PropertyChangeData } from "data/observable";
-import { ObservableArray } from "tns-core-modules/data/observable-array/observable-array";
-import { PtItem } from "../../core/models/domain";
-import * as backlogService from "../../services/backlog-service";
+import { Observable, PropertyChangeData } from 'data/observable';
+import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { PtItem } from '../../core/models/domain';
+import * as backlogService from '../../services/backlog-service';
 
 export class BacklogViewModel extends Observable {
     public items: ObservableArray<PtItem>;
@@ -29,7 +29,7 @@ export class BacklogViewModel extends Observable {
                 this.items.unshift(r);
             })
             .catch(() => {
-                console.log("some error occured");
+                console.log('some error occured');
             });
     }
 }
