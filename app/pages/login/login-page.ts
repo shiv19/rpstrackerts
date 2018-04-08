@@ -1,6 +1,5 @@
 import * as appSettings from 'application-settings';
-import { NavigatedData } from 'ui/page';
-import { StackLayout } from 'ui/layouts/stack-layout';
+import { Page, NavigatedData } from 'ui/page';
 
 import { ROUTES } from '../../shared/routes';
 import { LoginViewModel } from './login-view-model';
@@ -9,7 +8,7 @@ import { LoginViewModel } from './login-view-model';
  * Use the "onNavigatingTo" handler to initialize the page binding context.
  *************************************************************/
 export function onNavigatingTo(args: NavigatedData) {
-    const page = <StackLayout>args.object;
+    const page = <Page>args.object;
     const loginVm = new LoginViewModel();
     page.bindingContext = loginVm;
 
@@ -19,15 +18,9 @@ export function onNavigatingTo(args: NavigatedData) {
     if (loginDetails.username && loginDetails.password) {
         loginVm.email = loginDetails.username;
         loginVm.password = loginDetails.password;
-        loginVm.onLogin(args);
+        loginVm.onLoginTap(args);
     } else {
         loginVm.set('loggedIn', false);
     }
 }
 
-export function onGotoRegister(args: any) {
-    args.object.page.frame.navigate({
-        moduleName: ROUTES.registerPage,
-        animated: false
-    });
-}

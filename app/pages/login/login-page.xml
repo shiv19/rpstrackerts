@@ -57,7 +57,7 @@
                             </StackLayout>
                         </StackLayout>
 
-                        <Button text="{{ L('Login') }}" tap="{{ onLogin }}" 
+                        <Button text="{{ L('Login') }}" tap="{{ onLoginTap }}" 
                             isEnabled="{{ formValid }}"
                             class="{{ formValid ? 'btn-login btn-primary' : 'btn-login' }}"/>
 
@@ -67,7 +67,7 @@
                 </StackLayout>
                 <StackLayout row="2" class="bottom-safe-nav">
                     <Label text="Need an account?" class="smaller"/>
-                    <Label tap="onGotoRegister"
+                    <Label tap="{{ onGotoRegisterTap }}"
                         textTransform="uppercase" 
                         class="text-center m-20" 
                         color="white" text="{{ L('Register') }}"/>

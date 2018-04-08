@@ -1,11 +1,13 @@
 import * as appSettings from 'application-settings';
-import { Observable, PropertyChangeData } from 'data/observable';
+import { Observable, PropertyChangeData, EventData } from 'data/observable';
+import { Button } from 'ui/button';
 
 import * as emailValidator from 'email-validator';
 
 import { login } from '../../services/auth-service';
 import { ROUTES } from '../../shared/routes';
 import { PtLoginModel } from '../../core/models/domain';
+
 
 export class LoginViewModel extends Observable {
     email: string;
@@ -68,7 +70,8 @@ export class LoginViewModel extends Observable {
         );
     }
 
-    onLogin(args: any) {
+    public onLoginTap(args: EventData) {
+        const btn = <Button>args.object;
         const loginModel: PtLoginModel = {
             username: this.email,
             password: this.password
@@ -80,7 +83,7 @@ export class LoginViewModel extends Observable {
                     'loginDetails',
                     JSON.stringify(loginModel)
                 );
-                args.object.page.frame.navigate({
+                btn.page.frame.navigate({
                     moduleName: ROUTES.backlogPage,
                     clearHistory: true
                 });
@@ -88,5 +91,13 @@ export class LoginViewModel extends Observable {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    public onGotoRegisterTap(args: EventData) {
+        const btn = <Button>args.object;
+        btn.page.frame.navigate({
+            moduleName: ROUTES.registerPage,
+            animated: false
+        });
     }
 }
