@@ -46,10 +46,10 @@ export function goToLoginPage() {
     navigate(navEntry);
 }
 
-export function goToRegisterPage() {
+export function goToRegisterPage(clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.registerPage,
-        clearHistory: true
+        clearHistory: clearHistory
     };
     navigate(navEntry);
 }
@@ -57,7 +57,7 @@ export function goToRegisterPage() {
 export function goToBacklogPage(clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.backlogPage,
-        clearHistory: true
+        clearHistory: clearHistory
     };
     navigate(navEntry);
 }
@@ -65,7 +65,7 @@ export function goToBacklogPage(clearHistory?: boolean) {
 export function goToDetailPage(clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.detailPage,
-        clearHistory: true
+        clearHistory: clearHistory
     };
     navigate(navEntry);
 }
