@@ -1,6 +1,8 @@
-import { PtUserService } from '../../core/services/pt-user.service';
-import { PtUser } from '../../core/models/domain';
 import { topmost } from 'ui/frame';
+
+import { PtUser } from '../../core/models/domain';
+import { fetchUsers } from '../../services/pt-user.service';
+
 
 let closeCallback;
 let context;
@@ -8,11 +10,10 @@ let context;
 export function onShownModally(args) {
     context = args.context;
     const modal = args.object;
-    const userService = new PtUserService();
+
     closeCallback = args.closeCallback;
 
-    userService
-        .fetchUsers()
+    fetchUsers()
         .then((users: PtUser[]) => {
             context = users;
             modal.getViewById('listView').items = users;
