@@ -1,5 +1,6 @@
 import * as app from 'application';
 import * as appSettings from 'application-settings';
+const frame = require('ui/frame');
 
 import * as localize from 'nativescript-localize';
 
@@ -9,7 +10,7 @@ import { ROUTES } from './shared/routes';
 app.setResources({ L: localize });
 
 // Enable back button handling
-const frame = require('ui/frame');
+
 if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
