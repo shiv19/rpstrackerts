@@ -7,7 +7,7 @@ require('../../shared/converters'); // register converters
 
 import { BacklogViewModel } from './backlog-view-model';
 import { PtNewItem } from '../../shared/models/dto';
-import { CURRENT_USER_KEY, logout } from '../../services/auth-service';
+import { CURRENT_USER_KEY, logout } from '../../services/auth.service';
 import { PtUser } from '../../core/models/domain';
 
 /************************************************************

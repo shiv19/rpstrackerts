@@ -3,7 +3,7 @@ import { confirm, ConfirmOptions } from 'ui/dialogs';
 import { StackLayout } from 'ui/layouts/stack-layout';
 
 import { DetailViewModel } from './detail-view-model';
-import * as backlogService from '../../services/backlog-service';
+import * as backlogService from '../../services/backlog.service';
 import { PtNewTask, PtNewComment, PtTaskUpdate } from '../../shared/models/dto';
 require('../../shared/converters'); // register converters
 

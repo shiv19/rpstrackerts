@@ -6,8 +6,8 @@ import { Button } from 'ui/button';
 
 import { CustomPropertyEditor } from 'nativescript-ui-dataform';
 
-import * as backlogService from '../../services/backlog-service';
-import { CURRENT_USER_KEY } from '../../services/auth-service';
+import * as backlogService from '../../services/backlog.service';
+import { CURRENT_USER_KEY } from '../../services/auth.service';
 import { PtItem, PtUser } from '../../core/models/domain';
 import { PtItemType } from '../../core/models/domain/types';
 import { ItemType } from '../../core/constants/pt-item-types';

@@ -2,7 +2,7 @@ import { Observable, PropertyChangeData } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
 
 import { PtItem } from '../../core/models/domain';
-import * as backlogService from '../../services/backlog-service';
+import * as backlogService from '../../services/backlog.service';
 
 export class BacklogViewModel extends Observable {
     public items: ObservableArray<PtItem>;

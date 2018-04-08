@@ -4,7 +4,7 @@ import { Button } from 'ui/button';
 
 import * as emailValidator from 'email-validator';
 
-import { login } from '../../services/auth-service';
+import { login } from '../../services/auth.service';
 import { ROUTES } from '../../shared/routes';
 import { PtLoginModel } from '../../core/models/domain';
 

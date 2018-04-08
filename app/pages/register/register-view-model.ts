@@ -3,7 +3,7 @@ import { EventData } from 'ui/frame';
 
 import * as emailValidator from 'email-validator';
 
-import { register } from '../../services/auth-service';
+import { register } from '../../services/auth.service';
 import { ROUTES } from '../../shared/routes';
 import { PtRegisterModel } from '../../core/models/domain';
 
