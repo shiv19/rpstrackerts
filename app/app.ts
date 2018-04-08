@@ -1,14 +1,10 @@
-/*
-In NativeScript, the app.ts file is the entry point to your application.
-You can use this file to perform app-level initialization, but the primary
-purpose of the file is to pass control to the app’s first module.
-*/
-
 import * as app from 'application';
+import * as appSettings from 'application-settings';
+
+import * as localize from 'nativescript-localize';
+
 import './bundle-config';
 import { ROUTES } from './shared/routes';
-import * as appSettings from 'application-settings';
-import * as localize from 'nativescript-localize';
 
 app.setResources({ L: localize });
 

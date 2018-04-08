@@ -1,12 +1,11 @@
-import { StackLayout } from 'ui/layouts/stack-layout';
 import { NavigatedData, Page } from 'ui/page';
 import { confirm, ConfirmOptions } from 'ui/dialogs';
-
-require('../../shared/converters'); // register converters
+import { StackLayout } from 'ui/layouts/stack-layout';
 
 import { DetailViewModel } from './detail-view-model';
 import * as backlogService from '../../services/backlog-service';
 import { PtNewTask, PtNewComment, PtTaskUpdate } from '../../shared/models/dto';
+require('../../shared/converters'); // register converters
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.

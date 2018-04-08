@@ -1,10 +1,11 @@
-import { Observable, PropertyChangeData } from 'data/observable';
-import * as emailValidator from 'email-validator';
 import * as appSettings from 'application-settings';
+import { Observable, PropertyChangeData } from 'data/observable';
 
+import * as emailValidator from 'email-validator';
+
+import { login } from '../../services/auth-service';
 import { ROUTES } from '../../shared/routes';
 import { PtLoginModel } from '../../core/models/domain';
-import { login } from '../../services/auth-service';
 
 export class LoginViewModel extends Observable {
     email: string;

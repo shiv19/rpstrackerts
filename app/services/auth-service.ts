@@ -1,6 +1,7 @@
 import * as appSettings from 'application-settings';
-const config = require('../config/app-config');
 const fetchModule = require('fetch');
+
+const config = require('../config/app-config');
 const h = require('../shared/helpers');
 
 import {

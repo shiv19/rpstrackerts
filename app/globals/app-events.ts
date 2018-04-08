@@ -1,4 +1,5 @@
 import * as app from 'application';
+
 import { setNativeEvents } from './app-events-native';
 import { setStatusBarColors } from '../utils';
 

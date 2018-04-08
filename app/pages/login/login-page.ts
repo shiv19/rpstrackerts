@@ -1,8 +1,8 @@
-import { StackLayout } from 'ui/layouts/stack-layout';
-import { NavigatedData } from 'ui/page';
-import { ROUTES } from '../../shared/routes';
 import * as appSettings from 'application-settings';
+import { NavigatedData } from 'ui/page';
+import { StackLayout } from 'ui/layouts/stack-layout';
 
+import { ROUTES } from '../../shared/routes';
 import { LoginViewModel } from './login-view-model';
 
 /************************************************************

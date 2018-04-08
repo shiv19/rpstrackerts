@@ -1,8 +1,8 @@
-import { StackLayout } from 'ui/layouts/stack-layout';
-import { NavigatedData } from 'ui/page';
-import { ROUTES } from '../../shared/routes';
 import * as appSettings from 'application-settings';
+import { NavigatedData } from 'ui/page';
+import { StackLayout } from 'ui/layouts/stack-layout';
 
+import { ROUTES } from '../../shared/routes';
 require('../../shared/converters'); // register converters
 
 import { BacklogViewModel } from './backlog-view-model';

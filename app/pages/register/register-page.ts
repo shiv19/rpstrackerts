@@ -1,7 +1,7 @@
-import { StackLayout } from 'ui/layouts/stack-layout';
 import { NavigatedData } from 'ui/page';
-import { ROUTES } from '../../shared/routes';
+import { StackLayout } from 'ui/layouts/stack-layout';
 
+import { ROUTES } from '../../shared/routes';
 import { RegisterViewModel } from './register-view-model';
 
 /************************************************************

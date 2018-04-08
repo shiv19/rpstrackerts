@@ -1,10 +1,8 @@
 import * as fetchModule from 'fetch';
 
 const config = require('../config/app-config');
-
 import * as helpers from '../shared/helpers';
 import { PtUser } from '../core/models/domain';
-
 
 function getUsersUrl() {
     return `${config.apiEndpoint}/users`;

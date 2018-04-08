@@ -1,12 +1,16 @@
 import * as app from 'application';
 import * as appSettings from 'application-settings';
 import { Observable, PropertyChangeData } from 'data/observable';
-import { ObservableArray } from 'tns-core-modules/data/observable-array/observable-array';
+import { ObservableArray } from 'data/observable-array';
+import { Button } from 'ui/button';
+
+import { CustomPropertyEditor } from 'nativescript-ui-dataform';
+
+import * as backlogService from '../../services/backlog-service';
+import { CURRENT_USER_KEY } from '../../services/auth-service';
 import { PtItem, PtUser } from '../../core/models/domain';
 import { PtItemType } from '../../core/models/domain/types';
 import { ItemType } from '../../core/constants/pt-item-types';
-import * as backlogService from '../../services/backlog-service';
-import { Button } from 'ui/button';
 import {
     PT_ITEM_STATUSES,
     PT_ITEM_PRIORITIES,
@@ -23,9 +27,8 @@ import {
     setSegmentedEditorColor,
     getPickerEditorValueText
 } from './helpers/ui-data-form';
-import { CustomPropertyEditor } from 'nativescript-ui-dataform';
 import { ROUTES } from '../../shared/routes';
-import { CURRENT_USER_KEY } from '../../services/auth-service';
+
 
 export class DetailViewModel extends Observable {
 

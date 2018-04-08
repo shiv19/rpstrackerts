@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import * as appSettings from 'application-settings';
+
+// import * as _ from 'lodash';
 
 const config = require('../config/app-config');
-
-import * as appSettings from 'application-settings';
 import { PtItem, PtUser, PtTask, PtComment } from '../core/models/domain';
 import { PtNewItem, PtNewTask, PtNewComment } from '../shared/models/dto';
 import { PriorityEnum, StatusEnum } from '../core/models/domain/enums';
@@ -12,7 +12,6 @@ import { PresetType } from '../shared/models/ui/types';
 
 const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
-
 
 
 function getCurrentPreset(): PresetType {

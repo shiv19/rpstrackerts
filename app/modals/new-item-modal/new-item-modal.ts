@@ -1,7 +1,8 @@
 import * as observableModule from 'data/observable';
-import { ItemType } from '../../core/constants/pt-item-types';
-import { topmost } from 'ui/frame';
 import { isIOS } from 'platform';
+import { topmost } from 'ui/frame';
+
+import { ItemType } from '../../core/constants/pt-item-types';
 import { PtItemType } from '../../core/models/domain/types';
 
 // let selectedTypeValue;

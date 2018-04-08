@@ -1,6 +1,8 @@
 import * as app from 'application';
-import { ItemType } from '../core/constants';
+
 const moment = require('moment');
+
+import { ItemType } from '../core/constants';
 
 // Date converter
 const dateConverter = function (value) {

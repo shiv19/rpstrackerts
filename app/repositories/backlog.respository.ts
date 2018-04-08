@@ -1,5 +1,6 @@
-const config = require('../config/app-config');
 const fetchModule = require('fetch');
+
+const config = require('../config/app-config');
 const helpers = require('../shared/helpers');
 import { PtTask, PtItem, PtComment } from '../core/models/domain';
 import { PresetType } from '../shared/models/ui/types';
