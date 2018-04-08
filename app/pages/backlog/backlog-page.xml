@@ -6,7 +6,7 @@
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar title="Backlog">
-        <ActionItem tap="toggleDrawer" ios.position="right">
+        <ActionItem tap="{{ toggleDrawer }}" ios.position="right">
             <StackLayout class="navbar_image_wrapper" ios:horizontalAlignment="right">
                 <Image src="res://iconelipseswhite" />
             </StackLayout>
@@ -27,15 +27,15 @@
                     </StackLayout>
                     <StackLayout row="1" class="menu-container">
                         <FlexboxLayout class="menu-wrapper">
-                            <Button tap="onSelectPresetTap" preset="my" text="MY ITEMS" />
-                            <Button tap="onSelectPresetTap" preset="open" text="OPEN ITEMS" />
-                            <Button tap="onSelectPresetTap" preset="closed" text="FINISHED ITEMS" />
+                            <Button tap="{{ onSelectPresetTap }}" preset="my" text="MY ITEMS" />
+                            <Button tap="{{ onSelectPresetTap }}" preset="open" text="OPEN ITEMS" />
+                            <Button tap="{{ onSelectPresetTap }}" preset="closed" text="FINISHED ITEMS" />
 
-                            <Button tap="onSettingsTap" text="SETTINGS" />
+                            <Button tap="{{ onSettingsTap }}" text="SETTINGS" />
                         </FlexboxLayout>
                     </StackLayout>
                     <StackLayout row="2" class="menu-container">
-                        <Button tap="onLogout" text="LOGOUT" />
+                        <Button tap="{{ onLogoutTap }}" text="LOGOUT" />
                     </StackLayout>
                 </GridLayout>
             </StackLayout>
@@ -45,8 +45,8 @@
             <StackLayout class="mainContent">
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
-                        <PullRefresh:PullToRefresh refresh="refreshList">
-                            <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="listItemTap" separatorColor="#97a879">
+                        <PullRefresh:PullToRefresh refresh="{{ onRefreshRequested }}">
+                            <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="{{ onListItemTap }}" separatorColor="#97a879">
                                 <list-view.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">
@@ -73,7 +73,7 @@
                     </GridLayout>
 
                     <StackLayout row="1" class="btn-add-wrapper">
-                        <Button text="Add" class="btn-add bottom-safe-nav" tap="onAddTap" />
+                        <Button text="Add" class="btn-add bottom-safe-nav" tap="{{ onAddTap }}" />
                     </StackLayout>
 
                 </GridLayout>
