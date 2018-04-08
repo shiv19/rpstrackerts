@@ -1,11 +1,11 @@
 import * as app from 'application';
 import * as appSettings from 'application-settings';
-const frame = require('ui/frame');
 
 import * as localize from 'nativescript-localize';
 
 import './bundle-config';
 import { ROUTES } from './shared/routes';
+import { getCurrentPage } from './services/navigation.service';
 
 app.setResources({ L: localize });
 
@@ -15,7 +15,7 @@ if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
 function backEvent(args) {
-    const currentPage = frame.topmost().currentPage;
+    const currentPage = <any>getCurrentPage();
     if (
         currentPage &&
         currentPage.exports &&

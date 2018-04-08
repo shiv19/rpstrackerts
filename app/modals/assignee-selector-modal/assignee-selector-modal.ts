@@ -1,7 +1,6 @@
-import { topmost } from 'ui/frame';
-
 import { PtUser } from '../../core/models/domain';
 import { fetchUsers } from '../../services/pt-user.service';
+import { getCurrentPage } from '../../services/navigation.service';
 
 
 let closeCallback;
@@ -24,9 +23,9 @@ export function onShownModally(args) {
 }
 
 export function onCancelButtonTap() {
-    const page = topmost().currentPage;
-    if (page && page.modal) {
-        page.modal.closeModal();
+    const currentPage = getCurrentPage();
+    if (currentPage && currentPage.modal) {
+        currentPage.modal.closeModal();
     }
 }
 

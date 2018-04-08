@@ -1,11 +1,12 @@
-import { Observable, PropertyChangeData } from 'data/observable';
-import { EventData } from 'ui/frame';
+import { Observable, PropertyChangeData, EventData } from 'data/observable';
 
 import * as emailValidator from 'email-validator';
 
 import { register } from '../../services/auth.service';
+import { goToBacklogPage } from '../../services/navigation.service';
 import { ROUTES } from '../../shared/routes';
 import { PtRegisterModel } from '../../core/models/domain';
+
 
 export class RegisterViewModel extends Observable {
     fullName: string;
@@ -79,7 +80,7 @@ export class RegisterViewModel extends Observable {
         );
     }
 
-    onRegister(args: any) {
+    onRegister(args: EventData) {
         const registerModel: PtRegisterModel = {
             username: this.email,
             password: this.password,
@@ -88,7 +89,7 @@ export class RegisterViewModel extends Observable {
 
         register(registerModel)
             .then(response => {
-                args.object.page.frame.navigate(ROUTES.backlogPage);
+                goToBacklogPage();
             })
             .catch(error => {
                 console.error(error);

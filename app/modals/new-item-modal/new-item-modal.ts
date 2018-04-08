@@ -1,9 +1,9 @@
 import * as observableModule from 'data/observable';
 import { isIOS } from 'platform';
-import { topmost } from 'ui/frame';
 
 import { ItemType } from '../../core/constants/pt-item-types';
 import { PtItemType } from '../../core/models/domain/types';
+import { getCurrentPage } from '../../services/navigation.service';
 
 // let selectedTypeValue;
 let modal;
@@ -40,9 +40,9 @@ export function onSaveTap(args) {
 }
 
 export function onCancelTap(args) {
-    const page = topmost().currentPage;
-    if (page && page.modal) {
-        page.modal.closeModal();
+    const currentPage = getCurrentPage();
+    if (currentPage && currentPage.modal) {
+        currentPage.modal.closeModal();
     }
 }
 

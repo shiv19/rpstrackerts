@@ -1,14 +1,22 @@
 import * as appSettings from 'application-settings';
-import { NavigatedData } from 'ui/page';
+import { EventData } from 'data/observable';
+import { NavigatedData, View } from 'ui/page';
 import { StackLayout } from 'ui/layouts/stack-layout';
+import { Button } from 'ui/button';
+import { ItemEventData } from 'ui/list-view';
 
-import { ROUTES } from '../../shared/routes';
 require('../../shared/converters'); // register converters
 
 import { BacklogViewModel } from './backlog-view-model';
 import { PtNewItem } from '../../shared/models/dto';
 import { CURRENT_USER_KEY, logout } from '../../services/auth.service';
 import { PtUser } from '../../core/models/domain';
+import { navigate } from '../../services/navigation.service';
+import { showModalNewItem } from '../../services/modal.service';
+import { NavigationEntry } from 'tns-core-modules/ui/frame/frame';
+import { ROUTES } from '../../shared/routes';
+
+
 
 /************************************************************
  * Use the "onNavigatingTo" handler to initialize the page binding context.
@@ -30,16 +38,13 @@ export function onNavigatingTo(args: NavigatedData) {
 export function refreshList(args) {
     // Get reference to the PullToRefresh;
     const pullRefresh = args.object;
-
     backLogVm.refresh();
-
     pullRefresh.refreshing = false;
 }
 
-export function listItemTap(args) {
-    const page = args.object.page;
-
-    page.frame.navigate({
+export function listItemTap(args: ItemEventData) {
+    const view = <View>args.object;
+    const navEntry: NavigationEntry = {
         moduleName: ROUTES.detailPage,
         animated: true,
         transition: {
@@ -47,27 +52,22 @@ export function listItemTap(args) {
             duration: 380
         },
         context: args.view.bindingContext
-    });
+    };
+    navigate(navEntry, view.page.frame)
 }
 
-export function onAddTap(args) {
-    const page = args.object.page;
+export function onAddTap(args: EventData) {
+    const button = <Button>args.object;
 
-    page.showModal(
-        ROUTES.newItemModal,
-        {
-            btnOkText: 'Save'
-        },
-        newItem => {
+    showModalNewItem(button.page)
+        .then(newItem => {
             if (newItem) {
                 const assignee: PtUser = JSON.parse(
                     appSettings.getString(CURRENT_USER_KEY, '{}')
                 );
                 backLogVm.addItem(newItem, assignee);
             }
-        },
-        true
-    );
+        });
 }
 
 export function onLogout(args) {
@@ -79,13 +79,15 @@ export function onSelectPresetTap(args) {
     backLogVm.refresh();
 }
 
-export function onSettingsTap(args) {
-    args.object.page.frame.navigate({
+export function onSettingsTap(args: EventData) {
+    const button = <Button>args.object;
+    const navEntry: NavigationEntry = {
         moduleName: ROUTES.settingsPage,
         animated: true,
         transition: {
             name: 'slide',
             duration: 380
         }
-    });
+    };
+    navigate(navEntry, button.page.frame);
 }
