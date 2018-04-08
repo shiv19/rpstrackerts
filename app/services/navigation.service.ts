@@ -8,23 +8,6 @@ export function getCurrentPage() {
     return currentPage;
 }
 
-// export function navigate(navEntry: NavigationEntry);
-// export function navigate(pageModuleName: string);
-
-/*
-export function navigate(pageModuleNameOrNavEntry: string | NavigationEntry) {
-    if (typeof pageModuleNameOrNavEntry === 'object') {
-        topmost().navigate(pageModuleNameOrNavEntry);
-    } else if (typeof pageModuleNameOrNavEntry === 'string') {
-        topmost().navigate(pageModuleNameOrNavEntry);
-    }
-}
-
-export function navigateWithOptions(navEntry: NavigationEntry) {
-    topmost().navigate(navEntry);
-}
-*/
-
 export function navigate(pageModuleNameOrNavEntry: string | NavigationEntry, otherFrame?: Frame) {
     const navFrame = otherFrame ? otherFrame : topmost();
     if (typeof pageModuleNameOrNavEntry === 'object') {
