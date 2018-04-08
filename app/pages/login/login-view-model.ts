@@ -2,7 +2,7 @@ import { Observable, PropertyChangeData } from 'data/observable';
 import * as emailValidator from 'email-validator';
 import * as appSettings from 'application-settings';
 
-import { Routes } from '../../shared/routes';
+import { ROUTES } from '../../shared/routes';
 import { PtLoginModel } from '../../core/models/domain';
 import { login } from '../../services/auth-service';
 
@@ -80,7 +80,7 @@ export class LoginViewModel extends Observable {
                     JSON.stringify(loginModel)
                 );
                 args.object.page.frame.navigate({
-                    moduleName: Routes.backlog,
+                    moduleName: ROUTES.backlogPage,
                     clearHistory: true
                 });
             })

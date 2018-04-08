@@ -24,7 +24,7 @@ import {
     getPickerEditorValueText
 } from './helpers/ui-data-form';
 import { CustomPropertyEditor } from 'nativescript-ui-dataform';
-import { Routes } from '../../shared/routes';
+import { ROUTES } from '../../shared/routes';
 import { CURRENT_USER_KEY } from '../../services/auth-service';
 
 export class DetailViewModel extends Observable {
@@ -124,7 +124,7 @@ export class DetailViewModel extends Observable {
     onAssigneeSelect(args) {
         const page = args.object.page;
         page.showModal(
-            Routes.assigneeSelectorModal,
+            ROUTES.assigneeSelectorModal,
             {},
             assignee => {
                 if (assignee) {

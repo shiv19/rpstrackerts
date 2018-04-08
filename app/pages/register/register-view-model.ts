@@ -2,7 +2,7 @@ import { Observable, PropertyChangeData } from 'data/observable';
 import { EventData } from 'tns-core-modules/ui/frame/frame';
 import * as emailValidator from 'email-validator';
 
-import { Routes } from '../../shared/routes';
+import { ROUTES } from '../../shared/routes';
 import { PtRegisterModel } from '../../core/models/domain';
 import { register } from '../../services/auth-service';
 
@@ -87,7 +87,7 @@ export class RegisterViewModel extends Observable {
 
         register(registerModel)
             .then(response => {
-                args.object.page.frame.navigate(Routes.backlog);
+                args.object.page.frame.navigate(ROUTES.backlogPage);
             })
             .catch(error => {
                 console.error(error);

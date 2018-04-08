@@ -10,7 +10,7 @@ import {
     PtRegisterModel
 } from '../core/models/domain';
 import { topmost } from 'tns-core-modules/ui/frame/frame';
-import { Routes } from '../shared/routes';
+import { ROUTES } from '../shared/routes';
 
 export const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
@@ -119,7 +119,7 @@ export function register(registerModel: PtRegisterModel) {
 export function logout() {
     appSettings.clear();
     topmost().navigate({
-        moduleName: Routes.login,
+        moduleName: ROUTES.loginPage,
         clearHistory: true
     });
 }

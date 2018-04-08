@@ -6,7 +6,7 @@ purpose of the file is to pass control to the app’s first module.
 
 import * as app from 'application';
 import './bundle-config';
-import { Routes } from './shared/routes';
+import { ROUTES } from './shared/routes';
 import * as appSettings from 'application-settings';
 import * as localize from 'nativescript-localize';
 
@@ -30,7 +30,7 @@ function backEvent(args) {
 
 appSettings.setString('currentPreset', 'open');
 
-app.start({ moduleName: Routes.login });
+app.start({ moduleName: ROUTES.loginPage });
 
 /*
 Do not place any code after the application has been started as it will not

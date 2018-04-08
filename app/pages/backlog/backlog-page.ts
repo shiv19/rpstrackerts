@@ -1,6 +1,6 @@
 import { StackLayout } from 'ui/layouts/stack-layout';
 import { NavigatedData } from 'ui/page';
-import { Routes } from '../../shared/routes';
+import { ROUTES } from '../../shared/routes';
 import * as appSettings from 'application-settings';
 
 require('../../shared/converters'); // register converters
@@ -40,7 +40,7 @@ export function listItemTap(args) {
     const page = args.object.page;
 
     page.frame.navigate({
-        moduleName: Routes.detail,
+        moduleName: ROUTES.detailPage,
         animated: true,
         transition: {
             name: 'slide',
@@ -54,7 +54,7 @@ export function onAddTap(args) {
     const page = args.object.page;
 
     page.showModal(
-        Routes.newItemModal,
+        ROUTES.newItemModal,
         {
             btnOkText: 'Save'
         },
@@ -81,7 +81,7 @@ export function onSelectPresetTap(args) {
 
 export function onSettingsTap(args) {
     args.object.page.frame.navigate({
-        moduleName: Routes.settings,
+        moduleName: ROUTES.settingsPage,
         animated: true,
         transition: {
             name: 'slide',
