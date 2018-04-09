@@ -26,7 +26,7 @@ import {
     setStepperEditorColors,
     setSegmentedEditorColor,
     getPickerEditorValueText
-} from './helpers/ui-data-form';
+} from '../../shared/helpers/ui-data-form';
 import { ROUTES } from '../../shared/routes';
 
 
