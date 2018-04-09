@@ -1,5 +1,4 @@
 const fetchModule = require('fetch');
-
 const config = require('../config/app-config');
 const helpers = require('../shared/helpers');
 import { PtTask, PtItem, PtComment } from '../core/models/domain';
@@ -170,14 +169,13 @@ export function insertPtTask(
     errorHandler: (error: any) => void,
     successHandler: (nextTask: PtTask) => void
 ) {
-    fetchModule
-        .fetch(postPtTaskUrl(), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ task: task, itemId: ptItemId })
-        })
+    fetchModule.fetch(postPtTaskUrl(), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ task: task, itemId: ptItemId })
+    })
         .then(helpers.handleErrors)
         .then(response => {
             if (response.error) {
@@ -194,14 +192,13 @@ export function updatePtTask(
     errorHandler: (error: any) => void,
     successHandler: (updatedTask: PtTask) => void
 ) {
-    fetchModule
-        .fetch(putPtTaskUrl(task.id), {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ task: task, itemId: ptItemId })
-        })
+    fetchModule.fetch(putPtTaskUrl(task.id), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ task: task, itemId: ptItemId })
+    })
         .then(helpers.handleErrors)
         .then(response => {
             if (response.error) {

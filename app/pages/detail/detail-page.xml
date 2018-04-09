@@ -4,9 +4,9 @@
     xmlns:df="nativescript-ui-dataform"
     xmlns="http://schemas.nativescript.org/tns.xsd">
     <ActionBar title="Item">
-        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="onNavBackTap"></NavigationButton>
+        <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="{{ onNavBackTap }}"></NavigationButton>
 
-        <ActionItem tap="onDeleteTap" ios.systemIcon="16" ios.position="right" text="delete" android.systemIcon="ic_menu_delete"
+        <ActionItem tap="{{ onDeleteTap }}" ios.systemIcon="16" ios.position="right" text="delete" android.systemIcon="ic_menu_delete"
             android.position="actionBar"></ActionItem>
     </ActionBar>
 
@@ -15,22 +15,22 @@
         <GridLayout class="pt-item-detail-header" rows="*, 40">
 
             <GridLayout row="0" columns="auto, *" class="pt-item-detail-header-title-row">
-                <Image id="assigneeImg" width="50" height="50" class="pt-item-detail-avatar" src="{{ item.assignee.avatar }}" col="0" />
-                <Label text="{{ item.title }}" class="pt-item-detail-header-title" col="1"></Label>
+                <Image id="assigneeImg" width="50" height="50" class="pt-item-detail-avatar" src="{{ itemModel.assignee.avatar }}" col="0" />
+                <Label text="{{ itemModel.title }}" class="pt-item-detail-header-title" col="1"></Label>
             </GridLayout>
 
             <StackLayout row="1">
                 <FlexboxLayout class="selector">
                     <GridLayout class="{{ selectedScreen === 'details' ? 'selector-btn-wrapper active' : 'selector-btn-wrapper' }}">
-                        <Button tap="onDetailsTap" text="Details" 
+                        <Button tap="{{ onTabDetailsTap }}" text="Details" 
                             class="{{ selectedScreen === 'details' ? 'selector-btn active' : 'selector-btn' }}"></Button>
                     </GridLayout>
                     <GridLayout class="{{ selectedScreen === 'tasks' ? 'selector-btn-wrapper active' : 'selector-btn-wrapper' }}">
-                        <Button tap="onTasksTap" text="Tasks" 
+                        <Button tap="{{ onTabTasksTap }}" text="Tasks" 
                             class="{{ selectedScreen === 'tasks' ? 'selector-btn active' : 'selector-btn' }}"></Button>
                     </GridLayout>
                     <GridLayout class="{{ selectedScreen === 'chitchat' ? 'selector-btn-wrapper active' : 'selector-btn-wrapper' }}">
-                        <Button tap="onChitchatTap" text="Chitchat" 
+                        <Button tap="{{ onTabChitchatTap }}" text="Chitchat" 
                             class="{{ selectedScreen === 'chitchat' ? 'selector-btn active' : 'selector-btn' }}"></Button>
                     </GridLayout>
                 </FlexboxLayout>
@@ -46,7 +46,7 @@
                 <StackLayout row="1">
                     <Label text="Assignee" fontSize="12" paddingLeft="18" color="#808080" />
                     <Button id="assigneeBtn" class="btn btn-primary" backgroundColor="lightgray"
-                        text="{{ item.assignee.fullName }}" tap="{{ onAssigneeSelect }}" />
+                        text="{{ itemModel.assignee.fullName }}" tap="{{ onAssigneeSelect }}" />
                 </StackLayout>
 
             </GridLayout>
@@ -56,21 +56,21 @@
                 rows="70, *" class="pt-item-tasks-container">
                 <GridLayout row="0" columns="*, 80" class="pt-tasks-add-row">
                     <TextField hint="Enter new task..." text="{{ newTaskTitle }}" col="0" class="pt-text-task-add" />
-                    <Button tap="onAddTask" text="Add" col="1"
+                    <Button tap="{{ onAddTask }}" text="Add" col="1"
                         class="{{ newTaskTitle.length > 0 ? 'pt-btn-task-add enabled' : 'pt-btn-task-add' }}"
                         isEnabled="{{ newTaskTitle.length > 0 }}"></Button>
                 </GridLayout>
 
                 <ScrollView row="1" class="pt-tasks-scroll">
                     <StackLayout class="pt-tasks-list-container">
-                        <Repeater id="tasksList" items="{{ item.tasks }}">
+                        <Repeater id="tasksList" items="{{ itemModel.tasks }}">
                             <Repeater.itemTemplate>
                                 <GridLayout columns="30, *" class="pt-task-wrapper">
-                                    <Image tap="toggleTapped" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
+                                    <Image tap="{{ $parents.onTaskToggleTap }}" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
                                         col="0" />
                                     <TextField col="1" text="{{ title }}"
-                                        focus="taskFocused"
-                                        blur="taskBlurred"
+                                        focus="{{ onTaskFocused }}"
+                                        blur="{{ onTaskBlurred }}"
                                         class="task-title" />
                                 </GridLayout>
                             </Repeater.itemTemplate>
@@ -86,14 +86,14 @@
                 <GridLayout row="0" columns="60, *, 80" class="pt-comments-add-row">
                     <Image src="{{ currentUserAvatar }}" stretch="aspectFit" class="pt-img-comment-add" col="0" />
                     <TextField text="" hint="Enter new comment..." text="{{ newCommentText }}" col="1" class="pt-text-comment-add" />
-                    <Button tap="onAddComment" text="Add" col="2"
+                    <Button tap="{{ onAddComment }}" text="Add" col="2"
                         class="{{ newCommentText.length > 0 ? 'pt-btn-comment-add enabled' : 'pt-btn-comment-add' }}"
                         isEnabled="{{ newCommentText.length > 0 }}"/>
                 </GridLayout>
 
                 <ScrollView row="1" class="pt-comments-scroll">
                     <StackLayout class="pt-comments-list-container">
-                        <Repeater id="commentsList" items="{{ item.comments }}">
+                        <Repeater id="commentsList" items="{{ itemModel.comments }}">
                             <Repeater.itemTemplate>
                                 <GridLayout columns="40, *" class="pt-comment-wrapper">
                                     <Image src="{{ user.avatar }}" width="40" height="40" stretch="aspectFit" class="img-comment-avatar" col="0" />

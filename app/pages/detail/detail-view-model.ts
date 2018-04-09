@@ -28,12 +28,26 @@ import {
     getPickerEditorValueText
 } from '../../shared/helpers/ui-data-form';
 import { ROUTES } from '../../shared/routes';
+import { EMPTY_STRING } from '../../core/helpers/string-helpers';
+import { PtNewTask, PtNewComment, PtTaskUpdate } from '../../shared/models/dto';
+import { ConfirmOptions, confirm } from 'tns-core-modules/ui/dialogs/dialogs';
+import { PtItemModel } from '../../shared/models/ui/pt-item/pt-item.model';
+require('../../shared/converters'); // register converters
 
 
 export class DetailViewModel extends Observable {
 
-    item: PtItem;
-    selectedScreen: string;
+    itemModel: PtItemModel;
+    selectedScreen = 'details';
+    currentUser: PtUser;
+    currentUserAvatar: string;
+    newTaskTitle = EMPTY_STRING;
+    newCommentText = EMPTY_STRING;
+    lastUpdatedTitle = EMPTY_STRING;
+
+    private itemTypeEditorBtnHelper: ButtonEditorHelper;
+    private itemTypeEditorViewConnected = false;
+    private itemTypeNativeView;
     form;
     formMetaData = {
         isReadOnly: false,
@@ -82,31 +96,22 @@ export class DetailViewModel extends Observable {
             }
         ]
     };
-    currentUser: PtUser;
-    currentUserAvatar: string;
-    newTaskTitle: string;
-    newCommentText: string;
 
-    private itemTypeEditorBtnHelper: ButtonEditorHelper;
-    private itemTypeEditorViewConnected = false;
-    private itemTypeNativeView;
 
-    constructor(item, selectedScreen = 'details') {
+    constructor(private ptItem: PtItem) {
         super();
-        this.item = item;
+        // this.itemModel = item;
+        this.itemModel = new PtItemModel(ptItem);
         this.form = {
-            title: item.title,
-            description: item.description,
-            type: item.type,
-            status: item.status,
-            estimate: item.estimate,
-            priority: item.priority,
-            assigneeName: item.assigneeName
+            title: ptItem.title,
+            description: ptItem.description,
+            type: ptItem.type,
+            status: ptItem.status,
+            estimate: ptItem.estimate,
+            priority: ptItem.priority,
+            assigneeName: ptItem.assignee.fullName
         };
 
-        this.selectedScreen = selectedScreen;
-        this.newTaskTitle = '';
-        this.newCommentText = '';
 
         this.currentUser = JSON.parse(
             appSettings.getString(CURRENT_USER_KEY, '{}')
@@ -114,14 +119,145 @@ export class DetailViewModel extends Observable {
         this.currentUserAvatar = backlogService.getCurrentUserAvatar();
     }
 
+    public onNavBackTap(args) {
+        args.object.page.frame.goBack();
+    }
+
+    public onTabDetailsTap(args) {
+        args.object.page.bindingContext.set('selectedScreen', 'details');
+    }
+
+    public onTabTasksTap(args) {
+        args.object.page.bindingContext.set('selectedScreen', 'tasks');
+    }
+
+    public onTabChitchatTap(args) {
+        args.object.page.bindingContext.set('selectedScreen', 'chitchat');
+    }
+
+    public onDeleteTap(args) {
+        const page = args.object.page;
+
+        // Better approach with promise
+        const options: ConfirmOptions = {
+            title: 'Delete Item',
+            message: 'Are you sure you want to delete this item?',
+            okButtonText: 'Yes',
+            cancelButtonText: 'Cancel'
+        };
+        // confirm with options, with promise
+        confirm(options).then((result: boolean) => {
+            // result can be true/false/undefined
+            if (result) {
+                backlogService.deletePtItem(this.ptItem)
+                    .then(() => {
+                        page.frame.goBack();
+                    })
+                    .catch(() => {
+                        console.log('some error occured');
+                        page.frame.goBack();
+                    });
+            }
+        });
+    }
+
+    /* details START */
+
+    /* details END */
+
+    /* tasks START */
+    /*
+    public taskFocused(args) {
+        this.lastUpdatedTitle = args.object.text;
+        args.object.on('textChange', this.onTextChange);
+    }
+
+    public taskBlurred(args) {
+        args.object.off('textChange');
+        this.lastUpdatedTitle = EMPTY_STRING;
+    }
+
+    private onTextChange(args) {
+        const newTitle = args.object.text;
+        if (this.lastUpdatedTitle !== newTitle) {
+            this.lastUpdatedTitle = newTitle;
+            const taskUpdate: PtTaskUpdate = {
+                task: args.object.bindingContext,
+                toggle: false,
+                newTitle: this.lastUpdatedTitle
+            };
+
+            // Dont't care about return value
+            backlogService.updatePtTask(
+                this.ptItem,
+                taskUpdate.task,
+                taskUpdate.toggle,
+                taskUpdate.newTitle
+            );
+        }
+    }
+    */
+
+    public onAddTask(args) {
+        console.log('on add task');
+        const page = args.object.page;
+        const tasksList = page.getViewById('tasksList');
+        const newTitle = this.newTaskTitle.trim();
+        if (newTitle.length === 0) {
+            return;
+        }
+
+        const newTask: PtNewTask = {
+            title: newTitle,
+            completed: false
+        };
+
+        backlogService.addNewPtTask(newTask, this.ptItem)
+            .then(addedTask => {
+                this.itemModel.addTaskToStart(addedTask, this.ptItem);
+                this.set('newTaskTitle', EMPTY_STRING);
+            })
+            .catch(error => {
+                console.log('something went wrong when adding task');
+            });
+    }
+    /* tasks END */
+
+    /* comments START */
+    public onAddComment(args) {
+        const page = args.object.page;
+        const commentsList = page.getViewById('commentsList');
+        const newCommentTxt = this.newCommentText.trim();
+        if (newCommentTxt.length === 0) {
+            return;
+        }
+
+        const newComment: PtNewComment = {
+            title: newCommentTxt
+        };
+
+        this.set('newCommentText', '');
+
+        backlogService.addNewPtComment(newComment, this.ptItem)
+            .then(addedComment => {
+                addedComment.user.avatar = this.currentUserAvatar;
+                this.itemModel.comments.unshift(addedComment);
+                commentsList.refresh(); // Because tasks object is not an observable
+            })
+            .catch(error => {
+                console.log('something went wrong when adding task');
+            });
+    }
+    /* comments END */
+
     onPropertyCommitted() {
-        this.item.title = this.form.title;
-        this.item.description = this.form.description;
-        this.item.type = this.form.type;
-        this.item.status = this.form.status;
-        this.item.estimate = this.form.estimate;
-        this.item.priority = this.form.priority;
-        backlogService.updatePtItem(this.item);
+        this.itemModel.title = this.form.title;
+        this.itemModel.description = this.form.description;
+        this.itemModel.type = this.form.type;
+        this.itemModel.status = this.form.status;
+        this.itemModel.estimate = this.form.estimate;
+        this.itemModel.priority = this.form.priority;
+        backlogService.updatePtItem(this.ptItem);
     }
 
     onAssigneeSelect(args) {
@@ -131,7 +267,7 @@ export class DetailViewModel extends Observable {
             {},
             assignee => {
                 if (assignee) {
-                    this.item.assignee = assignee;
+                    this.itemModel.assignee = assignee;
                     page.getViewById('assigneeBtn').text = assignee.fullName;
                     page.getViewById('assigneeImg').src = assignee.avatar;
                     this.onPropertyCommitted();

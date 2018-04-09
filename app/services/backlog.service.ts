@@ -137,7 +137,7 @@ export function deletePtItem(item: PtItem) {
     });
 }
 
-export function addNewPtTask(newTask: PtNewTask, currentItem: PtItem) {
+export function addNewPtTask(newTask: PtNewTask, currentItem: PtItem): Promise<PtTask> {
     const task: PtTask = {
         id: 0,
         title: newTask.title,
@@ -146,15 +146,15 @@ export function addNewPtTask(newTask: PtNewTask, currentItem: PtItem) {
         dateModified: new Date()
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise<PtTask>((resolve, reject) => {
         backlogRepo.insertPtTask(
             task,
             currentItem.id,
             error => {
                 console.dir(error);
             },
-            (_nextTask: PtTask) => {
-                resolve(_nextTask);
+            (nextTask: PtTask) => {
+                resolve(nextTask);
             }
         );
     });
@@ -198,10 +198,11 @@ export function updatePtTask(
     );
 
     // Optimistically return updated item
-    return updatedItem;
+    // return updatedItem;
+    return taskToUpdate;
 }
 
-export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem) {
+export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem): Promise<PtComment> {
     const comment: PtComment = {
         id: 0,
         title: newComment.title,
@@ -210,7 +211,7 @@ export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem) {
         dateModified: new Date()
     };
 
-    return new Promise((resolve, reject) => {
+    return new Promise<PtComment>((resolve, reject) => {
         backlogRepo.insertPtComment(
             comment,
             currentItem.id,
