@@ -10,13 +10,13 @@ import { PtLoginModel } from '../../core/models/domain';
 
 
 export class LoginViewModel extends Observable {
-    email: string;
-    emailValid: boolean;
-    emailEmpty: boolean;
-    password: string;
-    passwordEmpty: boolean;
-    formValid: boolean;
-    loggedIn: boolean;
+    public email: string;
+    public emailValid: boolean;
+    public emailEmpty: boolean;
+    public password: string;
+    public passwordEmpty: boolean;
+    public formValid: boolean;
+    public loggedIn: boolean;
 
     constructor() {
         super();

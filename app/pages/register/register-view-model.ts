@@ -3,20 +3,19 @@ import { Observable, PropertyChangeData, EventData } from 'data/observable';
 import * as emailValidator from 'email-validator';
 
 import { register } from '../../services/auth.service';
-import { goToBacklogPage } from '../../services/navigation.service';
-import { ROUTES } from '../../shared/routes';
+import { goToBacklogPage, goToLoginPage } from '../../services/navigation.service';
 import { PtRegisterModel } from '../../core/models/domain';
 
 
 export class RegisterViewModel extends Observable {
-    fullName: string;
-    nameEmpty: boolean;
-    email: string;
-    emailValid: boolean;
-    emailEmpty: boolean;
-    password: string;
-    passwordEmpty: boolean;
-    formValid: boolean;
+    public fullName: string;
+    public nameEmpty: boolean;
+    public email: string;
+    public emailValid: boolean;
+    public emailEmpty: boolean;
+    public password: string;
+    public passwordEmpty: boolean;
+    public formValid: boolean;
 
     constructor() {
         super();
@@ -80,7 +79,7 @@ export class RegisterViewModel extends Observable {
         );
     }
 
-    onRegister(args: EventData) {
+    public onRegisterTap(args: EventData) {
         const registerModel: PtRegisterModel = {
             username: this.email,
             password: this.password,
@@ -94,5 +93,9 @@ export class RegisterViewModel extends Observable {
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    public onGotoLoginTap(args: any) {
+        goToLoginPage();
     }
 }

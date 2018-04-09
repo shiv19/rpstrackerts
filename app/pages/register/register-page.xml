@@ -78,7 +78,7 @@
                 </StackLayout>
                 <StackLayout row="2" class="bottom-safe-nav">
                     <Label text="Already have an account?" class="smaller"></Label>
-                    <Label tap="onGotoLogin"
+                    <Label tap="{{ onGotoLoginTap }}"
                         textTransform="uppercase" 
                         class="text-center m-20" 
                         color="white" text="{{ L('Login') }}"/>
