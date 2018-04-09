@@ -166,42 +166,7 @@ export class DetailViewModel extends Observable {
     /* details END */
 
     /* tasks START */
-    /*
-    public taskFocused(args) {
-        this.lastUpdatedTitle = args.object.text;
-        args.object.on('textChange', this.onTextChange);
-    }
-
-    public taskBlurred(args) {
-        args.object.off('textChange');
-        this.lastUpdatedTitle = EMPTY_STRING;
-    }
-
-    private onTextChange(args) {
-        const newTitle = args.object.text;
-        if (this.lastUpdatedTitle !== newTitle) {
-            this.lastUpdatedTitle = newTitle;
-            const taskUpdate: PtTaskUpdate = {
-                task: args.object.bindingContext,
-                toggle: false,
-                newTitle: this.lastUpdatedTitle
-            };
-
-            // Dont't care about return value
-            backlogService.updatePtTask(
-                this.ptItem,
-                taskUpdate.task,
-                taskUpdate.toggle,
-                taskUpdate.newTitle
-            );
-        }
-    }
-    */
-
     public onAddTask(args) {
-        console.log('on add task');
-        const page = args.object.page;
-        const tasksList = page.getViewById('tasksList');
         const newTitle = this.newTaskTitle.trim();
         if (newTitle.length === 0) {
             return;
@@ -225,8 +190,6 @@ export class DetailViewModel extends Observable {
 
     /* comments START */
     public onAddComment(args) {
-        const page = args.object.page;
-        const commentsList = page.getViewById('commentsList');
         const newCommentTxt = this.newCommentText.trim();
         if (newCommentTxt.length === 0) {
             return;
@@ -236,13 +199,11 @@ export class DetailViewModel extends Observable {
             title: newCommentTxt
         };
 
-        this.set('newCommentText', '');
-
         backlogService.addNewPtComment(newComment, this.ptItem)
             .then(addedComment => {
                 addedComment.user.avatar = this.currentUserAvatar;
-                this.itemModel.comments.unshift(addedComment);
-                commentsList.refresh(); // Because tasks object is not an observable
+                this.itemModel.addCommentToStart(addedComment, this.ptItem);
+                this.set('newCommentText', EMPTY_STRING);
             })
             .catch(error => {
                 console.log('something went wrong when adding task');
