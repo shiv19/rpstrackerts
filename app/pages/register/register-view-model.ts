@@ -1,67 +1,68 @@
-import { Observable, PropertyChangeData } from "data/observable";
-import { EventData } from "tns-core-modules/ui/frame/frame";
-import * as emailValidator from "email-validator";
+import { Observable, PropertyChangeData, EventData } from 'data/observable';
 
-import { Routes } from "../../shared/routes";
-import { PtRegisterModel } from "../../core/models/domain";
-import { AuthService } from "../../services/auth-service";
+import * as emailValidator from 'email-validator';
+
+import { register } from '../../services/auth.service';
+import { goToBacklogPage, goToLoginPage } from '../../services/navigation.service';
+import { PtRegisterModel } from '../../core/models/domain';
+
 
 export class RegisterViewModel extends Observable {
-    fullName: string;
-    nameEmpty: boolean;
-    email: string;
-    emailValid: boolean;
-    emailEmpty: boolean;
-    password: string;
-    passwordEmpty: boolean;
-    formValid: boolean;
+    public fullName: string;
+    public nameEmpty: boolean;
+    public email: string;
+    public emailValid: boolean;
+    public emailEmpty: boolean;
+    public password: string;
+    public passwordEmpty: boolean;
+    public formValid: boolean;
 
     constructor() {
         super();
 
-        this.set("fullName", "");
-        this.set("nameEmpty", false);
-        this.set("email", "");
-        this.set("emailValid", true);
-        this.set("emailEmpty", false);
-        this.set("password", "");
-        this.set("passwordEmpty", false);
-        this.set("formValid", false);
+        this.set('fullName', '');
+        this.set('nameEmpty', false);
+        this.set('email', '');
+        this.set('emailValid', true);
+        this.set('emailEmpty', false);
+        this.set('password', '');
+        this.set('passwordEmpty', false);
+        this.set('formValid', false);
 
         this.on(
             Observable.propertyChangeEvent,
             (propertyChangeData: PropertyChangeData) => {
                 switch (propertyChangeData.propertyName) {
-                    case "fullName":
-                        if (this.fullName.trim() === "") {
-                            this.set("nameEmpty", true);
+                    case 'fullName':
+                        if (this.fullName.trim() === '') {
+                            this.set('nameEmpty', true);
                         } else {
-                            this.set("nameEmpty", false);
+                            this.set('nameEmpty', false);
                         }
                         break;
 
-                    case "email":
-                        if (this.email.trim() === "") {
-                            this.set("emailEmpty", true);
-                            this.set("emailValid", true);
+                    case 'email':
+                        if (this.email.trim() === '') {
+                            this.set('emailEmpty', true);
+                            this.set('emailValid', true);
                         } else if (emailValidator.validate(this.email)) {
-                            this.set("emailValid", true);
-                            this.set("emailEmpty", false);
+                            this.set('emailValid', true);
+                            this.set('emailEmpty', false);
                         } else {
-                            this.set("emailValid", false);
-                            this.set("emailEmpty", false);
+                            this.set('emailValid', false);
+                            this.set('emailEmpty', false);
                         }
                         break;
 
-                    case "password":
+                    case 'password':
                         if (this.password.trim().length === 0) {
-                            this.set("passwordEmpty", true);
+                            this.set('passwordEmpty', true);
                         } else {
-                            this.set("passwordEmpty", false);
+                            this.set('passwordEmpty', false);
                         }
                         break;
 
-                    case "default":
+                    case 'default':
                         return;
                 }
                 if (
@@ -70,28 +71,31 @@ export class RegisterViewModel extends Observable {
                     !this.emailEmpty &&
                     !this.passwordEmpty
                 ) {
-                    this.set("formValid", true);
+                    this.set('formValid', true);
                 } else {
-                    this.set("formValid", false);
+                    this.set('formValid', false);
                 }
             }
         );
     }
 
-    onRegister(args: any) {
+    public onRegisterTap(args: EventData) {
         const registerModel: PtRegisterModel = {
             username: this.email,
             password: this.password,
             fullName: this.fullName
         };
-        const authService = new AuthService();
-        authService
-            .register(registerModel)
+
+        register(registerModel)
             .then(response => {
-                args.object.page.frame.navigate(Routes.backlog);
+                goToBacklogPage();
             })
             .catch(error => {
                 console.error(error);
             });
+    }
+
+    public onGotoLoginTap(args: any) {
+        goToLoginPage();
     }
 }

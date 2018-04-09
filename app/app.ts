@@ -1,36 +1,33 @@
-/*
-In NativeScript, the app.ts file is the entry point to your application.
-You can use this file to perform app-level initialization, but the primary
-purpose of the file is to pass control to the app’s first module.
-*/
+import * as app from 'application';
+import * as appSettings from 'application-settings';
 
-import * as app from "application";
-import "./bundle-config";
-import { Routes } from "./shared/routes";
-import * as appSettings from "application-settings";
-import * as localize from "nativescript-localize";
+import * as localize from 'nativescript-localize';
+
+import './bundle-config';
+import { ROUTES } from './shared/routes';
+import { getCurrentPage } from './services/navigation.service';
 
 app.setResources({ L: localize });
 
 // Enable back button handling
-const frame = require("ui/frame");
+
 if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
 function backEvent(args) {
-    const currentPage = frame.topmost().currentPage;
+    const currentPage = <any>getCurrentPage();
     if (
         currentPage &&
         currentPage.exports &&
-        typeof currentPage.exports.backEvent === "function"
+        typeof currentPage.exports.backEvent === 'function'
     ) {
         currentPage.exports.backEvent(args);
     }
 }
 
-appSettings.setString("currentPreset", "open");
+appSettings.setString('currentPreset', 'open');
 
-app.start({ moduleName: Routes.login });
+app.start({ moduleName: ROUTES.loginPage });
 
 /*
 Do not place any code after the application has been started as it will not

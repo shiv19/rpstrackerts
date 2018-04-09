@@ -1,5 +1,4 @@
-import { CustomPropertyEditor } from 'nativescript-pro-ui/dataform';
-
+import { CustomPropertyEditor } from 'nativescript-ui-dataform';
 
 export class ButtonEditorHelper extends NSObject {
 
@@ -19,7 +18,5 @@ export class ButtonEditorHelper extends NSObject {
     public 'handleTap:'(_sender): void {
         this.iosTapHandler();
     }
-
-
 }
 

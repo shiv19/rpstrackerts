@@ -1,4 +1,5 @@
 import { Color } from 'color';
+
 import { com } from '../../ui-data-form';
 
 export function setStepperEditorContentOffset(_editor, _horizontalOffset: number, _verticalOffset: number): void { }

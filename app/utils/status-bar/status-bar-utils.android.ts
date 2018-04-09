@@ -1,7 +1,7 @@
 import * as app from 'application';
 import * as platform from 'platform';
 
-declare var android: any;
+declare const android: any;
 
 export function setStatusBarColors() {
     if (platform.device.sdkVersion >= '21') {
