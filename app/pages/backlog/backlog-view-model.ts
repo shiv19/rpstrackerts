@@ -2,11 +2,10 @@ import { Observable, PropertyChangeData, EventData } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
 import { ItemEventData } from 'ui/list-view';
 
+import * as authService from '../../services/auth.service';
 import * as backlogService from '../../services/backlog.service';
-import { navigate, goToDetailPage, goToSettingsPage } from '../../services/navigation.service';
+import * as navService from '../../services/navigation.service';
 import { PtItem, PtUser } from '../../core/models/domain';
-import { logout } from '../../services/auth.service';
-import { appStore } from '../../core/app-store';
 require('../../shared/converters'); // register converters
 
 
@@ -15,30 +14,29 @@ export class BacklogViewModel extends Observable {
 
     constructor() {
         super();
-        this.refresh();
     }
 
     public onSelectPresetTap(args) {
-        appStore.set('selectedPreset', args.object.preset);
-        this.refresh();
+        backlogService.setPreset(args.object.preset)
+            .then(() => this.refresh());
     }
 
     public onSettingsTap(args: EventData) {
-        goToSettingsPage();
+        navService.goToSettingsPage();
     }
 
     public onListItemTap(args: ItemEventData) {
-        goToDetailPage(args.view.bindingContext);
+        navService.goToDetailPage(args.view.bindingContext);
     }
 
     public addNewItemHandler(newItem: PtItem) {
         if (newItem) {
-            this.addItem(newItem, appStore.value.currentUser);
+            this.addItem(newItem, authService.getCurrentUser());
         }
     }
 
     public onLogoutTap(args) {
-        logout();
+        authService.logout();
     }
 
     public refresh() {

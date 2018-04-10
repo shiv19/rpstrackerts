@@ -20,6 +20,15 @@ function getCurrentUserId() {
     }
 }
 
+export function setPreset(preset) {
+    return new Promise((resolve, reject) => {
+        if (appStore.value.selectedPreset !== preset) {
+            appStore.set('selectedPreset', preset);
+            resolve();
+        }
+    });
+}
+
 export function fetchItems() {
     return new Promise((resolve, reject) => {
         backlogRepo.getPtItems(

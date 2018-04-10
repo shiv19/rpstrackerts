@@ -21,7 +21,7 @@ function getRegisterUrl() {
     return `${config.apiEndpoint}/register`;
 }
 
-function getCurrentUser(): PtUser {
+export function getCurrentUser(): PtUser {
     const user = storageService.getItem<PtUser>(CURRENT_USER_KEY);
     if (!appStore.value.currentUser && user) {
         appStore.set('currentUser', user);

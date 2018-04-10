@@ -1,8 +1,9 @@
 <Page
     class="page"
-    navigatingTo="onNavigatingTo"  
+    navigatingTo="onNavigatingTo"
+    loaded="onLoaded"
     xmlns:nsDrawer="nativescript-ui-sidedrawer"
-    xmlns:PullRefresh="nativescript-pulltorefresh"
+    xmlns:nsRefresh="nativescript-pulltorefresh"
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar title="Backlog">
@@ -45,9 +46,9 @@
             <StackLayout class="mainContent">
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
-                        <PullRefresh:PullToRefresh refresh="onRefreshRequested">
+                        <nsRefresh:PullToRefresh refresh="onRefreshRequested">
                             <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="{{ onListItemTap }}" separatorColor="#97a879">
-                                <list-view.itemTemplate>
+                                <ListView.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">
                                             <Label class="{{ $value | itemToIndicatorClassConverter }}" />
@@ -67,9 +68,9 @@
                                         </StackLayout>
 
                                     </GridLayout>                            
-                                </list-view.itemTemplate>
+                                </ListView.itemTemplate>
                             </ListView>
-                        </PullRefresh:PullToRefresh>
+                        </nsRefresh:PullToRefresh>
                     </GridLayout>
 
                     <StackLayout row="1" class="btn-add-wrapper">
