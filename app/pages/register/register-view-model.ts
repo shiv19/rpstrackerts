@@ -5,76 +5,25 @@ import * as emailValidator from 'email-validator';
 import { register } from '../../services/auth.service';
 import { goToBacklogPage, goToLoginPage } from '../../services/navigation.service';
 import { PtRegisterModel } from '../../core/models/domain';
+import { EMPTY_STRING } from '../../core/helpers/string-helpers';
 
 
 export class RegisterViewModel extends Observable {
-    public fullName: string;
-    public nameEmpty: boolean;
-    public email: string;
-    public emailValid: boolean;
-    public emailEmpty: boolean;
-    public password: string;
-    public passwordEmpty: boolean;
-    public formValid: boolean;
+    public fullName = EMPTY_STRING;
+    public nameEmpty = false;
+    public email = EMPTY_STRING;
+    public emailValid = true;
+    public emailEmpty = false;
+    public password = EMPTY_STRING;
+    public passwordEmpty = false;
+    public formValid = false;
 
     constructor() {
         super();
 
-        this.set('fullName', '');
-        this.set('nameEmpty', false);
-        this.set('email', '');
-        this.set('emailValid', true);
-        this.set('emailEmpty', false);
-        this.set('password', '');
-        this.set('passwordEmpty', false);
-        this.set('formValid', false);
-
-        this.on(
-            Observable.propertyChangeEvent,
+        this.on(Observable.propertyChangeEvent,
             (propertyChangeData: PropertyChangeData) => {
-                switch (propertyChangeData.propertyName) {
-                    case 'fullName':
-                        if (this.fullName.trim() === '') {
-                            this.set('nameEmpty', true);
-                        } else {
-                            this.set('nameEmpty', false);
-                        }
-                        break;
-
-                    case 'email':
-                        if (this.email.trim() === '') {
-                            this.set('emailEmpty', true);
-                            this.set('emailValid', true);
-                        } else if (emailValidator.validate(this.email)) {
-                            this.set('emailValid', true);
-                            this.set('emailEmpty', false);
-                        } else {
-                            this.set('emailValid', false);
-                            this.set('emailEmpty', false);
-                        }
-                        break;
-
-                    case 'password':
-                        if (this.password.trim().length === 0) {
-                            this.set('passwordEmpty', true);
-                        } else {
-                            this.set('passwordEmpty', false);
-                        }
-                        break;
-
-                    case 'default':
-                        return;
-                }
-                if (
-                    !this.nameEmpty &&
-                    this.emailValid &&
-                    !this.emailEmpty &&
-                    !this.passwordEmpty
-                ) {
-                    this.set('formValid', true);
-                } else {
-                    this.set('formValid', false);
-                }
+                this.validate(propertyChangeData.propertyName);
             }
         );
     }
@@ -87,8 +36,8 @@ export class RegisterViewModel extends Observable {
         };
 
         register(registerModel)
-            .then(response => {
-                goToBacklogPage();
+            .then(() => {
+                goToBacklogPage(true);
             })
             .catch(error => {
                 console.error(error);
@@ -97,5 +46,51 @@ export class RegisterViewModel extends Observable {
 
     public onGotoLoginTap(args: any) {
         goToLoginPage(false);
+    }
+
+    private validate(changedPropName: string) {
+        switch (changedPropName) {
+            case 'fullName':
+                if (this.fullName.trim() === EMPTY_STRING) {
+                    this.set('nameEmpty', true);
+                } else {
+                    this.set('nameEmpty', false);
+                }
+                break;
+
+            case 'email':
+                if (this.email.trim() === EMPTY_STRING) {
+                    this.set('emailEmpty', true);
+                    this.set('emailValid', true);
+                } else if (emailValidator.validate(this.email)) {
+                    this.set('emailValid', true);
+                    this.set('emailEmpty', false);
+                } else {
+                    this.set('emailValid', false);
+                    this.set('emailEmpty', false);
+                }
+                break;
+
+            case 'password':
+                if (this.password.trim().length === 0) {
+                    this.set('passwordEmpty', true);
+                } else {
+                    this.set('passwordEmpty', false);
+                }
+                break;
+
+            default:
+                return;
+        }
+        if (
+            !this.nameEmpty &&
+            this.emailValid &&
+            !this.emailEmpty &&
+            !this.passwordEmpty
+        ) {
+            this.set('formValid', true);
+        } else {
+            this.set('formValid', false);
+        }
     }
 }

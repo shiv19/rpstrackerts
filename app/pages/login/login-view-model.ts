@@ -69,7 +69,7 @@ export class LoginViewModel extends Observable {
                 }
                 break;
 
-            case 'default':
+            default:
                 return;
         }
         if (
