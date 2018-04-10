@@ -6,7 +6,7 @@
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar title="Backlog">
-        <ActionItem tap="{{ toggleDrawer }}" ios.position="right">
+        <ActionItem tap="toggleDrawer" ios.position="right">
             <StackLayout class="navbar_image_wrapper" ios:horizontalAlignment="right">
                 <Image src="res://iconelipseswhite" />
             </StackLayout>
@@ -45,7 +45,7 @@
             <StackLayout class="mainContent">
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
-                        <PullRefresh:PullToRefresh refresh="{{ onRefreshRequested }}">
+                        <PullRefresh:PullToRefresh refresh="onRefreshRequested">
                             <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="{{ onListItemTap }}" separatorColor="#97a879">
                                 <list-view.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
@@ -73,7 +73,7 @@
                     </GridLayout>
 
                     <StackLayout row="1" class="btn-add-wrapper">
-                        <Button text="Add" class="btn-add bottom-safe-nav" tap="{{ onAddTap }}" />
+                        <Button text="Add" class="btn-add bottom-safe-nav" tap="onAddTap" />
                     </StackLayout>
 
                 </GridLayout>

@@ -2,22 +2,22 @@ import { Page } from 'ui/page';
 
 import { ROUTES } from '../shared/routes';
 
-export function showModalNewItem(
+export function showModalNewItem<T>(
     page: Page,
-): Promise<void> {
+): Promise<T> {
     const context = {
         btnOkText: 'Save'
     };
-    return showModal(page, ROUTES.newItemModal, true, context);
+    return showModal<T>(page, ROUTES.newItemModal, true, context);
 }
 
-function showModal(
+function showModal<T>(
     page: Page,
     route: string,
     fullscreen: boolean,
     context: any,
-): Promise<void> {
-    return new Promise((resolve, reject) => {
+): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
         page.showModal(
             route,
             context,

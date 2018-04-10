@@ -47,10 +47,19 @@ export function goToBacklogPage(clearHistory?: boolean) {
     navigate(navEntry);
 }
 
-export function goToDetailPage(clearHistory?: boolean) {
+export function goToDetailPage(context: any, clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.detailPage,
-        clearHistory: clearHistory
+        clearHistory: clearHistory,
+        context: context
+    };
+    navigate(navEntry);
+}
+
+
+export function goToSettingsPage() {
+    const navEntry: NavigationEntry = {
+        moduleName: ROUTES.settingsPage
     };
     navigate(navEntry);
 }

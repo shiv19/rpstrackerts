@@ -1,29 +1,23 @@
-import * as appSettings from 'application-settings';
-
-// import * as _ from 'lodash';
-
 const config = require('../config/app-config');
+import * as backlogRepo from '../repositories/backlog.respository';
 import { PtItem, PtUser, PtTask, PtComment } from '../core/models/domain';
 import { PtNewItem, PtNewTask, PtNewComment } from '../shared/models/dto';
 import { PriorityEnum, StatusEnum } from '../core/models/domain/enums';
 import { getUserAvatarUrl } from '../core/helpers/user-avatar-helper';
-import * as backlogRepo from '../repositories/backlog.respository';
 import { PresetType } from '../shared/models/ui/types';
-
-const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
-const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
+import { appStore } from '../core/app-store';
 
 
 function getCurrentPreset(): PresetType {
-    return <PresetType>appSettings.getString('currentPreset', 'open');
+    return appStore.value.selectedPreset;
 }
 
 function getCurrentUserId() {
-    const user = JSON.parse(
-        appSettings.getString('CURRENT_USER_KEY', '{}')
-    );
-
-    return user.id ? user.id : undefined;
+    if (appStore.value.currentUser) {
+        return appStore.value.currentUser.id;
+    } else {
+        return undefined;
+    }
 }
 
 export function fetchItems() {
@@ -41,10 +35,7 @@ export function fetchItems() {
                     i.comments.forEach(c => setUserAvatar(c.user));
                 });
 
-                appSettings.setString(
-                    'backlogItems',
-                    JSON.stringify(ptItems)
-                );
+                appStore.set('backlogItems', ptItems);
                 resolve(ptItems);
             }
         );
@@ -83,14 +74,9 @@ export function addNewPtItem(newItem: PtNewItem, assignee: PtUser) {
             },
             (nextItem: PtItem) => {
                 setUserAvatar(nextItem.assignee);
-                let backlogItems = JSON.parse(
-                    appSettings.getString('backlogItems', '[]')
-                );
-                backlogItems = [nextItem, ...backlogItems];
-                appSettings.setString(
-                    'backlogItems',
-                    JSON.stringify(backlogItems)
-                );
+
+                appStore.set('backlogItems', [nextItem, ...appStore.value.backlogItems]);
+
                 resolve(nextItem);
             }
         );
@@ -121,16 +107,11 @@ export function deletePtItem(item: PtItem) {
                 console.dir(error);
             },
             () => {
-                const backlogItems = JSON.parse(
-                    appSettings.getString('backlogItems', '[]')
-                );
-                const updatedItems = backlogItems.filter(i => {
+                const updatedItems = appStore.value.backlogItems.filter((i) => {
                     return i.id !== item.id;
                 });
-                appSettings.setString(
-                    'backlogItems',
-                    JSON.stringify(updatedItems)
-                );
+                appStore.set('backlogItems', updatedItems);
+
                 resolve(true);
             }
         );
@@ -197,8 +178,6 @@ export function updatePtTask(
         }
     );
 
-    // Optimistically return updated item
-    // return updatedItem;
     return taskToUpdate;
 }
 
@@ -206,7 +185,7 @@ export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem): 
     const comment: PtComment = {
         id: 0,
         title: newComment.title,
-        user: JSON.parse(appSettings.getString(CURRENT_USER_KEY, '{}')),
+        user: appStore.value.currentUser,
         dateCreated: new Date(),
         dateModified: new Date()
     };
