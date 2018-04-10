@@ -1,4 +1,5 @@
 import * as app from 'application';
+import { NavigationEntry } from 'ui/frame';
 
 import * as localize from 'nativescript-localize';
 
@@ -7,7 +8,6 @@ import * as navService from './services/navigation.service';
 import { ROUTES } from './shared/routes';
 import './bundle-config';
 import './rxjs-imports';
-import { NavigationEntry } from 'tns-core-modules/ui/frame/frame';
 
 
 app.setResources({ L: localize });
