@@ -1,7 +1,6 @@
 import * as appSettings from 'application-settings';
 import { Page, NavigatedData } from 'ui/page';
 
-import { ROUTES } from '../../shared/routes';
 import { LoginViewModel } from './login-view-model';
 
 /************************************************************
@@ -12,6 +11,7 @@ export function onNavigatingTo(args: NavigatedData) {
     const loginVm = new LoginViewModel();
     page.bindingContext = loginVm;
 
+    /*
     const loginDetails = JSON.parse(
         appSettings.getString('loginDetails', '{}')
     );
@@ -22,5 +22,6 @@ export function onNavigatingTo(args: NavigatedData) {
     } else {
         loginVm.set('loggedIn', false);
     }
+    */
 }
 

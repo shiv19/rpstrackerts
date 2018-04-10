@@ -21,10 +21,11 @@ export function back() {
     topmost().goBack();
 }
 
-export function goToLoginPage() {
+export function goToLoginPage(animated?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.loginPage,
-        clearHistory: true
+        clearHistory: true,
+        animated: animated
     };
     navigate(navEntry);
 }
@@ -32,7 +33,8 @@ export function goToLoginPage() {
 export function goToRegisterPage(clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.registerPage,
-        clearHistory: clearHistory
+        clearHistory: clearHistory,
+        animated: false
     };
     navigate(navEntry);
 }

@@ -1,92 +1,41 @@
-import * as appSettings from 'application-settings';
 import { Observable, PropertyChangeData, EventData } from 'data/observable';
-import { Button } from 'ui/button';
 
 import * as emailValidator from 'email-validator';
 
 import { login } from '../../services/auth.service';
-import { ROUTES } from '../../shared/routes';
+import { goToBacklogPage, goToRegisterPage } from '../../services/navigation.service';
 import { PtLoginModel } from '../../core/models/domain';
+import { EMPTY_STRING } from '../../core/helpers/string-helpers';
 
 
 export class LoginViewModel extends Observable {
-    public email: string;
-    public emailValid: boolean;
-    public emailEmpty: boolean;
-    public password: string;
-    public passwordEmpty: boolean;
-    public formValid: boolean;
-    public loggedIn: boolean;
+    public email = 'alex@email.com';
+    public emailValid = true;
+    public emailEmpty = false;
+    public password = 'nuvious';
+    public passwordEmpty = false;
+    public formValid = true;
+    public loggedIn = false;
 
     constructor() {
         super();
 
-        this.set('email', 'alex@email.com');
-        this.set('emailValid', true);
-        this.set('emailEmpty', false);
-        this.set('password', 'nuvious');
-        this.set('passwordEmpty', false);
-        this.set('formValid', true);
-        this.set('loggedIn', true);
-
-        this.on(
-            Observable.propertyChangeEvent,
+        this.on(Observable.propertyChangeEvent,
             (propertyChangeData: PropertyChangeData) => {
-                switch (propertyChangeData.propertyName) {
-                    case 'email':
-                        if (this.email.trim() === '') {
-                            this.set('emailEmpty', true);
-                            this.set('emailValid', true);
-                        } else if (emailValidator.validate(this.email)) {
-                            this.set('emailValid', true);
-                            this.set('emailEmpty', false);
-                        } else {
-                            this.set('emailValid', false);
-                            this.set('emailEmpty', false);
-                        }
-                        break;
-
-                    case 'password':
-                        if (this.password.trim().length === 0) {
-                            this.set('passwordEmpty', true);
-                        } else {
-                            this.set('passwordEmpty', false);
-                        }
-                        break;
-
-                    case 'default':
-                        return;
-                }
-                if (
-                    this.emailValid &&
-                    !this.emailEmpty &&
-                    !this.passwordEmpty
-                ) {
-                    this.set('formValid', true);
-                } else {
-                    this.set('formValid', false);
-                }
+                this.validate(propertyChangeData.propertyName);
             }
         );
     }
 
-    public onLoginTap(args: EventData) {
-        const btn = <Button>args.object;
+    public onLoginTap() {
         const loginModel: PtLoginModel = {
             username: this.email,
             password: this.password
         };
 
         login(loginModel)
-            .then(response => {
-                appSettings.setString(
-                    'loginDetails',
-                    JSON.stringify(loginModel)
-                );
-                btn.page.frame.navigate({
-                    moduleName: ROUTES.backlogPage,
-                    clearHistory: true
-                });
+            .then(() => {
+                goToBacklogPage(true);
             })
             .catch(error => {
                 console.error(error);
@@ -94,10 +43,44 @@ export class LoginViewModel extends Observable {
     }
 
     public onGotoRegisterTap(args: EventData) {
-        const btn = <Button>args.object;
-        btn.page.frame.navigate({
-            moduleName: ROUTES.registerPage,
-            animated: false
-        });
+        goToRegisterPage();
+    }
+
+    private validate(changedPropName: string) {
+        switch (changedPropName) {
+            case 'email':
+                if (this.email.trim() === EMPTY_STRING) {
+                    this.set('emailEmpty', true);
+                    this.set('emailValid', true);
+                } else if (emailValidator.validate(this.email)) {
+                    this.set('emailValid', true);
+                    this.set('emailEmpty', false);
+                } else {
+                    this.set('emailValid', false);
+                    this.set('emailEmpty', false);
+                }
+                break;
+
+            case 'password':
+                if (this.password.trim() === EMPTY_STRING) {
+                    this.set('passwordEmpty', true);
+                } else {
+                    this.set('passwordEmpty', false);
+                }
+                break;
+
+            case 'default':
+                return;
+        }
+        if (
+            this.emailValid &&
+            !this.emailEmpty &&
+            !this.passwordEmpty
+        ) {
+            this.set('formValid', true);
+        } else {
+            this.set('formValid', false);
+        }
     }
 }
+

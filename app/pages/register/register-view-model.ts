@@ -96,6 +96,6 @@ export class RegisterViewModel extends Observable {
     }
 
     public onGotoLoginTap(args: any) {
-        goToLoginPage();
+        goToLoginPage(false);
     }
 }

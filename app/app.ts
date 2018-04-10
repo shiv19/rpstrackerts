@@ -6,6 +6,7 @@ import * as localize from 'nativescript-localize';
 import './bundle-config';
 import { ROUTES } from './shared/routes';
 import { getCurrentPage } from './services/navigation.service';
+import './rxjs-imports';
 
 app.setResources({ L: localize });
 
