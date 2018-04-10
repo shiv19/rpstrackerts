@@ -1,12 +1,14 @@
 import * as app from 'application';
-import * as appSettings from 'application-settings';
 
 import * as localize from 'nativescript-localize';
 
-import './bundle-config';
+import * as authService from './services/auth.service';
+import * as navService from './services/navigation.service';
 import { ROUTES } from './shared/routes';
-import { getCurrentPage } from './services/navigation.service';
+import './bundle-config';
 import './rxjs-imports';
+import { NavigationEntry } from 'tns-core-modules/ui/frame/frame';
+
 
 app.setResources({ L: localize });
 
@@ -16,7 +18,7 @@ if (app.android) {
     app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
 }
 function backEvent(args) {
-    const currentPage = <any>getCurrentPage();
+    const currentPage = <any>navService.getCurrentPage();
     if (
         currentPage &&
         currentPage.exports &&
@@ -26,9 +28,18 @@ function backEvent(args) {
     }
 }
 
-appSettings.setString('currentPreset', 'open');
-
-app.start({ moduleName: ROUTES.loginPage });
+if (authService.isLoggedIn()) {
+    const navEntryLoggedIn: NavigationEntry = {
+        moduleName: ROUTES.backlogPage,
+    };
+    app.start(navEntryLoggedIn);
+} else {
+    const navEntryAnon: NavigationEntry = {
+        moduleName: ROUTES.loginPage,
+        backstackVisible: false
+    };
+    app.start(navEntryAnon);
+}
 
 /*
 Do not place any code after the application has been started as it will not
