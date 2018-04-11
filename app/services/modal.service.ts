@@ -1,13 +1,15 @@
 import { Page } from 'ui/page';
 
 import { ROUTES } from '../shared/routes';
-import { PtModalContext } from '../shared/models/ui';
+import { PtModalContext, PtModalListDisplayItem } from '../shared/models/ui';
 
+/*
 export interface ModalItem {
     id: number;
     image: string;
     value: string;
 }
+*/
 
 let modalIsShowing = false;
 
@@ -58,11 +60,11 @@ export function showModalTextInput(
     return createModal<string, string>(page, ROUTES.textInputModal, context);
 }
 
-export function showModalListSelector(
+export function showModalListSelector<T>(
     page: Page,
-    context: PtModalContext<ModalItem[], ModalItem>
-): Promise<ModalItem> {
-    return createModal<ModalItem[], ModalItem>(page, ROUTES.listSelectorModal, context);
+    context: PtModalContext<PtModalListDisplayItem<T>[], PtModalListDisplayItem<T>>
+): Promise<PtModalListDisplayItem<T>> {
+    return createModal<PtModalListDisplayItem<T>[], PtModalListDisplayItem<T>>(page, ROUTES.listSelectorModal, context);
 }
 
 export function showModal<T>(

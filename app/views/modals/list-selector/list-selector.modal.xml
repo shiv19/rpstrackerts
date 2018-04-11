@@ -10,7 +10,7 @@
         <ListView id="listView" row="1" items="{{ items }}" itemTap="{{ onItemSelected }}" class="list-modal-list">
             <ListView.itemTemplate>
                 <StackLayout orientation="horizontal" class="list-modal-item-wrapper">
-                    <Image width="50" height="50" src="{{ image }}"></Image>
+                    <Image width="50" height="50" src="{{ img }}"></Image>
                     <Label text="{{ value }}" class="list-modal-label"></Label>
                 </StackLayout>
             </ListView.itemTemplate>

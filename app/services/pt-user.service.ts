@@ -5,6 +5,7 @@ import * as modalService from './modal.service';
 import { PtUser } from '../core/models/domain';
 import { appStore } from '../core/app-store';
 import { EMPTY_STRING } from '../core/models/domain/constants/strings';
+import { ptUserToModalListDisplayItem, PtModalListDisplayItem } from '../shared/models/ui';
 
 function getUsersUrl() {
     return `${config.apiEndpoint}/users`;
@@ -42,27 +43,21 @@ export function showModalAssigneeList(page: Page, currentAssignee: PtUser): Prom
     return new Promise<PtUser>((resolve, reject) => {
         fetchUsers()
             .then(users => {
-                const items = users.map(u => {
-                    return { id: u.id, image: u.avatar, value: u.fullName };
-                });
-                const defaultItem = { id: currentAssignee.id, image: currentAssignee.avatar, value: currentAssignee.fullName };
+
+                const items = users.map(ptUserToModalListDisplayItem);
+                const defaultItem = ptUserToModalListDisplayItem(currentAssignee);
 
                 const ctx =
-                    modalService.createPtModalContext<modalService.ModalItem[], modalService.ModalItem>(
+                    modalService.createPtModalContext<PtModalListDisplayItem<PtUser>[], PtModalListDisplayItem<PtUser>>(
                         'Select Assignee',
                         items,
                         defaultItem,
                         EMPTY_STRING,
                         'Cancel');
 
-                modalService.showModalListSelector(page, ctx)
+                modalService.showModalListSelector<PtUser>(page, ctx)
                     .then((modalItem) => {
-                        const matchedUser = users.find(u => u.id === modalItem.id);
-                        if (matchedUser.id === currentAssignee.id) {
-                            resolve();
-                        } else {
-                            resolve(matchedUser);
-                        }
+                        resolve(modalItem.payload);
                     });
             });
     });
