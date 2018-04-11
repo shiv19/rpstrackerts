@@ -32,10 +32,6 @@
                             </df:PropertyEditor.propertyEditorStyle>
                         </df:PropertyEditor>
                     </df:EntityProperty.editor>
-                    <df:EntityProperty.validators>
-                        <df:NonEmptyValidator 
-                            errorMessage="Description can't be empty." /> 
-                    </df:EntityProperty.validators>
                 </df:EntityProperty>
 
                 <df:EntityProperty name="type" displayName="Type" index="2" valuesProvider="{{ typesProvider }}" required="true">
