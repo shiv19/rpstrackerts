@@ -43,7 +43,7 @@ export function showModalAssigneeList(page: Page, currentAssignee: PtUser): Prom
         fetchUsers()
             .then(users => {
                 const items = users.map(u => {
-                    return { id: u.id, image: '', value: u.fullName };
+                    return { id: u.id, image: u.avatar, value: u.fullName };
                 });
                 const defaultItem = { id: currentAssignee.id, image: currentAssignee.avatar, value: currentAssignee.fullName };
 
