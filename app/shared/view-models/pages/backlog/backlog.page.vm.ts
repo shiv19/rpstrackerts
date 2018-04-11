@@ -2,12 +2,10 @@ import { Observable, EventData } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
 import { ItemEventData } from 'ui/list-view';
 
-import * as authService from '../../services/auth.service';
-import * as backlogService from '../../services/backlog.service';
-import * as navService from '../../services/navigation.service';
-import { PtItem } from '../../core/models/domain';
-require('../../shared/converters'); // register converters
-
+import * as authService from '../../../../services/auth.service';
+import * as backlogService from '../../../../services/backlog.service';
+import * as navService from '../../../../services/navigation.service';
+import { PtItem } from '../../../../core/models/domain';
 
 export class BacklogViewModel extends Observable {
     public items: ObservableArray<PtItem> = new ObservableArray<PtItem>();

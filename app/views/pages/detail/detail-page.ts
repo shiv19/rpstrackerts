@@ -3,10 +3,9 @@ import { ConfirmOptions, confirm } from 'ui/dialogs';
 
 import { RadDataForm } from 'nativescript-ui-dataform';
 
-import * as userService from '../../services/pt-user.service';
-import { DetailViewModel } from './detail-view-model';
-
-
+import * as userService from '../../../services/pt-user.service';
+import { DetailViewModel } from '../../../shared/view-models/pages/detail/detail.page.vm';
+import '../../../shared/converters';
 
 let detailsVm: DetailViewModel;
 

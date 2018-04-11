@@ -1,11 +1,11 @@
 export const ROUTES = {
-    loginPage: './pages/login/login-page',
-    registerPage: './pages/register/register-page',
-    backlogPage: './pages/backlog/backlog-page',
-    detailPage: './pages/detail/detail-page',
-    settingsPage: './pages/settings/settings-page',
+    loginPage: './views/pages/login/login-page',
+    registerPage: './views/pages/register/register-page',
+    backlogPage: './views/pages/backlog/backlog-page',
+    detailPage: './views/pages/detail/detail-page',
+    settingsPage: './views/pages/settings/settings-page',
 
-    newItemModal: './modals/new-item/new-item.modal',
-    textInputModal: './modals/text-input/text-input.modal',
-    listSelectorModal: './modals/list-selector/list-selector.modal',
+    newItemModal: './views/modals/new-item/new-item.modal',
+    textInputModal: './views/modals/text-input/text-input.modal',
+    listSelectorModal: './views/modals/list-selector/list-selector.modal',
 };

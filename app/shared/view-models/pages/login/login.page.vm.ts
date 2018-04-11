@@ -2,21 +2,20 @@ import { Observable, PropertyChangeData, EventData } from 'data/observable';
 
 import * as emailValidator from 'email-validator';
 
-import * as authService from '../../services/auth.service';
-import * as navService from '../../services/navigation.service';
-import { PtRegisterModel } from '../../core/models/domain';
-import { EMPTY_STRING } from '../../core/models/domain/constants/strings';
+import * as authService from '../../../../services/auth.service';
+import * as navService from '../../../../services/navigation.service';
+import { PtLoginModel } from '../../../../core/models/domain';
+import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
 
 
-export class RegisterViewModel extends Observable {
-    public fullName = EMPTY_STRING;
-    public nameEmpty = false;
-    public email = EMPTY_STRING;
+export class LoginViewModel extends Observable {
+    public email = 'alex@email.com';
     public emailValid = true;
     public emailEmpty = false;
-    public password = EMPTY_STRING;
+    public password = 'nuvious';
     public passwordEmpty = false;
-    public formValid = false;
+    public formValid = true;
+    public loggedIn = false;
 
     constructor() {
         super();
@@ -28,14 +27,13 @@ export class RegisterViewModel extends Observable {
         );
     }
 
-    public onRegisterTap(args: EventData) {
-        const registerModel: PtRegisterModel = {
+    public onLoginTap() {
+        const loginModel: PtLoginModel = {
             username: this.email,
-            password: this.password,
-            fullName: this.fullName
+            password: this.password
         };
 
-        authService.register(registerModel)
+        authService.login(loginModel)
             .then(() => {
                 navService.goToBacklogPage(true);
             })
@@ -44,20 +42,12 @@ export class RegisterViewModel extends Observable {
             });
     }
 
-    public onGotoLoginTap(args: any) {
-        navService.goToLoginPage(false);
+    public onGotoRegisterTap(args: EventData) {
+        navService.goToRegisterPage();
     }
 
     private validate(changedPropName: string) {
         switch (changedPropName) {
-            case 'fullName':
-                if (this.fullName.trim() === EMPTY_STRING) {
-                    this.set('nameEmpty', true);
-                } else {
-                    this.set('nameEmpty', false);
-                }
-                break;
-
             case 'email':
                 if (this.email.trim() === EMPTY_STRING) {
                     this.set('emailEmpty', true);
@@ -72,7 +62,7 @@ export class RegisterViewModel extends Observable {
                 break;
 
             case 'password':
-                if (this.password.trim().length === 0) {
+                if (this.password.trim() === EMPTY_STRING) {
                     this.set('passwordEmpty', true);
                 } else {
                     this.set('passwordEmpty', false);
@@ -83,7 +73,6 @@ export class RegisterViewModel extends Observable {
                 return;
         }
         if (
-            !this.nameEmpty &&
             this.emailValid &&
             !this.emailEmpty &&
             !this.passwordEmpty
@@ -94,3 +83,4 @@ export class RegisterViewModel extends Observable {
         }
     }
 }
+

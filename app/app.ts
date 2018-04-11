@@ -9,7 +9,6 @@ import { ROUTES } from './shared/routes';
 import './bundle-config';
 import './rxjs-imports';
 
-
 app.setResources({ L: localize });
 
 // Enable back button handling

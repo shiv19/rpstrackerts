@@ -3,23 +3,23 @@ import { ObservableArray } from 'data/observable-array';
 
 import { RadDataForm } from 'nativescript-ui-dataform';
 
-import * as backlogService from '../../services/backlog.service';
-import * as navService from '../../services/navigation.service';
-import { PtItem, PtUser } from '../../core/models/domain';
-import { PtItemType } from '../../core/models/domain/types';
-import { ItemType } from '../../core/constants/pt-item-types';
-import { PtNewTask, PtNewComment } from '../../shared/models/dto';
-import { DetailScreenType } from '../../shared/models/ui/types';
-import { ptItemToFormModel, PtItemDetailsEditFormModel } from '../../shared/models/forms';
-import { PtTaskModel } from '../../shared/models/ui/pt-item/pt-task.model';
-import { PtCommentModel } from '../../shared/models/ui/pt-item/pt-comment.model';
-import { EMPTY_STRING } from '../../core/models/domain/constants/strings';
+import * as backlogService from '../../../../services/backlog.service';
+import * as navService from '../../../../services/navigation.service';
+import { PtItem, PtUser } from '../../../../core/models/domain';
+import { PtItemType } from '../../../../core/models/domain/types';
+import { ItemType } from '../../../../core/constants/pt-item-types';
+import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
+import { ptItemToFormModel, PtItemDetailsEditFormModel } from '../../../models/forms';
+import { PtNewTask, PtNewComment } from '../../../models/dto';
+import { DetailScreenType } from '../../../models/ui/types';
+import { PtTaskModel } from './pt-task.vm';
+import { PtCommentModel } from './pt-comment.vm';
 import {
     PT_ITEM_STATUSES,
     PT_ITEM_PRIORITIES,
     // COLOR_LIGHT,
     // COLOR_DARK
-} from '../../core/constants';
+} from '../../../../core/constants';
 /*
 import {
     ButtonEditorHelper,
@@ -32,7 +32,6 @@ import {
     getPickerEditorValueText
 } from '../../shared/helpers/ui-data-form';
 */
-require('../../shared/converters'); // register converters
 
 
 export class DetailViewModel extends Observable {

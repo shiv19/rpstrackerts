@@ -3,9 +3,10 @@ import { Button } from 'ui/button';
 
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
-import * as backlogService from '../../services/backlog.service';
-import { BacklogViewModel } from './backlog-view-model';
-import { PtItem } from '../../core/models/domain';
+import * as backlogService from '../../../services/backlog.service';
+import { PtItem } from '../../../core/models/domain';
+import { BacklogViewModel } from '../../../shared/view-models/pages/backlog/backlog.page.vm';
+import '../../../shared/converters';
 
 const backLogVm: BacklogViewModel = new BacklogViewModel();
 let drawer: RadSideDrawer = null;

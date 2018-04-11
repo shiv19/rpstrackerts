@@ -1,6 +1,6 @@
 import * as app from 'application';
 
-const moment = require('moment');
+import * as moment from 'moment';
 
 import { ItemType } from '../core/constants';
 

@@ -1,8 +1,7 @@
 import { Observable } from 'data/observable';
 import { ShownModallyData } from 'ui/page';
-import { PtModalContext } from '../../shared/models/ui';
 
-
+import { PtModalContext } from '../../../models/ui';
 
 export class TextInputModalViewModel extends Observable {
 

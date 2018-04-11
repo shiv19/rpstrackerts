@@ -1,8 +1,9 @@
 import * as observableModule from 'data/observable';
 import { isIOS } from 'platform';
 
-import { ItemType } from '../../core/constants/pt-item-types';
-import { getCurrentPage } from '../../services/navigation.service';
+import * as navService from '../../../services/navigation.service';
+import { ItemType } from '../../../core/constants/pt-item-types';
+
 
 // let selectedTypeValue;
 let modal;
@@ -39,7 +40,7 @@ export function onSaveTap(args) {
 }
 
 export function onCancelTap(args) {
-    const currentPage = getCurrentPage();
+    const currentPage = navService.getCurrentPage();
     if (currentPage && currentPage.modal) {
         currentPage.modal.closeModal();
     }
