@@ -7,36 +7,18 @@ import * as backlogService from '../../../../services/backlog.service';
 import * as navService from '../../../../services/navigation.service';
 import { PtItem, PtUser } from '../../../../core/models/domain';
 import { PtItemType } from '../../../../core/models/domain/types';
+import { PriorityEnum } from '../../../../core/models/domain/enums';
 import { ItemType } from '../../../../core/constants/pt-item-types';
-import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
 import { ptItemToFormModel, PtItemDetailsEditFormModel } from '../../../models/forms';
 import { PtNewTask, PtNewComment } from '../../../models/dto';
 import { DetailScreenType } from '../../../models/ui/types';
 import { PtTaskModel } from './pt-task.vm';
 import { PtCommentModel } from './pt-comment.vm';
-import {
-    PT_ITEM_STATUSES,
-    PT_ITEM_PRIORITIES,
-    // COLOR_LIGHT,
-    // COLOR_DARK
-} from '../../../../core/constants';
-/*
-import {
-    ButtonEditorHelper,
-    setMultiLineEditorFontSize,
-    setPickerEditorImageLocation,
-    setStepperEditorTextPostfix,
-    setStepperEditorContentOffset,
-    setStepperEditorColors,
-    setSegmentedEditorColor,
-    getPickerEditorValueText
-} from '../../shared/helpers/ui-data-form';
-*/
+import { PT_ITEM_STATUSES, PT_ITEM_PRIORITIES, } from '../../../../core/constants';
+import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
 
 
 export class DetailViewModel extends Observable {
-
-    private _selectedTypeValue: PtItemType;
 
     public selectedScreen: DetailScreenType = 'details';
     public itemTitle: string;
@@ -47,6 +29,9 @@ export class DetailViewModel extends Observable {
     public itemTypesProvider = ItemType.List.map((t) => t.PtItemType);
     public statusesProvider = PT_ITEM_STATUSES;
     public prioritiesProvider = PT_ITEM_PRIORITIES;
+    public selectedTypeValue: PtItemType;
+    public selectedPriorityValue: PriorityEnum;
+    public itemTypeImage;
     /* details form END */
 
     /* tasks */
@@ -59,11 +44,6 @@ export class DetailViewModel extends Observable {
     public newCommentText = EMPTY_STRING;
     public comments: ObservableArray<PtCommentModel>;
     /* comments END */
-
-
-    public get itemTypeImage() {
-        return ItemType.imageResFromType(this._selectedTypeValue);
-    }
 
     public get itemTypeEditorDisplayName() {
         return 'Type';
@@ -112,6 +92,17 @@ export class DetailViewModel extends Observable {
     }
 
     /* details START */
+    public updateSelectedTypeValue(selTypeValue: PtItemType) {
+        this.set('selectedTypeValue', selTypeValue);
+        this.set('itemTypeImage', ItemType.imageResFromType(this.selectedTypeValue));
+    }
+
+    public updateSelectedPriorityValue(editorPriority: PriorityEnum): PriorityEnum {
+        const selectedPriorityValue = editorPriority ? editorPriority : <PriorityEnum>this.itemForm.priorityStr;
+        this.set('selectedPriorityValue', selectedPriorityValue);
+        return selectedPriorityValue;
+    }
+
     public deleteRequested() {
         backlogService.deletePtItem(this.ptItem)
             .then(() => {
