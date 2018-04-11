@@ -4,6 +4,7 @@
     loaded="onLoaded"
     xmlns:nsDrawer="nativescript-ui-sidedrawer"
     xmlns:nsRefresh="nativescript-pulltorefresh"
+    xmlns:menu="shared/components/menu"
     xmlns="http://schemas.nativescript.org/tns.xsd">
 
     <ActionBar title="Backlog">
@@ -26,15 +27,11 @@
                     <StackLayout row="0">
                         <Image src="res://rpslogo" class="slide-out-img" stretch="aspectFit" />
                     </StackLayout>
-                    <StackLayout row="1" class="menu-container">
-                        <FlexboxLayout class="menu-wrapper">
-                            <Button tap="{{ onSelectPresetTap }}" preset="my" text="MY ITEMS" />
-                            <Button tap="{{ onSelectPresetTap }}" preset="open" text="OPEN ITEMS" />
-                            <Button tap="{{ onSelectPresetTap }}" preset="closed" text="FINISHED ITEMS" />
 
-                            <Button tap="{{ onSettingsTap }}" text="SETTINGS" />
-                        </FlexboxLayout>
+                    <StackLayout row="1" class="menu-container">
+                        <menu:menu presetSelected="{{ onPresetSelected }}"/>
                     </StackLayout>
+                    
                     <StackLayout row="2" class="menu-container">
                         <Button tap="{{ onLogoutTap }}" text="LOGOUT" />
                     </StackLayout>

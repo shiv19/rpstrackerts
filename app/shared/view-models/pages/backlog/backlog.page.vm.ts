@@ -1,4 +1,4 @@
-import { Observable, EventData } from 'data/observable';
+import { Observable } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
 import { ItemEventData } from 'ui/list-view';
 
@@ -6,6 +6,7 @@ import * as authService from '../../../../services/auth.service';
 import * as backlogService from '../../../../services/backlog.service';
 import * as navService from '../../../../services/navigation.service';
 import { PtItem } from '../../../../core/models/domain';
+import { PresetType } from '../../../models/ui/types';
 
 export class BacklogViewModel extends Observable {
     public items: ObservableArray<PtItem> = new ObservableArray<PtItem>();
@@ -14,13 +15,8 @@ export class BacklogViewModel extends Observable {
         super();
     }
 
-    public onSelectPresetTap(args) {
-        backlogService.setPreset(args.object.preset)
-            .then(() => this.refresh());
-    }
-
-    public onSettingsTap(args: EventData) {
-        navService.goToSettingsPage();
+    public onPresetSelected(preset: PresetType) {
+        this.refresh();
     }
 
     public onListItemTap(args: ItemEventData) {
