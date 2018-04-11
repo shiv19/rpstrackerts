@@ -4,28 +4,11 @@ import { NavigationEntry } from 'ui/frame';
 import * as localize from 'nativescript-localize';
 
 import * as authService from './services/auth.service';
-import * as navService from './services/navigation.service';
 import { ROUTES } from './shared/routes';
 import './bundle-config';
 import './rxjs-imports';
 
 app.setResources({ L: localize });
-
-// Enable back button handling
-
-if (app.android) {
-    app.android.on(app.AndroidApplication.activityBackPressedEvent, backEvent);
-}
-function backEvent(args) {
-    const currentPage = <any>navService.getCurrentPage();
-    if (
-        currentPage &&
-        currentPage.exports &&
-        typeof currentPage.exports.backEvent === 'function'
-    ) {
-        currentPage.exports.backEvent(args);
-    }
-}
 
 if (authService.isLoggedIn()) {
     const navEntryLoggedIn: NavigationEntry = {
