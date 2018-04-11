@@ -1,59 +1,29 @@
-import * as observableModule from 'data/observable';
-import { isIOS } from 'platform';
+import { ShownModallyData, Page } from 'ui/page';
 
-import * as navService from '../../../services/navigation.service';
-import { ItemType } from '../../../core/constants/pt-item-types';
+import { DataFormEventData, RadDataForm } from 'nativescript-ui-dataform';
 
+import { PtItemType } from '../../../core/models/domain/types';
+import { NewItemModalViewModel } from '../../../shared/view-models/modals/new-item/new-item.modal.vm';
+import {
+    setMultiLineEditorFontSize,
+    setPickerEditorImageLocation,
+    getPickerEditorValueText,
+} from '../../../shared/helpers/ui-data-form';
 
-// let selectedTypeValue;
-let modal;
-let closeCallback;
-export function onShownModally(args) {
-    modal = args.object;
-    closeCallback = args.closeCallback;
-    const context = args.context;
-    const newItemVm = observableModule.fromObject({
-        form: {
-            title: '',
-            description: '',
-            type: ItemType.List[0].PtItemType
-        },
-        typesProvider: ItemType.List.map(t => t.PtItemType),
-        btnOkText: context.btnOkText
-    });
+let textInputModalVm: NewItemModalViewModel = null;
 
-    modal.bindingContext = newItemVm;
+export function onShownModally(args: ShownModallyData) {
+    const page = <Page>args.object;
+    const itemDetailsDataForm: RadDataForm = page.getViewById('itemDetailsDataForm');
+    textInputModalVm = new NewItemModalViewModel(args, itemDetailsDataForm);
+    page.bindingContext = textInputModalVm;
 }
 
-export function onSaveTap(args) {
-    const newItemForm = modal.getViewById('newItemForm');
-    newItemForm.validateAndCommitAll().then(ok => {
-        if (ok) {
-        }
-    });
-    if (
-        modal.bindingContext.form.title.trim() !== '' &&
-        modal.bindingContext.form.description.trim() !== ''
-    ) {
-        closeCallback(modal.bindingContext.form);
-    }
-}
-
-export function onCancelTap(args) {
-    const currentPage = navService.getCurrentPage();
-    if (currentPage && currentPage.modal) {
-        currentPage.modal.closeModal();
-    }
-}
-
-export function onEditorUpdate(args) {
+export function onEditorUpdate(args: DataFormEventData) {
     switch (args.propertyName) {
-        case 'title':
-            editorSetupMultiLine(args.editor);
-            break;
-        case 'description':
-            editorSetupMultiLine(args.editor);
-            break;
+        case 'title': editorSetupMultiLine(args.editor); break;
+        case 'description': editorSetupMultiLine(args.editor); break;
+        case 'typeStr': editorSetupType(args.editor); break;
     }
 }
 
@@ -61,18 +31,8 @@ function editorSetupMultiLine(editor) {
     setMultiLineEditorFontSize(editor, 17);
 }
 
-function setMultiLineEditorFontSize(editor, size: number): void {
-    if (isIOS) {
-        if (editor.textView) {
-            const textViewDef = editor.gridLayout.definitionForView(
-                editor.textView
-            );
-            if (textViewDef.view && textViewDef.view.font) {
-                textViewDef.view.font = UIFont.fontWithNameSize(
-                    textViewDef.view.font.fontName,
-                    size
-                );
-            }
-        }
-    }
+function editorSetupType(editor) {
+    setPickerEditorImageLocation(editor);
+    const selectedTypeValue = <PtItemType>getPickerEditorValueText(editor);
+    textInputModalVm.updateSelectedTypeValue(selectedTypeValue);
 }

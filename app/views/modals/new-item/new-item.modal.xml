@@ -4,11 +4,11 @@
         xmlns:df="nativescript-ui-dataform">
 
         <FlexboxLayout row="0" class="new-item-actions-container">
-            <Image src="res://iconcloseblack" tap="onCancelTap" class="modal-close-img" />
-            <Button text="{{ btnOkText }}" tap="onSaveTap" class="btn-save" />
+            <Image src="res://iconcloseblack" tap="{{ onCancelButtonTap }}" class="modal-close-img" />
+            <Button text="{{ btnOkText }}" tap="{{ onOkButtonTap }}" class="btn-save" />
         </FlexboxLayout>
 
-        <df:RadDataForm row="1" id="newItemForm" source="{{ form }}" commitMode="Immediate" editorUpdate="onEditorUpdate">
+        <df:RadDataForm row="1" id="itemDetailsDataForm" source="{{ newItemForm }}" commitMode="Manual" editorUpdate="onEditorUpdate">
             <df:RadDataForm.properties>
                 <df:EntityProperty name="title" displayName="Title" index="0" hintText="Title" required="true">
                     <df:EntityProperty.editor>
@@ -34,7 +34,7 @@
                     </df:EntityProperty.editor>
                 </df:EntityProperty>
 
-                <df:EntityProperty name="type" displayName="Type" index="2" valuesProvider="{{ typesProvider }}" required="true">
+                <df:EntityProperty name="typeStr" displayName="Type" index="2" valuesProvider="{{ itemTypesProvider }}" required="true" imageResource="{{ itemTypeImage }}">
                     <df:EntityProperty.editor>
                         <df:PropertyEditor type="Picker" />
                     </df:EntityProperty.editor>
