@@ -1,11 +1,15 @@
+import { Page } from 'ui/page';
+
 const config = require('../config/app-config');
+import * as modalService from './modal.service';
+import * as userService from './pt-user.service';
 import * as backlogRepo from '../repositories/backlog.respository';
 import { PtItem, PtUser, PtTask, PtComment } from '../core/models/domain';
 import { PtNewItem, PtNewTask, PtNewComment } from '../shared/models/dto';
 import { PriorityEnum, StatusEnum } from '../core/models/domain/enums';
-import { getUserAvatarUrl } from '../core/helpers/user-avatar-helper';
 import { PresetType } from '../shared/models/ui/types';
 import { appStore } from '../core/app-store';
+import { ROUTES } from '../shared/routes';
 
 
 function getCurrentPreset(): PresetType {
@@ -52,11 +56,11 @@ export function fetchItems() {
 }
 
 function setUserAvatar(user: PtUser) {
-    user.avatar = getUserAvatarUrl(config.apiEndpoint, user.id);
+    user.avatar = userService.getUserAvatarUrl(config.apiEndpoint, user.id);
 }
 
 export function getCurrentUserAvatar() {
-    return getUserAvatarUrl(config.apiEndpoint, getCurrentUserId());
+    return userService.getUserAvatarUrl(config.apiEndpoint, getCurrentUserId());
 }
 
 export function addNewPtItem(newItem: PtNewItem, assignee: PtUser) {
@@ -164,17 +168,18 @@ export function updatePtTask(
         dateModified: new Date()
     };
 
-    const updatedTasks = currentItem.tasks.map(t => {
-        if (t.id === task.id) {
-            return taskToUpdate;
-        } else {
-            return t;
-        }
-    });
-
-    const updatedItem = Object.assign({}, currentItem, {
-        tasks: updatedTasks
-    });
+    /*
+     const updatedTasks = currentItem.tasks.map(t => {
+         if (t.id === task.id) {
+             return taskToUpdate;
+         } else {
+             return t;
+         }
+     });
+     const updatedItem = Object.assign({}, currentItem, {
+         tasks: updatedTasks
+     });
+     */
 
     backlogRepo.updatePtTask(
         taskToUpdate,
@@ -211,4 +216,13 @@ export function addNewPtComment(newComment: PtNewComment, currentItem: PtItem): 
             }
         );
     });
+}
+
+export function showModalNewItem<T>(
+    page: Page,
+): Promise<T> {
+    const context = {
+        btnOkText: 'Save'
+    };
+    return modalService.showModal<T>(page, ROUTES.newItemModal, true, context);
 }

@@ -1,6 +1,6 @@
-const fetchModule = require('fetch');
 const config = require('../config/app-config');
-const helpers = require('../shared/helpers');
+
+import * as errorService from '../services/error-handler.service';
 import { PtTask, PtItem, PtComment } from '../core/models/domain';
 import { PresetType } from '../shared/models/ui/types';
 
@@ -65,18 +65,14 @@ export function getPtItems(
     errorHandler: (error: any) => void,
     successHandler: (data: PtItem[]) => void
 ) {
-    fetchModule
-        .fetch(getFilteredBacklogUrl(currentPreset, currentUserId), {
-            method: 'GET'
+    fetch(getFilteredBacklogUrl(currentPreset, currentUserId), {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .catch(errorService.handleErrors);
 }
 
 export function getPtItem(
@@ -84,18 +80,14 @@ export function getPtItem(
     errorHandler: (error: any) => void,
     successHandler: (ptItem: PtItem) => void
 ) {
-    fetchModule
-        .fetch(getPtItemUrl(ptItemId), {
-            method: 'GET'
+    fetch(getPtItemUrl(ptItemId), {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .catch(errorService.handleErrors);
 }
 
 export function insertPtItem(
@@ -103,22 +95,18 @@ export function insertPtItem(
     errorHandler: (error: any) => void,
     successHandler: (nextItem: PtItem) => void
 ) {
-    fetchModule
-        .fetch(postPtItemUrl(), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ item: item })
+    fetch(postPtItemUrl(), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: item })
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .catch(errorService.handleErrors);
 }
 
 export function updatePtItem(
@@ -126,22 +114,18 @@ export function updatePtItem(
     errorHandler: (error: any) => void,
     successHandler: (updatedItem: PtItem) => void
 ) {
-    fetchModule
-        .fetch(putPtItemUrl(item.id), {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ item: item })
+    fetch(putPtItemUrl(item.id), {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ item: item })
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .catch(errorService.handleErrors);
 }
 
 export function deletePtItem(
@@ -149,18 +133,14 @@ export function deletePtItem(
     errorHandler: (error: any) => void,
     successHandler: () => void
 ) {
-    fetchModule
-        .fetch(deletePtItemUrl(itemId), {
-            method: 'DELETE'
+    fetch(deletePtItemUrl(itemId), {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler();
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler();
-            }
-        });
+        .catch(errorService.handleErrors);
 }
 
 export function insertPtTask(
@@ -169,21 +149,18 @@ export function insertPtTask(
     errorHandler: (error: any) => void,
     successHandler: (nextTask: PtTask) => void
 ) {
-    fetchModule.fetch(postPtTaskUrl(), {
+    fetch(postPtTaskUrl(), {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ task: task, itemId: ptItemId })
     })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
+        })
+        .catch(errorService.handleErrors);
 }
 
 export function updatePtTask(
@@ -192,21 +169,18 @@ export function updatePtTask(
     errorHandler: (error: any) => void,
     successHandler: (updatedTask: PtTask) => void
 ) {
-    fetchModule.fetch(putPtTaskUrl(task.id), {
+    fetch(putPtTaskUrl(task.id), {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({ task: task, itemId: ptItemId })
     })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
+        })
+        .catch(errorService.handleErrors);
 }
 
 export function insertPtComment(
@@ -215,25 +189,21 @@ export function insertPtComment(
     errorHandler: (error: any) => void,
     successHandler: (nextComment: PtComment) => void
 ) {
-    fetchModule
-        .fetch(postPtCommentUrl(), {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                comment: comment,
-                itemId: ptItemId
-            })
+    fetch(postPtCommentUrl(), {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            comment: comment,
+            itemId: ptItemId
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler(response);
-            }
-        });
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler(data);
+        })
+        .catch(errorService.handleErrors);
 }
 
 export function deletePtComment(
@@ -241,16 +211,12 @@ export function deletePtComment(
     errorHandler: (error: any) => void,
     successHandler: () => void
 ) {
-    fetchModule
-        .fetch(deletePtCommentUrl(ptCommentId), {
-            method: 'DELETE'
+    fetch(deletePtCommentUrl(ptCommentId), {
+        method: 'DELETE'
+    })
+        .then(response => response.json())
+        .then(data => {
+            successHandler();
         })
-        .then(helpers.handleErrors)
-        .then(response => {
-            if (response.error) {
-                errorHandler(response);
-            } else {
-                successHandler();
-            }
-        });
+        .catch(errorService.handleErrors);
 }

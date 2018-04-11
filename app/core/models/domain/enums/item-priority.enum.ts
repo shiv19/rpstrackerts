@@ -1,6 +1,6 @@
 import { Color } from 'tns-core-modules/color';
 
-import { EMPTY_STRING } from '../../../helpers/string-helpers';
+import { EMPTY_STRING } from '../constants/strings';
 
 export enum PriorityEnum {
     Low = 'Low',

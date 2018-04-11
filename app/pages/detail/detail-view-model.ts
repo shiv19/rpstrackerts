@@ -1,22 +1,26 @@
-import * as app from 'application';
-import * as appSettings from 'application-settings';
-import { Observable, PropertyChangeData } from 'data/observable';
+import { Observable } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
-import { Button } from 'ui/button';
 
-import { CustomPropertyEditor } from 'nativescript-ui-dataform';
+import { RadDataForm } from 'nativescript-ui-dataform';
 
 import * as backlogService from '../../services/backlog.service';
-import { CURRENT_USER_KEY } from '../../services/auth.service';
+import * as navService from '../../services/navigation.service';
 import { PtItem, PtUser } from '../../core/models/domain';
 import { PtItemType } from '../../core/models/domain/types';
 import { ItemType } from '../../core/constants/pt-item-types';
+import { PtNewTask, PtNewComment } from '../../shared/models/dto';
+import { DetailScreenType } from '../../shared/models/ui/types';
+import { ptItemToFormModel, PtItemDetailsEditFormModel } from '../../shared/models/forms';
+import { PtTaskModel } from '../../shared/models/ui/pt-item/pt-task.model';
+import { PtCommentModel } from '../../shared/models/ui/pt-item/pt-comment.model';
+import { EMPTY_STRING } from '../../core/models/domain/constants/strings';
 import {
     PT_ITEM_STATUSES,
     PT_ITEM_PRIORITIES,
-    COLOR_LIGHT,
-    COLOR_DARK
+    // COLOR_LIGHT,
+    // COLOR_DARK
 } from '../../core/constants';
+/*
 import {
     ButtonEditorHelper,
     setMultiLineEditorFontSize,
@@ -27,142 +31,98 @@ import {
     setSegmentedEditorColor,
     getPickerEditorValueText
 } from '../../shared/helpers/ui-data-form';
-import { ROUTES } from '../../shared/routes';
-import { EMPTY_STRING } from '../../core/helpers/string-helpers';
-import { PtNewTask, PtNewComment, PtTaskUpdate } from '../../shared/models/dto';
-import { ConfirmOptions, confirm } from 'tns-core-modules/ui/dialogs/dialogs';
-import { PtItemModel } from '../../shared/models/ui/pt-item/pt-item.model';
+*/
 require('../../shared/converters'); // register converters
 
 
 export class DetailViewModel extends Observable {
 
-    itemModel: PtItemModel;
-    selectedScreen = 'details';
-    currentUser: PtUser;
-    currentUserAvatar: string;
-    newTaskTitle = EMPTY_STRING;
-    newCommentText = EMPTY_STRING;
-    lastUpdatedTitle = EMPTY_STRING;
+    private _selectedTypeValue: PtItemType;
 
-    private itemTypeEditorBtnHelper: ButtonEditorHelper;
-    private itemTypeEditorViewConnected = false;
-    private itemTypeNativeView;
-    form;
-    formMetaData = {
-        isReadOnly: false,
-        commitMode: 'Immediate',
-        validationMode: 'Immediate',
-        propertyAnnotations: [
-            {
-                name: 'title',
-                displayName: 'Title',
-                index: 1
-            },
-            {
-                name: 'description',
-                displayName: 'Description',
-                index: 2
-            },
-            {
-                name: 'type',
-                displayName: 'Type',
-                index: 3,
-                editor: 'Picker',
-                valuesProvider: ItemType.List.map(t => t.PtItemType)
-            },
-            {
-                name: 'status',
-                displayName: 'Status',
-                index: 4,
-                editor: 'Picker',
-                valuesProvider: PT_ITEM_STATUSES
-            },
-            {
-                name: 'estimate',
-                displayName: 'Estimate',
-                index: 5,
-                editor: 'Stepper',
-                minimum: 1,
-                maximum: 10,
-                step: 1
-            },
-            {
-                name: 'priority',
-                displayName: 'Priority',
-                index: 6,
-                editor: 'SegmentedPicker',
-                valuesProvider: PT_ITEM_PRIORITIES
-            }
-        ]
-    };
+    public selectedScreen: DetailScreenType = 'details';
+    public itemTitle: string;
+    private selectedAssignee: PtUser;
+
+    /* details form */
+    public itemForm: PtItemDetailsEditFormModel = null;
+    public itemTypesProvider = ItemType.List.map((t) => t.PtItemType);
+    public statusesProvider = PT_ITEM_STATUSES;
+    public prioritiesProvider = PT_ITEM_PRIORITIES;
+    /* details form END */
+
+    /* tasks */
+    public newTaskTitle = EMPTY_STRING;
+    public tasks: ObservableArray<PtTaskModel>;
+    /* tasks END */
+
+    /* comments */
+    public currentUserAvatar: string;
+    public newCommentText = EMPTY_STRING;
+    public comments: ObservableArray<PtCommentModel>;
+    /* comments END */
 
 
-    constructor(private ptItem: PtItem) {
-        super();
-        // this.itemModel = item;
-        this.itemModel = new PtItemModel(ptItem);
-        this.form = {
-            title: ptItem.title,
-            description: ptItem.description,
-            type: ptItem.type,
-            status: ptItem.status,
-            estimate: ptItem.estimate,
-            priority: ptItem.priority,
-            assigneeName: ptItem.assignee.fullName
-        };
-
-
-        this.currentUser = JSON.parse(
-            appSettings.getString(CURRENT_USER_KEY, '{}')
-        );
-        this.currentUserAvatar = backlogService.getCurrentUserAvatar();
+    public get itemTypeImage() {
+        return ItemType.imageResFromType(this._selectedTypeValue);
     }
 
-    public onNavBackTap(args) {
-        args.object.page.frame.goBack();
+    public get itemTypeEditorDisplayName() {
+        return 'Type';
+    }
+
+    public getSelectedAssignee() {
+        return this.selectedAssignee ? this.selectedAssignee : this.ptItem.assignee;
+    }
+
+    public setSelectedAssignee(selectedAssignee: PtUser) {
+        if (selectedAssignee) {
+            this.set('selectedAssignee', selectedAssignee);
+            this.onPropertyCommitted();
+        }
+    }
+
+    constructor(
+        private ptItem: PtItem,
+        private itemDetailsDataForm: RadDataForm
+    ) {
+        super();
+        this.itemForm = ptItemToFormModel(ptItem);
+        this.itemDetailsDataForm = itemDetailsDataForm;
+        this.currentUserAvatar = backlogService.getCurrentUserAvatar();
+        this.itemTitle = ptItem.title;
+        this.selectedAssignee = ptItem.assignee;
+
+        this.tasks = new ObservableArray<PtTaskModel>(ptItem.tasks.map(task => new PtTaskModel(task, ptItem)));
+        this.comments = new ObservableArray<PtCommentModel>(ptItem.comments.map(comment => new PtCommentModel(comment)));
+    }
+
+    public onNavBackTap() {
+        navService.back();
     }
 
     public onTabDetailsTap(args) {
-        args.object.page.bindingContext.set('selectedScreen', 'details');
+        this.set('selectedScreen', 'details');
     }
 
     public onTabTasksTap(args) {
-        args.object.page.bindingContext.set('selectedScreen', 'tasks');
+        this.set('selectedScreen', 'tasks');
     }
 
     public onTabChitchatTap(args) {
-        args.object.page.bindingContext.set('selectedScreen', 'chitchat');
-    }
-
-    public onDeleteTap(args) {
-        const page = args.object.page;
-
-        // Better approach with promise
-        const options: ConfirmOptions = {
-            title: 'Delete Item',
-            message: 'Are you sure you want to delete this item?',
-            okButtonText: 'Yes',
-            cancelButtonText: 'Cancel'
-        };
-        // confirm with options, with promise
-        confirm(options).then((result: boolean) => {
-            // result can be true/false/undefined
-            if (result) {
-                backlogService.deletePtItem(this.ptItem)
-                    .then(() => {
-                        page.frame.goBack();
-                    })
-                    .catch(() => {
-                        console.log('some error occured');
-                        page.frame.goBack();
-                    });
-            }
-        });
+        this.set('selectedScreen', 'chitchat');
     }
 
     /* details START */
-
+    public deleteRequested() {
+        backlogService.deletePtItem(this.ptItem)
+            .then(() => {
+                navService.back();
+            })
+            .catch(() => {
+                console.log('some error occured');
+                navService.back();
+            });
+    }
     /* details END */
 
     /* tasks START */
@@ -179,7 +139,7 @@ export class DetailViewModel extends Observable {
 
         backlogService.addNewPtTask(newTask, this.ptItem)
             .then(addedTask => {
-                this.itemModel.addTaskToStart(addedTask, this.ptItem);
+                this.tasks.unshift(new PtTaskModel(addedTask, this.ptItem));
                 this.set('newTaskTitle', EMPTY_STRING);
             })
             .catch(error => {
@@ -202,39 +162,48 @@ export class DetailViewModel extends Observable {
         backlogService.addNewPtComment(newComment, this.ptItem)
             .then(addedComment => {
                 addedComment.user.avatar = this.currentUserAvatar;
-                this.itemModel.addCommentToStart(addedComment, this.ptItem);
+                this.comments.unshift(new PtCommentModel(addedComment));
                 this.set('newCommentText', EMPTY_STRING);
             })
             .catch(error => {
-                console.log('something went wrong when adding task');
+                console.log('something went wrong when adding comment');
             });
     }
     /* comments END */
 
-    onPropertyCommitted() {
-        this.itemModel.title = this.form.title;
-        this.itemModel.description = this.form.description;
-        this.itemModel.type = this.form.type;
-        this.itemModel.status = this.form.status;
-        this.itemModel.estimate = this.form.estimate;
-        this.itemModel.priority = this.form.priority;
-        backlogService.updatePtItem(this.ptItem);
+    public onPropertyCommitted() {
+        this.notifyUpdateItem();
     }
 
-    onAssigneeSelect(args) {
-        const page = args.object.page;
-        page.showModal(
-            ROUTES.assigneeSelectorModal,
-            {},
-            assignee => {
-                if (assignee) {
-                    this.itemModel.assignee = assignee;
-                    page.getViewById('assigneeBtn').text = assignee.fullName;
-                    page.getViewById('assigneeImg').src = assignee.avatar;
-                    this.onPropertyCommitted();
+    private notifyUpdateItem() {
+        this.itemDetailsDataForm.validateAll()
+            .then(ok => {
+                if (ok) {
+                    const updatedItem = this.getUpdatedItem(this.ptItem, this.itemForm, this.selectedAssignee);
+                    backlogService.updatePtItem(updatedItem);
                 }
-            },
-            true
-        );
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }
+
+    private getUpdatedItem(
+        origPtItem: PtItem,
+        itemForm: PtItemDetailsEditFormModel,
+        reselectedAssignee: PtUser
+    ): PtItem {
+        const updatedAssignee = reselectedAssignee ? reselectedAssignee : origPtItem.assignee;
+
+        const updatedItem = Object.assign({}, origPtItem, {
+            title: itemForm.title,
+            description: itemForm.description,
+            type: itemForm.typeStr,
+            status: itemForm.statusStr,
+            priority: itemForm.priorityStr,
+            estimate: itemForm.estimate,
+            assignee: updatedAssignee
+        });
+        return updatedItem;
     }
 }

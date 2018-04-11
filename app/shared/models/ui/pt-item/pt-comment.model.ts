@@ -1,10 +1,6 @@
-import { Observable, EventData } from 'data/observable';
-import { TextField } from 'ui/text-field';
+import { Observable } from 'data/observable';
 
-import * as backlogService from '../../../../services/backlog.service';
-import { PtItem, PtComment, PtUser } from '../../../../core/models/domain';
-import { EMPTY_STRING } from '../../../../core/helpers/string-helpers';
-
+import { PtComment, PtUser } from '../../../../core/models/domain';
 
 export class PtCommentModel extends Observable implements PtComment {
     public id: number;
@@ -14,9 +10,7 @@ export class PtCommentModel extends Observable implements PtComment {
     public dateDeleted?: Date;
     public user: PtUser;
 
-    private lastUpdatedTitle = EMPTY_STRING;
-
-    constructor(ptComment: PtComment, private ptItem: PtItem) {
+    constructor(ptComment: PtComment) {
         super();
         this.id = ptComment.id;
         this.title = ptComment.title;

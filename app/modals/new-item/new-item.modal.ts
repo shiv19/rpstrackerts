@@ -2,7 +2,6 @@ import * as observableModule from 'data/observable';
 import { isIOS } from 'platform';
 
 import { ItemType } from '../../core/constants/pt-item-types';
-import { PtItemType } from '../../core/models/domain/types';
 import { getCurrentPage } from '../../services/navigation.service';
 
 // let selectedTypeValue;

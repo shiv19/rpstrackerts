@@ -4,7 +4,8 @@ export const ROUTES = {
     backlogPage: './pages/backlog/backlog-page',
     detailPage: './pages/detail/detail-page',
     settingsPage: './pages/settings/settings-page',
-    assigneeSelectorModal:
-        './modals/assignee-selector-modal/assignee-selector-modal',
-    newItemModal: './modals/new-item-modal/new-item-modal'
+
+    newItemModal: './modals/new-item/new-item.modal',
+    textInputModal: './modals/text-input/text-input.modal',
+    listSelectorModal: './modals/list-selector/list-selector.modal',
 };

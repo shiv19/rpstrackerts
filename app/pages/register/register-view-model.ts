@@ -2,10 +2,10 @@ import { Observable, PropertyChangeData, EventData } from 'data/observable';
 
 import * as emailValidator from 'email-validator';
 
-import { register } from '../../services/auth.service';
-import { goToBacklogPage, goToLoginPage } from '../../services/navigation.service';
+import * as authService from '../../services/auth.service';
+import * as navService from '../../services/navigation.service';
 import { PtRegisterModel } from '../../core/models/domain';
-import { EMPTY_STRING } from '../../core/helpers/string-helpers';
+import { EMPTY_STRING } from '../../core/models/domain/constants/strings';
 
 
 export class RegisterViewModel extends Observable {
@@ -35,9 +35,9 @@ export class RegisterViewModel extends Observable {
             fullName: this.fullName
         };
 
-        register(registerModel)
+        authService.register(registerModel)
             .then(() => {
-                goToBacklogPage(true);
+                navService.goToBacklogPage(true);
             })
             .catch(error => {
                 console.error(error);
@@ -45,7 +45,7 @@ export class RegisterViewModel extends Observable {
     }
 
     public onGotoLoginTap(args: any) {
-        goToLoginPage(false);
+        navService.goToLoginPage(false);
     }
 
     private validate(changedPropName: string) {

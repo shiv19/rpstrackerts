@@ -3,9 +3,8 @@ import { TextField } from 'ui/text-field';
 
 import * as backlogService from '../../../../services/backlog.service';
 import { PtTask, PtItem } from '../../../../core/models/domain';
-import { EMPTY_STRING } from '../../../../core/helpers/string-helpers';
 import { PtTaskUpdate } from '../../dto';
-
+import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
 
 export class PtTaskModel extends Observable implements PtTask {
     public id: number;

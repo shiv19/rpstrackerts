@@ -1,16 +1,14 @@
-const fetchModule = require('fetch');
-
+const config = require('../config/app-config');
 import * as storageService from './storage.service';
 import * as authTokenService from './auth-token.service';
-const config = require('../config/app-config');
-const h = require('../shared/helpers');
+import * as userService from './pt-user.service';
+import * as errorService from './error-handler.service';
 
 import { PtUser, PtLoginModel, PtAuthToken, PtRegisterModel } from '../core/models/domain';
 import { goToLoginPage } from './navigation.service';
-import { getUserAvatarUrl } from '../core/helpers/user-avatar-helper';
 import { appStore } from '../core/app-store';
-import { Observable } from 'rxjs/Observable';
-import { EMPTY_STRING } from '../core/helpers/string-helpers';
+import { EMPTY_STRING } from '../core/models/domain/constants/strings';
+
 
 export const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 
@@ -30,7 +28,7 @@ export function getCurrentUser(): PtUser {
 }
 
 function setCurrentUser(ptUser: any) {
-    ptUser.avatar = getUserAvatarUrl(config.apiEndpoint, ptUser.id);
+    ptUser.avatar = userService.getUserAvatarUrl(config.apiEndpoint, ptUser.id);
     storageService.setItem<PtUser>(CURRENT_USER_KEY, ptUser);
     appStore.set('currentUser', ptUser);
 }
@@ -59,7 +57,7 @@ export function login(loginModel: PtLoginModel): Promise<PtUser> {
                 setCurrentUser(data.user);
                 resolve(getCurrentUser());
             })
-            .catch(h.handleErrors);
+            .catch(errorService.handleErrors);
     });
 }
 
@@ -80,7 +78,7 @@ export function register(registerModel: PtRegisterModel): Promise<PtUser> {
                 setCurrentUser(data.user);
                 resolve(getCurrentUser());
             })
-            .catch(h.handleErrors);
+            .catch(errorService.handleErrors);
     });
 }
 

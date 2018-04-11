@@ -17,6 +17,13 @@
     margin-right: 10;
 }
 
+.assignee-row {
+    margin-left: 10; 
+    border-bottom-width: 1;
+    border-bottom-color: #d9d9d9;
+    height: 50;
+}
+
 .selector {
     align-items: stretch;
     justify-content: space-around;

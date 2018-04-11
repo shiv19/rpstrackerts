@@ -4,14 +4,14 @@
     <GridLayout rows="60, *" verticalAlignment="top">
 
         <FlexboxLayout row="0" class="modal-actions-container">
-            <Image src="res://iconcloseblack" tap="onCancelButtonTap" class="modal-close-img"></Image>
+            <Image src="res://iconcloseblack" tap="{{ onCancelButtonTap }}" class="modal-close-img"></Image>
         </FlexboxLayout>
 
-        <ListView id="listView" row="1" itemTap="onItemSelected" class="list-modal-list">
+        <ListView id="listView" row="1" items="{{ items }}" itemTap="{{ onItemSelected }}" class="list-modal-list">
             <ListView.itemTemplate>
                 <StackLayout orientation="horizontal" class="list-modal-item-wrapper">
-                    <Image width="50" height="50" src="{{ avatar }}"></Image>
-                    <Label text="{{ fullName }}" class="list-modal-label"></Label>
+                    <Image width="50" height="50" src="{{ image }}"></Image>
+                    <Label text="{{ value }}" class="list-modal-label"></Label>
                 </StackLayout>
             </ListView.itemTemplate>
         </ListView>

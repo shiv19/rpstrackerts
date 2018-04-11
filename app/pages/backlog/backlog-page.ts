@@ -1,10 +1,10 @@
-import { NavigatedData, Page, EventData, backgroundColorProperty } from 'ui/page';
+import { NavigatedData, Page, EventData } from 'ui/page';
 import { Button } from 'ui/button';
 
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
 
+import * as backlogService from '../../services/backlog.service';
 import { BacklogViewModel } from './backlog-view-model';
-import { showModalNewItem } from '../../services/modal.service';
 import { PtItem } from '../../core/models/domain';
 
 const backLogVm: BacklogViewModel = new BacklogViewModel();
@@ -26,9 +26,10 @@ export function toggleDrawer() {
     drawer.toggleDrawerState();
 }
 
+
 export function onAddTap(args: EventData) {
     const button = <Button>args.object;
-    showModalNewItem(button.page)
+    backlogService.showModalNewItem(button.page)
         .then((newItem: PtItem) => backLogVm.addNewItemHandler(newItem));
 }
 

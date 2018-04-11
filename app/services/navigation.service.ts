@@ -2,7 +2,6 @@ import { topmost, NavigationEntry, Frame } from 'ui/frame';
 
 import { ROUTES } from '../shared/routes';
 
-
 export function getCurrentPage() {
     const currentPage = topmost().currentPage;
     return currentPage;

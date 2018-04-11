@@ -1,11 +1,11 @@
-import { Observable, PropertyChangeData, EventData } from 'data/observable';
+import { Observable, EventData } from 'data/observable';
 import { ObservableArray } from 'data/observable-array';
 import { ItemEventData } from 'ui/list-view';
 
 import * as authService from '../../services/auth.service';
 import * as backlogService from '../../services/backlog.service';
 import * as navService from '../../services/navigation.service';
-import { PtItem, PtUser } from '../../core/models/domain';
+import { PtItem } from '../../core/models/domain';
 require('../../shared/converters'); // register converters
 
 

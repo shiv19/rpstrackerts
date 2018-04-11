@@ -1,5 +1,5 @@
-import { PtItemType } from '../../core/models/domain/types';
-import { EMPTY_STRING } from '../../core/helpers/string-helpers';
+import { PtItemType } from '../models/domain/types';
+import { EMPTY_STRING } from '../models/domain/constants/strings';
 
 const PT_ITEM_TYPE_PBI: PtItemType = 'PBI';
 const PT_ITEM_TYPE_BUG: PtItemType = 'Bug';

@@ -6,7 +6,7 @@
     <ActionBar title="Item">
         <NavigationButton text="Back" android.systemIcon="ic_menu_back" tap="{{ onNavBackTap }}"></NavigationButton>
 
-        <ActionItem tap="{{ onDeleteTap }}" ios.systemIcon="16" ios.position="right" text="delete" android.systemIcon="ic_menu_delete"
+        <ActionItem tap="onDeleteTap" ios.systemIcon="16" ios.position="right" text="delete" android.systemIcon="ic_menu_delete"
             android.position="actionBar"></ActionItem>
     </ActionBar>
 
@@ -14,9 +14,9 @@
 
         <GridLayout class="pt-item-detail-header" rows="*, 40">
 
-            <GridLayout row="0" columns="auto, *" class="pt-item-detail-header-title-row">
-                <Image id="assigneeImg" width="50" height="50" class="pt-item-detail-avatar" src="{{ itemModel.assignee.avatar }}" col="0" />
-                <Label text="{{ itemModel.title }}" class="pt-item-detail-header-title" col="1"></Label>
+            <GridLayout row="0" columns="*" class="pt-item-detail-header-title-row">
+                
+                <Label text="{{ itemTitle }}" class="pt-item-detail-header-title" col="0"></Label>
             </GridLayout>
 
             <StackLayout row="1">
@@ -42,12 +42,87 @@
             <GridLayout visibility="{{ selectedScreen === 'details' ? 'visible' : 'collapsed' }}"
                 rows="auto, auto" class="pt-item-details-container">
 
-                <df:RadDataForm row="0" source="{{ form }}" metadata="{{ formMetaData }}" propertyCommitted="{{ onPropertyCommitted }}" />
-                <StackLayout row="1">
-                    <Label text="Assignee" fontSize="12" paddingLeft="18" color="#808080" />
-                    <Button id="assigneeBtn" class="btn btn-primary" backgroundColor="lightgray"
-                        text="{{ itemModel.assignee.fullName }}" tap="{{ onAssigneeSelect }}" />
-                </StackLayout>
+                <GridLayout row="0" columns="*, *, auto" class="assignee-row" tap="onAssigneeRowTap">
+                    <Label text="Assignee" color="#4b5833" col="0" />
+                    <Label text="{{ selectedAssignee.fullName }}"  col="1" />
+                    <Image id="assigneeImg" width="40" height="40" class="pt-item-detail-avatar" src="{{ selectedAssignee.avatar }}" col="2" />
+                </GridLayout>
+
+                <df:RadDataForm id="itemDetailsDataForm" row="1" source="{{ itemForm }}" propertyCommitted="{{ onPropertyCommitted }}">
+                    <df:RadDataForm.properties>
+                    <df:EntityProperty  name="title" displayName="Title" index="1" hintText="Title">
+                    <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="Text">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833" labelPosition="top"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                        <df:EntityProperty.validators>
+                        <df:NonEmptyValidator  errorMessage="Title can't be empty."></df:NonEmptyValidator>
+                        </df:EntityProperty.validators>
+                    </df:EntityProperty>
+
+                    <df:EntityProperty  name="description" displayName="Description" index="2" required="true" hintText="description">
+                    <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="MultilineText">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833" labelPosition="top"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                    </df:EntityProperty>
+
+                    <df:EntityProperty  name="typeStr" displayName="{{ itemTypeEditorDisplayName }}" index="3" imageResource="{{ itemTypeImage }}"
+                        valuesProvider="{{ itemTypesProvider }}">
+                        <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="Picker">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                    </df:EntityProperty>
+
+                    <df:EntityProperty  name="statusStr" displayName="Status" index="4" valuesProvider="{{ statusesProvider }}">
+                    <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="Picker">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                    </df:EntityProperty>
+
+                    <df:EntityProperty  name="estimate" displayName="Estimate" index="5">
+                    <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="Stepper">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                    </df:EntityProperty>
+
+
+                    <df:EntityProperty  name="priorityStr" displayName="Priority" index="6" valuesProvider="{{ prioritiesProvider }}">
+                    <df:EntityProperty.editor>
+                        <df:PropertyEditor  type="SegmentedEditor">
+                        <df:PropertyEditor.propertyEditorStyle>
+                            <df:PropertyEditorStyle  labelTextColor="#4b5833" labelPosition="top"></df:PropertyEditorStyle>
+                            </df:PropertyEditor.propertyEditorStyle>
+                        </df:PropertyEditor>
+                        </df:EntityProperty.editor>
+                    </df:EntityProperty>
+
+
+                    <df:EntityProperty  name="assigneeName" hidden="true">
+                    </df:EntityProperty>
+
+                    </df:RadDataForm.properties>
+                </df:RadDataForm>
+
+
 
             </GridLayout>
 
@@ -63,7 +138,7 @@
 
                 <ScrollView row="1" class="pt-tasks-scroll">
                     <StackLayout class="pt-tasks-list-container">
-                        <Repeater id="tasksList" items="{{ itemModel.tasks }}">
+                        <Repeater id="tasksList" items="{{ tasks }}">
                             <Repeater.itemTemplate>
                                 <GridLayout columns="30, *" class="pt-task-wrapper">
                                     <Image tap="{{ $parents.onTaskToggleTap }}" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
@@ -93,7 +168,7 @@
 
                 <ScrollView row="1" class="pt-comments-scroll">
                     <StackLayout class="pt-comments-list-container">
-                        <Repeater id="commentsList" items="{{ itemModel.comments }}">
+                        <Repeater id="commentsList" items="{{ comments }}">
                             <Repeater.itemTemplate>
                                 <GridLayout columns="40, *" class="pt-comment-wrapper">
                                     <Image src="{{ user.avatar }}" width="40" height="40" stretch="aspectFit" class="img-comment-avatar" col="0" />
