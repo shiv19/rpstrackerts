@@ -9,7 +9,6 @@ export function ptUserToModalListDisplayItem(u: PtUser): PtModalListDisplayItem<
             key: u.id.toString(),
             value: u.fullName,
             img: u.avatar,
-            isSelected: false,
             payload: u
         };
         return di;

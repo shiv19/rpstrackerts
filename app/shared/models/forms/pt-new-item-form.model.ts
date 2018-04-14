@@ -1,4 +1,4 @@
-import { EMPTY_STRING } from '../../../core/helpers/string-helpers';
+import { EMPTY_STRING } from '../../../core/models/domain/constants/strings';
 
 export interface PtNewItemForm {
     title: string;

@@ -2,7 +2,6 @@ import { topmost, NavigationEntry, Frame } from 'ui/frame';
 
 import { ROUTES } from '../shared/routes';
 
-
 export function getCurrentPage() {
     const currentPage = topmost().currentPage;
     return currentPage;
@@ -21,10 +20,11 @@ export function back() {
     topmost().goBack();
 }
 
-export function goToLoginPage() {
+export function goToLoginPage(animated?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.loginPage,
-        clearHistory: true
+        clearHistory: true,
+        animated: animated
     };
     navigate(navEntry);
 }
@@ -32,7 +32,8 @@ export function goToLoginPage() {
 export function goToRegisterPage(clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.registerPage,
-        clearHistory: clearHistory
+        clearHistory: clearHistory,
+        animated: false
     };
     navigate(navEntry);
 }
@@ -45,10 +46,19 @@ export function goToBacklogPage(clearHistory?: boolean) {
     navigate(navEntry);
 }
 
-export function goToDetailPage(clearHistory?: boolean) {
+export function goToDetailPage(context: any, clearHistory?: boolean) {
     const navEntry: NavigationEntry = {
         moduleName: ROUTES.detailPage,
-        clearHistory: clearHistory
+        clearHistory: clearHistory,
+        context: context
+    };
+    navigate(navEntry);
+}
+
+
+export function goToSettingsPage() {
+    const navEntry: NavigationEntry = {
+        moduleName: ROUTES.settingsPage
     };
     navigate(navEntry);
 }
