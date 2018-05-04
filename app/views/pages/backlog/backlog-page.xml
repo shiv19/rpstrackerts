@@ -33,7 +33,7 @@
                     </StackLayout>
                     
                     <StackLayout row="2" class="menu-container">
-                        <Button tap="{{ onLogoutTap }}" text="LOGOUT" />
+                        <Button tap="{{ onLogoutTap }}" text="LOGOUT" class="btn-inverse" />
                     </StackLayout>
                 </GridLayout>
             </StackLayout>
