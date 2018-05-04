@@ -5,11 +5,11 @@
   "repository": "<fill-your-repository-here>",
   "nativescript": {
     "id": "org.nativescript.rpstrackernsts",
-    "tns-android": {
-      "version": "3.4.1"
-    },
     "tns-ios": {
-      "version": "3.4.1"
+      "version": "4.0.1"
+    },
+    "tns-android": {
+      "version": "4.0.1"
     }
   },
   "scripts": {
@@ -17,23 +17,22 @@
   },
   "dependencies": {
     "email-validator": "^1.1.1",
-    "lodash": "^4.17.4",
     "moment": "^2.20.1",
     "nativescript-localize": "^2.2.1",
     "nativescript-pulltorefresh": "^2.0.3",
     "nativescript-theme-core": "1.0.4",
-    "nativescript-ui-dataform": "3.5.2",
-    "nativescript-ui-sidedrawer": "3.5.2",
+    "nativescript-ui-dataform": "3.6.0",
+    "nativescript-ui-sidedrawer": "4.1.0",
     "rxjs": "5.5.6",
-    "tns-core-modules": "3.4.0"
+    "tns-core-modules": "4.0.0"
   },
   "devDependencies": {
     "babel-traverse": "6.26.0",
     "babel-types": "6.26.0",
     "babylon": "6.18.0",
     "lazy": "1.0.11",
-    "nativescript-dev-typescript": "0.5.1",
-    "tns-platform-declarations": "^3.3.0",
+    "nativescript-dev-typescript": "0.7.1",
+    "tns-platform-declarations": "4.0.0",
     "tslint": "^5.8.0",
     "typescript": "2.7.2"
   }
