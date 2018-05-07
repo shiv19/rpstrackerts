@@ -1,26 +1,26 @@
 import * as app from 'application';
-import { NavigationEntry } from 'ui/frame';
-
 import * as localize from 'nativescript-localize';
-
-import * as authService from './services/auth.service';
-import { ROUTES } from './shared/routes';
+import { NavigationEntry } from 'ui/frame';
+import { ROUTES } from '~/core/routes';
+import { getAuthService } from '~/globals/dependencies/locator';
 import './bundle-config';
+import './globals/dependencies/startup';
 import './rxjs-imports';
 
+const authService = getAuthService();
 app.setResources({ L: localize });
 
 if (authService.isLoggedIn()) {
-    const navEntryLoggedIn: NavigationEntry = {
-        moduleName: ROUTES.backlogPage,
-    };
-    app.start(navEntryLoggedIn);
+  const navEntryLoggedIn: NavigationEntry = {
+    moduleName: ROUTES.backlogPage
+  };
+  app.start(navEntryLoggedIn);
 } else {
-    const navEntryAnon: NavigationEntry = {
-        moduleName: ROUTES.loginPage,
-        backstackVisible: false
-    };
-    app.start(navEntryAnon);
+  const navEntryAnon: NavigationEntry = {
+    moduleName: ROUTES.loginPage,
+    backstackVisible: false
+  };
+  app.start(navEntryAnon);
 }
 
 /*

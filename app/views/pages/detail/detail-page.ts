@@ -3,7 +3,6 @@ import { ConfirmOptions, confirm } from 'ui/dialogs';
 
 import { RadDataForm, DataFormEventData } from 'nativescript-ui-dataform';
 
-import * as userService from '../../../services/pt-user.service';
 import { PtItemType } from '../../../core/models/domain/types';
 import { PriorityEnum } from '../../../core/models/domain/enums';
 import { DetailViewModel } from '../../../shared/view-models/pages/detail/detail.page.vm';
@@ -19,6 +18,7 @@ import {
 } from '../../../shared/helpers/ui-data-form';
 
 import '../../../shared/converters';
+import { showModalAssigneeList } from '../../../shared/helpers/modals';
 
 let detailsVm: DetailViewModel;
 
@@ -51,13 +51,13 @@ export function onDeleteTap() {
 export function onAssigneeRowTap(args: EventData) {
   const view = <View>args.object;
 
-  userService
-    .showModalAssigneeList(view.page, detailsVm.getSelectedAssignee())
-    .then(selectedAssignee => {
+  showModalAssigneeList(view.page, detailsVm.getSelectedAssignee()).then(
+    selectedAssignee => {
       if (selectedAssignee) {
         detailsVm.setSelectedAssignee(selectedAssignee);
       }
-    });
+    }
+  );
 }
 
 export function onEditorUpdate(args: DataFormEventData) {
