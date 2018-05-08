@@ -21,6 +21,7 @@ export function onRegisterTap() {
     })
     .catch(error => {
       console.error(error);
+      alert('Sorry, could not register you at this time');
     });
 }
 

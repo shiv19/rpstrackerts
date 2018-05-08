@@ -1,7 +1,7 @@
 import { PtBacklogRepository } from '~/core/contracts/repositories';
 import { PtComment, PtItem, PtTask } from '~/core/models/domain';
 import { PresetType } from '~/core/models/types';
-import * as errorService from '~/core/services/error-handler.service';
+import { handleFetchErrors } from '~/infrastructure/fetch-error-handler';
 
 export class BacklogRepository implements PtBacklogRepository {
   constructor(public apiEndpoint: string) {}
@@ -67,12 +67,11 @@ export class BacklogRepository implements PtBacklogRepository {
     fetch(this.getFilteredBacklogUrl(currentPreset, currentUserId), {
       method: 'GET'
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -89,12 +88,11 @@ export class BacklogRepository implements PtBacklogRepository {
       },
       body: JSON.stringify({ item: item })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -107,12 +105,11 @@ export class BacklogRepository implements PtBacklogRepository {
     fetch(this.getPtItemUrl(ptItemId), {
       method: 'GET'
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -129,12 +126,11 @@ export class BacklogRepository implements PtBacklogRepository {
       },
       body: JSON.stringify({ item: item })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -147,12 +143,11 @@ export class BacklogRepository implements PtBacklogRepository {
     fetch(this.deletePtItemUrl(itemId), {
       method: 'DELETE'
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler();
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -170,12 +165,11 @@ export class BacklogRepository implements PtBacklogRepository {
       },
       body: JSON.stringify({ task: task, itemId: ptItemId })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -193,12 +187,11 @@ export class BacklogRepository implements PtBacklogRepository {
       },
       body: JSON.stringify({ task: task, itemId: ptItemId })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -219,12 +212,11 @@ export class BacklogRepository implements PtBacklogRepository {
         itemId: ptItemId
       })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -237,12 +229,11 @@ export class BacklogRepository implements PtBacklogRepository {
     fetch(this.deletePtCommentUrl(ptCommentId), {
       method: 'DELETE'
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler();
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }

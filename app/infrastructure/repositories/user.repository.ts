@@ -1,6 +1,6 @@
 import { PtUserRepository } from '~/core/contracts/repositories';
 import { PtUser } from '~/core/models/domain';
-import * as errorService from '~/core/services/error-handler.service';
+import { handleFetchErrors } from '~/infrastructure/fetch-error-handler';
 
 export class UserRepository implements PtUserRepository {
   constructor(public apiEndpoint: string) {}
@@ -16,12 +16,11 @@ export class UserRepository implements PtUserRepository {
     fetch(this.getUsersUrl(), {
       method: 'GET'
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then(data => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }

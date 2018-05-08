@@ -7,6 +7,7 @@ import { PtAuthService } from '~/core/contracts/services';
 import { PtLoginModel } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { getAuthService } from '~/globals/dependencies/locator';
+import { ObservableProperty } from '~/shared/observable-property-decorator';
 
 export class LoginViewModel extends Observable {
   private authService: PtAuthService;
@@ -16,7 +17,7 @@ export class LoginViewModel extends Observable {
   public password = 'nuvious';
   public passwordEmpty = false;
   public formValid = true;
-  public loggedIn = false;
+  @ObservableProperty() public loggingIn = false;
 
   constructor() {
     super();
@@ -36,7 +37,20 @@ export class LoginViewModel extends Observable {
       password: this.password
     };
 
-    return this.authService.login(loginModel);
+    this.loggingIn = true;
+
+    return new Promise((resolve, reject) => {
+      this.authService
+        .login(loginModel)
+        .then(() => {
+          this.loggingIn = false;
+          resolve();
+        })
+        .catch(er => {
+          this.loggingIn = false;
+          reject(er);
+        });
+    });
   }
 
   private validate(changedPropName: string) {

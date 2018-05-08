@@ -65,13 +65,17 @@ export class AuthService implements PtAuthService {
       this.authRepo.login(
         loginModel,
         error => {
-          this.loggingService.error('Login failed');
+          this.loggingService.error('Login failed.');
           reject(error);
         },
         (data: { authToken: PtAuthToken; user: PtUser }) => {
           this.setToken(data.authToken);
           this.setCurrentUser(data.user);
-          resolve(this.getCurrentUser());
+
+          // Simulate waiting
+          setTimeout(() => {
+            resolve(this.getCurrentUser());
+          }, 1000);
         }
       );
     });

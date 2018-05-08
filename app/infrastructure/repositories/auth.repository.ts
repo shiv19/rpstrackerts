@@ -5,7 +5,7 @@ import {
   PtRegisterModel,
   PtUser
 } from '~/core/models/domain';
-import * as errorService from '~/core/services/error-handler.service';
+import { handleFetchErrors } from '~/infrastructure/fetch-error-handler';
 
 export const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 
@@ -34,12 +34,11 @@ export class AuthRepository implements PtAuthRepository {
         grant_type: 'password'
       })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then((data: { authToken: PtAuthToken; user: PtUser }) => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
@@ -58,12 +57,11 @@ export class AuthRepository implements PtAuthRepository {
         registerModel: registerModel
       })
     })
-      .then(response => response.json())
+      .then(handleFetchErrors)
       .then((data: { authToken: PtAuthToken; user: PtUser }) => {
         successHandler(data);
       })
       .catch(er => {
-        errorService.handleErrors(er);
         errorHandler(er);
       });
   }
