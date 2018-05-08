@@ -1,6 +1,5 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { ItemEventData } from 'tns-core-modules/ui/list-view';
 import { appConfig } from '~/config/app-config';
 import {
   toCreateItemRequest,
@@ -18,10 +17,6 @@ import {
   getAuthService,
   getBacklogService
 } from '~/globals/dependencies/locator';
-import {
-  goToDetailPage,
-  goToLoginPage
-} from '~/shared/helpers/navigation/nav.helper';
 
 const config = <AppConfig>appConfig;
 
@@ -42,18 +37,14 @@ export class BacklogViewModel extends Observable {
     this.refresh();
   }
 
-  public onListItemTap(args: ItemEventData) {
-    goToDetailPage(args.view.bindingContext);
-  }
-
   public addNewItemHandler(newItem: PtItem) {
     if (newItem) {
       this.addItem(newItem, this.authService.getCurrentUser());
     }
   }
 
-  public onLogoutTap(args) {
-    this.authService.logout().then(() => goToLoginPage());
+  public onLogoutTapHandler() {
+    return this.authService.logout();
   }
 
   public refresh() {

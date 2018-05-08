@@ -1,11 +1,15 @@
-import { NavigatedData, Page, EventData } from 'ui/page';
-import { Button } from 'ui/button';
-
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
-import { PtItem } from '../../../core/models/domain';
-import { BacklogViewModel } from '../../../shared/view-models/pages/backlog/backlog.page.vm';
-import '../../../shared/converters';
+import { ItemEventData } from 'tns-core-modules/ui/list-view';
+import { Button } from 'ui/button';
+import { EventData, NavigatedData, Page } from 'ui/page';
 import { showModalNewItem } from '~/shared/helpers/modals';
+import {
+  goToDetailPage,
+  goToLoginPage
+} from '~/shared/helpers/navigation/nav.helper';
+import { PtItem } from '../../../core/models/domain';
+import '../../../shared/converters';
+import { BacklogViewModel } from '../../../shared/view-models/pages/backlog/backlog.page.vm';
 
 const backLogVm: BacklogViewModel = new BacklogViewModel();
 let drawer: RadSideDrawer = null;
@@ -25,6 +29,10 @@ export function toggleDrawer() {
   drawer.toggleDrawerState();
 }
 
+export function onListItemTap(args: ItemEventData) {
+  goToDetailPage(args.view.bindingContext);
+}
+
 export function onAddTap(args: EventData) {
   const button = <Button>args.object;
 
@@ -38,4 +46,8 @@ export function onRefreshRequested(args) {
   const pullToRefresh = args.object;
   backLogVm.refresh();
   pullToRefresh.refreshing = false;
+}
+
+export function onLogoutTap() {
+  backLogVm.onLogoutTapHandler().then(() => goToLoginPage());
 }

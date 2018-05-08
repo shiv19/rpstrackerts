@@ -1,6 +1,5 @@
-import { Observable } from 'data/observable';
-import { ShownModallyData } from 'ui/page';
-import { PtModalContext } from '../../../../shared/helpers/modals';
+import { Observable } from 'tns-core-modules/data/observable';
+import { PtModalContext } from '~/shared/helpers/modals';
 
 export class TextInputModalViewModel extends Observable {
   protected modalContext: PtModalContext<string, string>;
@@ -10,11 +9,11 @@ export class TextInputModalViewModel extends Observable {
   public theText: string;
   public okText: string;
 
-  constructor(private modalData: ShownModallyData) {
+  constructor(ctx: PtModalContext<string, string>, callback: Function) {
     super();
 
-    this.modalContext = <PtModalContext<string, string>>this.modalData.context;
-    this.closeCallback = this.modalData.closeCallback;
+    this.modalContext = ctx;
+    this.closeCallback = callback;
 
     this.modalTitle = this.modalContext.title;
     this.theText = this.modalContext.payload;

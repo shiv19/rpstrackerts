@@ -1,6 +1,5 @@
 import * as emailValidator from 'email-validator';
 import {
-  EventData,
   Observable,
   PropertyChangeData
 } from 'tns-core-modules/data/observable';
@@ -8,10 +7,6 @@ import { PtAuthService } from '~/core/contracts/services';
 import { PtRegisterModel } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { getAuthService } from '~/globals/dependencies/locator';
-import {
-  goToBacklogPage,
-  goToLoginPage
-} from '~/shared/helpers/navigation/nav.helper';
 
 export class RegisterViewModel extends Observable {
   private authService: PtAuthService;
@@ -37,25 +32,14 @@ export class RegisterViewModel extends Observable {
     );
   }
 
-  public onRegisterTap(args: EventData) {
+  public onRegisterTapHandler() {
     const registerModel: PtRegisterModel = {
       username: this.email,
       password: this.password,
       fullName: this.fullName
     };
 
-    this.authService
-      .register(registerModel)
-      .then(() => {
-        goToBacklogPage(true);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
-
-  public onGotoLoginTap(args: any) {
-    goToLoginPage(false);
+    return this.authService.register(registerModel);
   }
 
   private validate(changedPropName: string) {

@@ -1,15 +1,8 @@
-import { Observable } from 'data/observable';
-import { ShownModallyData } from 'ui/page';
-
-import { RadDataForm } from 'nativescript-ui-dataform';
-
-import { ItemType } from '../../../../core/constants';
-import { PtItemType } from '../../../../core/models/domain/types';
-import {
-  PtNewItemForm,
-  initializeNewItemForm
-} from '../../../../core/models/forms';
-import { PtNewItem } from '../../../../core/models/dto/backlog';
+import { Observable } from 'tns-core-modules/data/observable';
+import { ItemType } from '~/core/constants';
+import { PtItemType } from '~/core/models/domain/types';
+import { PtNewItem } from '~/core/models/dto/backlog';
+import { PtNewItemForm, initializeNewItemForm } from '~/core/models/forms';
 
 export class NewItemModalViewModel extends Observable {
   protected closeCallback: Function;
@@ -20,13 +13,10 @@ export class NewItemModalViewModel extends Observable {
   public btnOkText = 'Save';
   public itemTypeImage;
 
-  constructor(
-    private modalData: ShownModallyData,
-    private itemDetailsDataForm: RadDataForm
-  ) {
+  constructor(callback: Function) {
     super();
 
-    this.closeCallback = this.modalData.closeCallback;
+    this.closeCallback = callback;
     this.newItemForm = initializeNewItemForm();
   }
 
@@ -38,21 +28,17 @@ export class NewItemModalViewModel extends Observable {
     );
   }
 
-  public onOkButtonTap() {
-    this.itemDetailsDataForm.validateAndCommitAll().then(ok => {
-      if (ok) {
-        const newItem: PtNewItem = {
-          title: this.newItemForm.title,
-          description: this.newItemForm.description,
-          type: <PtItemType>this.newItemForm.typeStr
-        };
+  public onOkButtonTapHandler() {
+    const newItem: PtNewItem = {
+      title: this.newItemForm.title,
+      description: this.newItemForm.description,
+      type: <PtItemType>this.newItemForm.typeStr
+    };
 
-        this.closeCallback(newItem);
-      }
-    });
+    this.closeCallback(newItem);
   }
 
-  public onCancelButtonTap(): void {
+  public onCancelButtonTapHandler(): void {
     this.closeCallback(null);
   }
 }

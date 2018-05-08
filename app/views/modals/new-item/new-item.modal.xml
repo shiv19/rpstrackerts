@@ -4,8 +4,8 @@
         xmlns:df="nativescript-ui-dataform">
 
         <FlexboxLayout row="0" class="new-item-actions-container">
-            <Image src="res://iconcloseblack" tap="{{ onCancelButtonTap }}" class="modal-close-img" />
-            <Button text="{{ btnOkText }}" tap="{{ onOkButtonTap }}" class="btn-save" />
+            <Image src="res://iconcloseblack" tap="onCancelButtonTap" class="modal-close-img" />
+            <Button text="{{ btnOkText }}" tap="onOkButtonTap" class="btn-save" />
         </FlexboxLayout>
 
         <df:RadDataForm row="1" id="itemDetailsDataForm" source="{{ newItemForm }}" commitMode="Manual" editorUpdate="onEditorUpdate">

@@ -1,6 +1,5 @@
 import * as emailValidator from 'email-validator';
 import {
-  EventData,
   Observable,
   PropertyChangeData
 } from 'tns-core-modules/data/observable';
@@ -8,10 +7,6 @@ import { PtAuthService } from '~/core/contracts/services';
 import { PtLoginModel } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { getAuthService } from '~/globals/dependencies/locator';
-import {
-  goToBacklogPage,
-  goToRegisterPage
-} from '~/shared/helpers/navigation/nav.helper';
 
 export class LoginViewModel extends Observable {
   private authService: PtAuthService;
@@ -35,25 +30,13 @@ export class LoginViewModel extends Observable {
     );
   }
 
-  public onLoginTap() {
+  public onLoginTapHandler() {
     const loginModel: PtLoginModel = {
       username: this.email,
       password: this.password
     };
 
-    this.authService
-      .login(loginModel)
-      .then(() => {
-        goToBacklogPage(true);
-      })
-      .catch(error => {
-        console.error(error);
-        alert('Sorry, could not log in at this time');
-      });
-  }
-
-  public onGotoRegisterTap(args: EventData) {
-    goToRegisterPage();
+    return this.authService.login(loginModel);
   }
 
   private validate(changedPropName: string) {

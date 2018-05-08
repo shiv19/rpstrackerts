@@ -1,6 +1,5 @@
-import { Observable } from 'data/observable';
-import { ShownModallyData } from 'ui/page';
-import { PtModalContext } from '../../../../shared/helpers/modals';
+import { Observable } from 'tns-core-modules/data/observable';
+import { PtModalContext } from '~/shared/helpers/modals';
 
 export class ListSelectorModalViewModel<T, R> extends Observable {
   protected modalContext: PtModalContext<T, R>;
@@ -11,11 +10,11 @@ export class ListSelectorModalViewModel<T, R> extends Observable {
 
   public items;
 
-  constructor(private modalData: ShownModallyData) {
+  constructor(ctx: PtModalContext<T, R>, callback: Function) {
     super();
 
-    this.modalContext = <PtModalContext<T, R>>this.modalData.context;
-    this.closeCallback = this.modalData.closeCallback;
+    this.modalContext = ctx;
+    this.closeCallback = callback;
 
     this.items = this.modalContext.payload;
   }
