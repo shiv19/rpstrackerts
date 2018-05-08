@@ -4,7 +4,7 @@ import { NavigationEntry } from 'tns-core-modules/ui/frame';
 import { ROUTES } from '~/core/routes';
 import { getAuthService } from '~/globals/dependencies/locator';
 import './bundle-config';
-import './globals/dependencies/startup';
+import './globals/dependencies/locator';
 import './rxjs-imports';
 
 const authService = getAuthService();

@@ -1,6 +1,10 @@
 import { appStore } from '~/core/app-store';
 import { PtAuthRepository } from '~/core/contracts/repositories';
-import { PtAuthService, PtStorageService } from '~/core/contracts/services';
+import {
+  PtAuthService,
+  PtLoggingService,
+  PtStorageService
+} from '~/core/contracts/services';
 import {
   PtAuthToken,
   PtLoginModel,
@@ -8,13 +12,14 @@ import {
   PtUser
 } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
-import { getUserAvatarUrl } from '~/core/services/avatar.service';
+import { getUserAvatarUrl } from '~/core/services';
 
 const CURRENT_USER_KEY = 'CURRENT_USER_KEY';
 const AUTH_TOKEN_KEY = 'AUTH_TOKEN_KEY';
 
 export class AuthService implements PtAuthService {
   constructor(
+    private loggingService: PtLoggingService,
     private authRepo: PtAuthRepository,
     private storageService: PtStorageService
   ) {}
@@ -60,6 +65,7 @@ export class AuthService implements PtAuthService {
       this.authRepo.login(
         loginModel,
         error => {
+          this.loggingService.error('Login failed');
           reject(error);
         },
         (data: { authToken: PtAuthToken; user: PtUser }) => {
@@ -76,6 +82,7 @@ export class AuthService implements PtAuthService {
       this.authRepo.register(
         registerModel,
         error => {
+          this.loggingService.error('Registration failed');
           reject(error);
         },
         (data: { authToken: PtAuthToken; user: PtUser }) => {

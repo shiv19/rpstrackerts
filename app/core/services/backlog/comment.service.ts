@@ -2,11 +2,14 @@ import { appStore } from '~/core/app-store';
 import { PtBacklogRepository } from '~/core/contracts/repositories';
 import { CreateCommentRequest } from '~/core/contracts/requests/backlog';
 import { CreateCommentResponse } from '~/core/contracts/responses/backlog';
-import { PtCommentService } from '~/core/contracts/services';
+import { PtCommentService, PtLoggingService } from '~/core/contracts/services';
 import { PtComment } from '~/core/models/domain';
 
 export class CommentService implements PtCommentService {
-  constructor(private backlogRepo: PtBacklogRepository) {}
+  constructor(
+    private loggingService: PtLoggingService,
+    private backlogRepo: PtBacklogRepository
+  ) {}
 
   public addNewPtComment(
     createCommentRequest: CreateCommentRequest
@@ -24,7 +27,8 @@ export class CommentService implements PtCommentService {
         comment,
         createCommentRequest.currentItem.id,
         error => {
-          console.dir(error);
+          this.loggingService.error('Adding new comment failed');
+          reject(error);
         },
         (nextComment: PtComment) => {
           const response: CreateCommentResponse = {

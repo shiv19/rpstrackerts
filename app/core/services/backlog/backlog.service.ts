@@ -12,14 +12,17 @@ import {
   FetchItemsResponse,
   UpdateItemResponse
 } from '~/core/contracts/responses/backlog';
-import { PtBacklogService } from '~/core/contracts/services';
+import { PtBacklogService, PtLoggingService } from '~/core/contracts/services';
 import { PtItem } from '~/core/models/domain';
 import { PriorityEnum, StatusEnum } from '~/core/models/domain/enums';
 import { PresetType } from '~/core/models/types';
-import { setUserAvatar } from '~/core/services/avatar.service';
+import { setUserAvatar } from '~/core/services';
 
 export class BacklogService implements PtBacklogService {
-  constructor(private backlogRepo: PtBacklogRepository) {}
+  constructor(
+    private loggingService: PtLoggingService,
+    private backlogRepo: PtBacklogRepository
+  ) {}
 
   public getCurrentPreset(): PresetType {
     return appStore.value.selectedPreset;
@@ -42,6 +45,7 @@ export class BacklogService implements PtBacklogService {
         fetchItemsRequest.getCurrentPreset(),
         fetchItemsRequest.getCurrentUserId(),
         error => {
+          this.loggingService.error('Fetch items failed');
           reject(error);
         },
         (ptItems: PtItem[]) => {
@@ -84,8 +88,8 @@ export class BacklogService implements PtBacklogService {
       this.backlogRepo.insertPtItem(
         item,
         error => {
+          this.loggingService.error('Adding new item failed');
           reject(error);
-          console.dir(error);
         },
         (nextItem: PtItem) => {
           setUserAvatar(this.backlogRepo.apiEndpoint, nextItem.assignee);
@@ -112,8 +116,8 @@ export class BacklogService implements PtBacklogService {
       this.backlogRepo.updatePtItem(
         updateItemRequest.itemToUpdate,
         error => {
+          this.loggingService.error('Updating item failed');
           reject(error);
-          console.dir(error);
         },
         (updatedItem: PtItem) => {
           const response: UpdateItemResponse = {
@@ -132,8 +136,8 @@ export class BacklogService implements PtBacklogService {
       this.backlogRepo.deletePtItem(
         deleteItemRequest.itemToDelete.id,
         error => {
+          this.loggingService.error('Deleting item failed');
           reject(error);
-          console.dir(error);
         },
         () => {
           const updatedItems = appStore.value.backlogItems.filter(i => {

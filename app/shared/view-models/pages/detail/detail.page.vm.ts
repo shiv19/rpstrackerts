@@ -25,14 +25,14 @@ import {
   ptItemToFormModel
 } from '~/core/models/forms';
 import { DetailScreenType } from '~/core/models/types';
-import { getCurrentUserAvatar } from '~/core/services/avatar.service';
+import { getCurrentUserAvatar } from '~/core/services';
 import {
+  getApiEndpoint,
   getAuthService,
   getBacklogService,
   getCommentService,
   getTaskService
 } from '~/globals/dependencies/locator';
-import { getApiEndpoint } from '~/globals/dependencies/startup';
 import { back } from '~/shared/helpers/navigation/nav.helper';
 import { PtCommentViewModel } from './pt-comment.vm';
 import { PtTaskViewModel } from './pt-task.vm';

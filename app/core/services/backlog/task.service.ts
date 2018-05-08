@@ -7,11 +7,14 @@ import {
   CreateTaskResponse,
   UpdateTaskResponse
 } from '~/core/contracts/responses/backlog';
-import { PtTaskService } from '~/core/contracts/services';
+import { PtLoggingService, PtTaskService } from '~/core/contracts/services';
 import { PtTask } from '~/core/models/domain';
 
 export class TaskService implements PtTaskService {
-  constructor(private backlogRepo: PtBacklogRepository) {}
+  constructor(
+    private loggingService: PtLoggingService,
+    private backlogRepo: PtBacklogRepository
+  ) {}
 
   public addNewPtTask(
     createTaskRequest: CreateTaskRequest
@@ -29,7 +32,8 @@ export class TaskService implements PtTaskService {
         task,
         createTaskRequest.currentItem.id,
         error => {
-          // console.dir(error);
+          this.loggingService.error('Adding new task failed');
+          reject(error);
         },
         (nextTask: PtTask) => {
           const response: CreateTaskResponse = {
@@ -61,7 +65,8 @@ export class TaskService implements PtTaskService {
         taskToUpdate,
         updateTaskRequest.currentItem.id,
         error => {
-          // console.dir(error);
+          this.loggingService.error('Updating task failed');
+          reject(error);
         },
         (_updatedTask: PtTask) => {
           // do nothing

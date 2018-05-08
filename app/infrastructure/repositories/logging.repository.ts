@@ -6,6 +6,8 @@ interface LogEntry {
   level: LoggingLevelEnum;
 }
 
+// At this time all logging is to the console.
+// Other third party or custom logging methods can be plugged in here.
 export class LoggingRepository implements PtLoggingRepository {
   private logs: LogEntry[] = [];
 

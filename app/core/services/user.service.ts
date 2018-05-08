@@ -1,10 +1,13 @@
 import { appStore } from '~/core/app-store';
 import { PtUserRepository } from '~/core/contracts/repositories';
-import { PtUserService } from '~/core/contracts/services';
+import { PtLoggingService, PtUserService } from '~/core/contracts/services';
 import { PtUser } from '~/core/models/domain';
 
 export class UserService implements PtUserService {
-  constructor(private userRepo: PtUserRepository) {}
+  constructor(
+    private loggingService: PtLoggingService,
+    private userRepo: PtUserRepository
+  ) {}
 
   public getLocalUsers() {
     return appStore.value.users;
@@ -17,6 +20,7 @@ export class UserService implements PtUserService {
       return new Promise<PtUser[]>((resolve, reject) => {
         this.userRepo.fetchUsers(
           error => {
+            this.loggingService.error('Fetching users failed');
             reject(error);
           },
           (users: PtUser[]) => {
