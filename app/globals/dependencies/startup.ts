@@ -2,6 +2,7 @@ import { appConfig } from '~/config/app-config';
 import {
   PtAuthRepository,
   PtBacklogRepository,
+  PtLoggingRepository,
   PtStorageRepository,
   PtUserRepository
 } from '~/core/contracts/repositories';
@@ -9,6 +10,7 @@ import {
   PtAuthService,
   PtBacklogService,
   PtCommentService,
+  PtLoggingService,
   PtStorageService,
   PtTaskService,
   PtUserService
@@ -20,10 +22,12 @@ import {
   CommentService,
   TaskService
 } from '~/core/services/backlog';
+import { LoggingService } from '~/core/services/logging.service';
 import { StorageService } from '~/core/services/storage.service';
 import { UserService } from '~/core/services/user.service';
 import { AuthRepository } from '~/infrastructure/repositories/auth.repository';
 import { BacklogRepository } from '~/infrastructure/repositories/backlog.respository';
+import { LoggingRepository } from '~/infrastructure/repositories/logging.repository';
 import { StorageRepository } from '~/infrastructure/repositories/storage.repository';
 import { UserRepository } from '~/infrastructure/repositories/user.repository';
 
@@ -33,6 +37,7 @@ export interface AppDependencies {
   authService: PtAuthService;
   backlogService: PtBacklogService;
   commentService: PtCommentService;
+  loggingService: PtLoggingService;
   storageService: PtStorageService;
   taskService: PtTaskService;
   userService: PtUserService;
@@ -43,6 +48,10 @@ function initDependencies(): AppDependencies {
   const backlogRepo: PtBacklogRepository = new BacklogRepository(
     config.apiEndpoint
   );
+  const loggingRepo: PtLoggingRepository = new LoggingRepository(
+    config.loggingEnabled,
+    config.loggingLevel
+  );
   const storageRepo: PtStorageRepository = new StorageRepository();
   const userRepo: PtUserRepository = new UserRepository(config.apiEndpoint);
 
@@ -50,7 +59,7 @@ function initDependencies(): AppDependencies {
   const authService = new AuthService(authRepo, storageService);
   const backlogService = new BacklogService(backlogRepo);
   const commentService = new CommentService(backlogRepo);
-
+  const loggingService = new LoggingService(loggingRepo);
   const taskService = new TaskService(backlogRepo);
   const userService = new UserService(userRepo);
 
@@ -58,6 +67,7 @@ function initDependencies(): AppDependencies {
     authService: authService,
     backlogService: backlogService,
     commentService: commentService,
+    loggingService: loggingService,
     storageService: storageService,
     taskService: taskService,
     userService: userService
