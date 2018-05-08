@@ -1,14 +1,14 @@
-import { clear, getString, remove, setString } from 'application-settings';
+import * as appSettings from 'tns-core-modules/application-settings';
 import { PtStorageRepository } from '~/core/contracts/repositories';
 
 export class StorageRepository implements PtStorageRepository {
   public setItem<T>(key: string, value: T): void {
     const valueStr = JSON.stringify(value);
-    setString(key, valueStr);
+    appSettings.setString(key, valueStr);
   }
 
   public getItem<T>(key: string): T {
-    const valueStr = getString(key);
+    const valueStr = appSettings.getString(key);
     if (valueStr) {
       return JSON.parse(valueStr);
     } else {
@@ -17,10 +17,10 @@ export class StorageRepository implements PtStorageRepository {
   }
 
   public removeItem(key: string): void {
-    remove(key);
+    appSettings.remove(key);
   }
 
   public clearAll(): void {
-    clear();
+    appSettings.clear();
   }
 }
