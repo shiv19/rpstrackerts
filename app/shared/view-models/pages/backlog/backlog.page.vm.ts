@@ -63,7 +63,7 @@ export class BacklogViewModel extends Observable {
   }
 
   private addItem(newItem, assignee) {
-    const createItemRequest = toCreateItemRequest(config, newItem, assignee);
+    const createItemRequest = toCreateItemRequest(newItem, assignee);
 
     this.backlogService
       .addNewPtItem(createItemRequest)

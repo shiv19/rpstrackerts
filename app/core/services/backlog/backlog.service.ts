@@ -88,10 +88,7 @@ export class BacklogService implements PtBacklogService {
           console.dir(error);
         },
         (nextItem: PtItem) => {
-          setUserAvatar(
-            createItemRequest.appConfig.apiEndpoint,
-            nextItem.assignee
-          );
+          setUserAvatar(this.backlogRepo.apiEndpoint, nextItem.assignee);
 
           appStore.set('backlogItems', [
             nextItem,
