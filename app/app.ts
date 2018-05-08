@@ -6,6 +6,7 @@ import { getAuthService } from '~/globals/dependencies/locator';
 import './bundle-config';
 import './globals/dependencies/locator';
 import './rxjs-imports';
+import './utils/console-color';
 
 const authService = getAuthService();
 app.setResources({ L: localize });
