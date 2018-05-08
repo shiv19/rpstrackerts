@@ -1,4 +1,4 @@
-import { PtItem, PtUser } from '../../../core/models/domain';
+import { PtItem, PtUser } from '~/core/models/domain';
 
 export interface PtItemDetailsEditFormModel {
   title: string;

@@ -1,4 +1,4 @@
-import { PtTask } from '../../../domain';
+import { PtTask } from '~/core/models/domain';
 
 export interface PtTaskUpdate {
   task: PtTask;

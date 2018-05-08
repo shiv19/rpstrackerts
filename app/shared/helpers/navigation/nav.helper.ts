@@ -1,4 +1,4 @@
-import { Frame, NavigationEntry, topmost } from 'ui/frame';
+import { Frame, NavigationEntry, topmost } from 'tns-core-modules/ui/frame';
 import { ROUTES } from '~/core/routes';
 
 export function getCurrentPage() {

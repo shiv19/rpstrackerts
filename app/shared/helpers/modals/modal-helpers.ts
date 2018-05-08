@@ -1,4 +1,4 @@
-import { Page } from 'ui/page';
+import { Page } from 'tns-core-modules/ui/page';
 import { PtUser } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { ROUTES } from '~/core/routes';

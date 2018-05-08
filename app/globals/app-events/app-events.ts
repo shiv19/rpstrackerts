@@ -1,7 +1,6 @@
-import * as app from 'application';
-
+import * as app from 'tns-core-modules/application';
+import { setStatusBarColors } from '~/utils';
 import { setNativeEvents } from './app-events-native';
-import { setStatusBarColors } from '../../utils';
 
 export const setAppEvents = () => {
   setNativeEvents();

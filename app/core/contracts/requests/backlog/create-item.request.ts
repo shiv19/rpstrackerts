@@ -1,7 +1,7 @@
-import { PtConfigurableRequest } from '../configurable.request';
-import { PtNewItem } from '~/core/models/dto/backlog';
-import { PtUser } from '~/core/models/domain';
 import { AppConfig } from '~/core/models/config/app-config.model';
+import { PtUser } from '~/core/models/domain';
+import { PtNewItem } from '~/core/models/dto/backlog';
+import { PtConfigurableRequest } from '../configurable.request';
 
 export interface CreateItemRequest extends PtConfigurableRequest {
   newItem: PtNewItem;

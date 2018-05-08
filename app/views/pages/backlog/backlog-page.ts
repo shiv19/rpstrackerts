@@ -1,15 +1,15 @@
 import { RadSideDrawer } from 'nativescript-ui-sidedrawer';
+import { Button } from 'tns-core-modules/ui/button';
 import { ItemEventData } from 'tns-core-modules/ui/list-view';
-import { Button } from 'ui/button';
-import { EventData, NavigatedData, Page } from 'ui/page';
+import { EventData, NavigatedData, Page } from 'tns-core-modules/ui/page';
+import { PtItem } from '~/core/models/domain';
+import '~/shared/converters';
 import { showModalNewItem } from '~/shared/helpers/modals';
 import {
   goToDetailPage,
   goToLoginPage
 } from '~/shared/helpers/navigation/nav.helper';
-import { PtItem } from '../../../core/models/domain';
-import '../../../shared/converters';
-import { BacklogViewModel } from '../../../shared/view-models/pages/backlog/backlog.page.vm';
+import { BacklogViewModel } from '~/shared/view-models/pages/backlog/backlog.page.vm';
 
 const backLogVm: BacklogViewModel = new BacklogViewModel();
 let drawer: RadSideDrawer = null;

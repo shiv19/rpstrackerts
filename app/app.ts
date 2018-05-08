@@ -1,6 +1,6 @@
-import * as app from 'application';
 import * as localize from 'nativescript-localize';
-import { NavigationEntry } from 'ui/frame';
+import * as app from 'tns-core-modules/application';
+import { NavigationEntry } from 'tns-core-modules/ui/frame';
 import { ROUTES } from '~/core/routes';
 import { getAuthService } from '~/globals/dependencies/locator';
 import './bundle-config';

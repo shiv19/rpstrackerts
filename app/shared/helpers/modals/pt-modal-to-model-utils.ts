@@ -1,5 +1,5 @@
-import { PtUser } from '../../../core/models/domain';
-import { PtModalListDisplayItem } from '../../../shared/helpers/modals';
+import { PtUser } from '~/core/models/domain';
+import { PtModalListDisplayItem } from '~/shared/helpers/modals';
 
 export function ptUserToModalListDisplayItem(
   u: PtUser

@@ -1,5 +1,5 @@
+import { PresetType } from '~/core/models/types';
 import { PtItem, PtUser } from './models/domain';
-import { PresetType } from '../core/models/types';
 
 export interface State {
   backlogItems: PtItem[];

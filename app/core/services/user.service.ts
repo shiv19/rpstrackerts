@@ -1,7 +1,7 @@
+import { appStore } from '~/core/app-store';
 import { PtUserRepository } from '~/core/contracts/repositories';
 import { PtUserService } from '~/core/contracts/services/pt-user-service.contract';
-import { appStore } from '../../core/app-store';
-import { PtUser } from '../../core/models/domain';
+import { PtUser } from '~/core/models/domain';
 
 export class UserService implements PtUserService {
   constructor(private userRepo: PtUserRepository) {}
