@@ -4,15 +4,15 @@ import { PtLoggingService } from '~/core/contracts/services';
 export class LoggingService implements PtLoggingService {
   constructor(private loggingRepo: PtLoggingRepository) {}
 
-  log(message: string) {
+  public log(message: string) {
     this.loggingRepo.log(message);
   }
 
-  warn(message: string) {
+  public warn(message: string) {
     this.loggingRepo.warn(message);
   }
 
-  error(message: string) {
+  public error(message: string) {
     this.loggingRepo.error(message);
   }
 }

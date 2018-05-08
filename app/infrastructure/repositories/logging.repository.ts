@@ -16,21 +16,21 @@ export class LoggingRepository implements PtLoggingRepository {
     private loggingLevel: LoggingLevelEnum
   ) {}
 
-  log(message: string) {
+  public log(message: string) {
     if (this.loggingEnabled && this.loggingLevel === LoggingLevelEnum.Debug) {
       this.logs.push({ message: message, level: LoggingLevelEnum.Log });
       console.logColor(message);
     }
   }
 
-  warn(message: string) {
+  public warn(message: string) {
     if (this.loggingEnabled && this.loggingLevel === LoggingLevelEnum.Debug) {
       this.logs.push({ message: message, level: LoggingLevelEnum.Warning });
       console.warnColor(message);
     }
   }
 
-  error(message: string) {
+  public error(message: string) {
     if (this.loggingEnabled) {
       this.logs.push({ message: message, level: LoggingLevelEnum.Error });
       console.errorColor(message);
