@@ -1,8 +1,8 @@
 import { appStore } from '~/core/app-store';
-import { PtBacklogRepository } from '~/core/contracts/repositories/pt-backlog-repository.contract';
+import { PtBacklogRepository } from '~/core/contracts/repositories';
 import { CreateCommentRequest } from '~/core/contracts/requests/backlog';
 import { CreateCommentResponse } from '~/core/contracts/responses/backlog';
-import { PtCommentService } from '~/core/contracts/services/pt-comment-service.contract';
+import { PtCommentService } from '~/core/contracts/services';
 import { PtComment } from '~/core/models/domain';
 
 export class CommentService implements PtCommentService {

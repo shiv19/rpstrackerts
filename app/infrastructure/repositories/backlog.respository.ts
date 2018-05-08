@@ -1,34 +1,7 @@
-import { PtBacklogRepository } from '~/core/contracts/repositories/pt-backlog-repository.contract';
+import { PtBacklogRepository } from '~/core/contracts/repositories';
 import { PtComment, PtItem, PtTask } from '~/core/models/domain';
 import { PresetType } from '~/core/models/types';
 import * as errorService from '~/core/services/error-handler.service';
-
-/*
-function postPtItemUrl(apiEndpoint: string) {
-  return `${apiEndpoint}/item`;
-}
-
-
-export function insertPtItem(
-  apiEndpoint: string,
-  item: PtItem,
-  errorHandler: (error: any) => void,
-  successHandler: (nextItem: PtItem) => void
-) {
-  fetch(postPtItemUrl(apiEndpoint), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ item: item })
-  })
-    .then(response => response.json())
-    .then(data => {
-      successHandler(data);
-    })
-    .catch(errorService.handleErrors);
-}
-*/
 
 export class BacklogRepository implements PtBacklogRepository {
   constructor(public apiEndpoint: string) {}

@@ -1,4 +1,4 @@
-import { PtAuthRepository } from '~/core/contracts/repositories/pt-auth-repository.contract';
+import { PtAuthRepository } from '~/core/contracts/repositories';
 import {
   PtAuthToken,
   PtLoginModel,

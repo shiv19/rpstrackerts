@@ -1,5 +1,5 @@
 import { appStore } from '~/core/app-store';
-import { PtBacklogRepository } from '~/core/contracts/repositories/pt-backlog-repository.contract';
+import { PtBacklogRepository } from '~/core/contracts/repositories';
 import {
   CreateItemRequest,
   DeleteItemRequest,
@@ -12,7 +12,7 @@ import {
   FetchItemsResponse,
   UpdateItemResponse
 } from '~/core/contracts/responses/backlog';
-import { PtBacklogService } from '~/core/contracts/services/pt-backlog-service.contract';
+import { PtBacklogService } from '~/core/contracts/services';
 import { PtItem } from '~/core/models/domain';
 import { PriorityEnum, StatusEnum } from '~/core/models/domain/enums';
 import { PresetType } from '~/core/models/types';

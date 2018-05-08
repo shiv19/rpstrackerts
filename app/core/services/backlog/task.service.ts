@@ -1,4 +1,4 @@
-import { PtBacklogRepository } from '~/core/contracts/repositories/pt-backlog-repository.contract';
+import { PtBacklogRepository } from '~/core/contracts/repositories';
 import {
   CreateTaskRequest,
   UpdateTaskRequest
@@ -7,7 +7,7 @@ import {
   CreateTaskResponse,
   UpdateTaskResponse
 } from '~/core/contracts/responses/backlog';
-import { PtTaskService } from '~/core/contracts/services/pt-task-service.contract';
+import { PtTaskService } from '~/core/contracts/services';
 import { PtTask } from '~/core/models/domain';
 
 export class TaskService implements PtTaskService {

@@ -11,10 +11,10 @@ import {
 } from '~/core/contracts/requests/backlog';
 import {
   PtAuthService,
+  PtBacklogService,
   PtCommentService,
   PtTaskService
 } from '~/core/contracts/services';
-import { PtBacklogService } from '~/core/contracts/services/pt-backlog-service.contract';
 import { AppConfig } from '~/core/models/config/app-config.model';
 import { PtItem, PtUser } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';

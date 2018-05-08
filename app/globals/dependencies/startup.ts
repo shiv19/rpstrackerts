@@ -1,15 +1,18 @@
 import { appConfig } from '~/config/app-config';
 import {
+  PtAuthRepository,
+  PtBacklogRepository,
   PtStorageRepository,
   PtUserRepository
 } from '~/core/contracts/repositories';
-import { PtAuthRepository } from '~/core/contracts/repositories/pt-auth-repository.contract';
-import { PtBacklogRepository } from '~/core/contracts/repositories/pt-backlog-repository.contract';
-import { PtAuthService, PtStorageService } from '~/core/contracts/services';
-import { PtBacklogService } from '~/core/contracts/services/pt-backlog-service.contract';
-import { PtCommentService } from '~/core/contracts/services/pt-comment-service.contract';
-import { PtTaskService } from '~/core/contracts/services/pt-task-service.contract';
-import { PtUserService } from '~/core/contracts/services/pt-user-service.contract';
+import {
+  PtAuthService,
+  PtBacklogService,
+  PtCommentService,
+  PtStorageService,
+  PtTaskService,
+  PtUserService
+} from '~/core/contracts/services';
 import { AppConfig } from '~/core/models/config/app-config.model';
 import { AuthService } from '~/core/services/auth';
 import {
