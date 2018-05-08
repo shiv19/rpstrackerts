@@ -34,6 +34,7 @@ import {
   getTaskService
 } from '~/globals/dependencies/locator';
 import { back } from '~/shared/helpers/navigation/nav.helper';
+import { ObservableProperty } from '~/shared/observable-property-decorator';
 import { PtCommentViewModel } from './pt-comment.vm';
 import { PtTaskViewModel } from './pt-task.vm';
 
@@ -43,9 +44,9 @@ export class DetailViewModel extends Observable {
   private taskService: PtTaskService;
   private commentService: PtCommentService;
 
-  public selectedScreen: DetailScreenType = 'details';
+  @ObservableProperty() public selectedScreen: DetailScreenType = 'details';
+  @ObservableProperty() private selectedAssignee: PtUser;
   public itemTitle: string;
-  private selectedAssignee: PtUser;
 
   /* details form */
   public itemForm: PtItemDetailsEditFormModel = null;
@@ -78,7 +79,8 @@ export class DetailViewModel extends Observable {
 
   public setSelectedAssignee(selectedAssignee: PtUser) {
     if (selectedAssignee) {
-      this.set('selectedAssignee', selectedAssignee);
+      // this.set('selectedAssignee', selectedAssignee);
+      this.selectedAssignee = selectedAssignee;
       this.notifyUpdateItem();
     }
   }
@@ -112,16 +114,19 @@ export class DetailViewModel extends Observable {
     back();
   }
 
-  public onTabDetailsTap(args) {
-    this.set('selectedScreen', 'details');
+  public onTabDetailsTap() {
+    // this.set('selectedScreen', 'details');
+    this.selectedScreen = 'details';
   }
 
-  public onTabTasksTap(args) {
-    this.set('selectedScreen', 'tasks');
+  public onTabTasksTap() {
+    // this.set('selectedScreen', 'tasks');
+    this.selectedScreen = 'tasks';
   }
 
-  public onTabChitchatTap(args) {
-    this.set('selectedScreen', 'chitchat');
+  public onTabChitchatTap() {
+    // this.set('selectedScreen', 'chitchat');
+    this.selectedScreen = 'chitchat';
   }
 
   /* details START */

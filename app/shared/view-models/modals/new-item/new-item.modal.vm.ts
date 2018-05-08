@@ -3,15 +3,15 @@ import { ItemType } from '~/core/constants';
 import { PtItemType } from '~/core/models/domain/types';
 import { PtNewItem } from '~/core/models/dto/backlog';
 import { PtNewItemForm, initializeNewItemForm } from '~/core/models/forms';
+import { ObservableProperty } from '~/shared/observable-property-decorator';
 
 export class NewItemModalViewModel extends Observable {
   protected closeCallback: Function;
-  private selectedTypeValue: PtItemType = 'Bug';
-
   public newItemForm: PtNewItemForm;
   public itemTypesProvider = ItemType.List.map(t => t.PtItemType);
   public btnOkText = 'Save';
-  public itemTypeImage;
+  @ObservableProperty() public itemTypeImage;
+  @ObservableProperty() private selectedTypeValue: PtItemType = 'Bug';
 
   constructor(callback: Function) {
     super();
@@ -21,11 +21,16 @@ export class NewItemModalViewModel extends Observable {
   }
 
   public updateSelectedTypeValue(selTypeValue: PtItemType) {
+    /*
     this.set('selectedTypeValue', selTypeValue);
     this.set(
       'itemTypeImage',
       ItemType.imageResFromType(this.selectedTypeValue)
     );
+    */
+
+    this.selectedTypeValue = selTypeValue;
+    this.itemTypeImage = ItemType.imageResFromType(this.selectedTypeValue);
   }
 
   public onOkButtonTapHandler() {

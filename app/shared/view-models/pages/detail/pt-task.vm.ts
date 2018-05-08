@@ -5,16 +5,17 @@ import { PtItem, PtTask } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { PtTaskUpdate } from '~/core/models/dto/backlog/tasks/pt-task-update.model';
 import { getTaskService } from '~/globals/dependencies/locator';
+import { ObservableProperty } from '~/shared/observable-property-decorator';
 
 export class PtTaskViewModel extends Observable implements PtTask {
   private taskService: PtTaskService;
 
   public id: number;
-  public title?: string;
   public dateCreated: Date;
-  public dateModified: Date;
   public dateDeleted?: Date;
-  public completed: boolean;
+  @ObservableProperty() public title?: string;
+  @ObservableProperty() public dateModified: Date;
+  @ObservableProperty() public completed: boolean;
 
   private lastUpdatedTitle = EMPTY_STRING;
 
@@ -39,9 +40,12 @@ export class PtTaskViewModel extends Observable implements PtTask {
 
     this.updateTask(taskUpdate).then(response => {
       const updatedTask = response.updatedTask;
-      this.set('title', updatedTask.title);
-      this.set('dateModified', updatedTask.dateModified);
-      this.set('completed', updatedTask.completed);
+      // this.set('title', updatedTask.title);
+      // this.set('dateModified', updatedTask.dateModified);
+      // this.set('completed', updatedTask.completed);
+      this.title = updatedTask.title;
+      this.dateModified = updatedTask.dateModified;
+      this.completed = updatedTask.completed;
     });
   }
 
