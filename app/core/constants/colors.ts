@@ -1,4 +1,4 @@
-import { Color } from 'color';
+import { Color } from 'tns-core-modules/color';
 
 export const COLOR_LIGHT = new Color('#b2b4d3');
 export const COLOR_DARK = new Color('#555a97');

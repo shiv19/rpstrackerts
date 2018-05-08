@@ -1,5 +1,7 @@
-import { Color } from 'color';
+import { Color } from 'tns-core-modules/color';
 import { com } from '~/shared/helpers/ui-data-form';
+
+type NumberPicker = com.telerik.widget.numberpicker.RadNumberPicker;
 
 export function setStepperEditorContentOffset(
   _editor,
@@ -12,7 +14,7 @@ export function setStepperEditorTextPostfix(
   singularPostfix: string,
   pluralPostfix: string
 ): void {
-  const numberPicker: com.telerik.widget.numberpicker.RadNumberPicker = <com.telerik.widget.numberpicker.RadNumberPicker>editor.getEditorView();
+  const numberPicker: NumberPicker = <NumberPicker>editor.getEditorView();
 
   const labelView = numberPicker.labelView();
   const numVal = parseInt(labelView.getText());
@@ -28,7 +30,7 @@ export function setStepperEditorColors(
   lightColor: Color,
   darkColor: Color
 ): void {
-  const numberPicker: com.telerik.widget.numberpicker.RadNumberPicker = <com.telerik.widget.numberpicker.RadNumberPicker>editor.getEditorView();
+  const numberPicker: NumberPicker = <NumberPicker>editor.getEditorView();
 
   numberPicker.labelView().setTextColor(darkColor.android);
   numberPicker.decreaseView().setTextColor(darkColor.android);
