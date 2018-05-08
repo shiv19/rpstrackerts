@@ -1,34 +1,32 @@
-import { NavigatedData, Page, EventData, View } from 'ui/page';
-import { ConfirmOptions, confirm } from 'ui/dialogs';
-
-import { RadDataForm, DataFormEventData } from 'nativescript-ui-dataform';
-
-import { PtItemType } from '../../../core/models/domain/types';
-import { PriorityEnum } from '../../../core/models/domain/enums';
-import { DetailViewModel } from '../../../shared/view-models/pages/detail/detail.page.vm';
-import { COLOR_LIGHT, COLOR_DARK } from '../../../core/constants';
+import { DataFormEventData, RadDataForm } from 'nativescript-ui-dataform';
+import { ConfirmOptions, confirm } from 'tns-core-modules/ui/dialogs';
+import { EventData, NavigatedData, Page, View } from 'tns-core-modules/ui/page';
+import { TextField } from 'tns-core-modules/ui/text-field';
+import { COLOR_DARK, COLOR_LIGHT } from '~/core/constants';
+import { PriorityEnum } from '~/core/models/domain/enums';
+import { PtItemType } from '~/core/models/domain/types';
+import '~/shared/converters';
+import { showModalAssigneeList } from '~/shared/helpers/modals';
 import {
+  getPickerEditorValueText,
   setMultiLineEditorFontSize,
   setPickerEditorImageLocation,
-  getPickerEditorValueText,
-  setStepperEditorContentOffset,
-  setStepperEditorTextPostfix,
+  setSegmentedEditorColor,
   setStepperEditorColors,
-  setSegmentedEditorColor
-} from '../../../shared/helpers/ui-data-form';
-
-import '../../../shared/converters';
-import { showModalAssigneeList } from '../../../shared/helpers/modals';
+  setStepperEditorContentOffset,
+  setStepperEditorTextPostfix
+} from '~/shared/helpers/ui-data-form';
+import { DetailViewModel } from '~/shared/view-models/pages/detail/detail.page.vm';
+import { PtTaskViewModel } from '~/shared/view-models/pages/detail/pt-task.vm';
 
 let detailsVm: DetailViewModel;
+let itemDetailsDataForm: RadDataForm;
 
 export function onNavigatingTo(args: NavigatedData) {
   const page = <Page>args.object;
   const currentItem = page.navigationContext;
-  const itemDetailsDataForm: RadDataForm = page.getViewById(
-    'itemDetailsDataForm'
-  );
-  detailsVm = new DetailViewModel(currentItem, itemDetailsDataForm);
+  itemDetailsDataForm = page.getViewById('itemDetailsDataForm');
+  detailsVm = new DetailViewModel(currentItem);
   page.bindingContext = detailsVm;
 }
 
@@ -48,6 +46,27 @@ export function onDeleteTap() {
   });
 }
 
+export function onTaskToggleTap(args: EventData) {
+  const textField = <TextField>args.object;
+  const taskVm = <PtTaskViewModel>textField.bindingContext;
+  taskVm.onTaskToggleRequested();
+}
+
+export function onTaskFocused(args: EventData) {
+  const textField = <TextField>args.object;
+  const taskVm = <PtTaskViewModel>textField.bindingContext;
+  taskVm.onTaskFocused(textField.text);
+
+  textField.on('textChange', a => taskVm.onTextChange(textField.text));
+}
+
+export function onTaskBlurred(args: EventData) {
+  const textField = <TextField>args.object;
+  const taskVm = <PtTaskViewModel>textField.bindingContext;
+  textField.off('textChange');
+  taskVm.onTaskBlurred();
+}
+
 export function onAssigneeRowTap(args: EventData) {
   const view = <View>args.object;
 
@@ -58,6 +77,21 @@ export function onAssigneeRowTap(args: EventData) {
       }
     }
   );
+}
+
+export function onPropertyCommitted(args: DataFormEventData) {
+  const vm = <DetailViewModel>args.object.bindingContext;
+
+  itemDetailsDataForm
+    .validateAll()
+    .then(ok => {
+      if (ok) {
+        vm.notifyUpdateItem();
+      }
+    })
+    .catch(err => {
+      console.error(err);
+    });
 }
 
 export function onEditorUpdate(args: DataFormEventData) {

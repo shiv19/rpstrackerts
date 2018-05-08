@@ -29,7 +29,7 @@ export class TaskService implements PtTaskService {
         task,
         createTaskRequest.currentItem.id,
         error => {
-          console.dir(error);
+          // console.dir(error);
         },
         (nextTask: PtTask) => {
           const response: CreateTaskResponse = {
@@ -61,7 +61,7 @@ export class TaskService implements PtTaskService {
         taskToUpdate,
         updateTaskRequest.currentItem.id,
         error => {
-          console.dir(error);
+          // console.dir(error);
         },
         (_updatedTask: PtTask) => {
           // do nothing

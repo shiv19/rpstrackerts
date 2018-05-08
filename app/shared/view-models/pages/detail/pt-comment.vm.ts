@@ -1,7 +1,7 @@
-import { Observable } from 'data/observable';
+import { Observable } from 'tns-core-modules/data/observable';
 import { PtComment, PtUser } from '~/core/models/domain';
 
-export class PtCommentModel extends Observable implements PtComment {
+export class PtCommentViewModel extends Observable implements PtComment {
   public id: number;
   public title?: string;
   public dateCreated: Date;

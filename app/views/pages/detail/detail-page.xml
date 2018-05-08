@@ -48,7 +48,7 @@
                     <Image id="assigneeImg" width="40" height="40" class="pt-item-detail-avatar" src="{{ selectedAssignee.avatar }}" col="2" />
                 </GridLayout>
 
-                <df:RadDataForm id="itemDetailsDataForm" row="1" source="{{ itemForm }}" propertyCommitted="{{ onPropertyCommitted }}" editorUpdate="onEditorUpdate">
+                <df:RadDataForm id="itemDetailsDataForm" row="1" source="{{ itemForm }}" propertyCommitted="onPropertyCommitted" editorUpdate="onEditorUpdate">
                     <df:RadDataForm.properties>
                     <df:EntityProperty  name="title" displayName="Title" index="1" hintText="Title">
                     <df:EntityProperty.editor>
@@ -136,22 +136,22 @@
                         isEnabled="{{ newTaskTitle.length > 0 }}"></Button>
                 </GridLayout>
 
-                <ScrollView row="1" class="pt-tasks-scroll">
+                <StackLayout row="1" class="pt-tasks-scroll">
                     <StackLayout class="pt-tasks-list-container">
-                        <Repeater id="tasksList" items="{{ tasks }}">
-                            <Repeater.itemTemplate>
+                        <ListView id="tasksList" items="{{ tasks }}">
+                            <ListView.itemTemplate>
                                 <GridLayout columns="30, *" class="pt-task-wrapper">
-                                    <Image tap="{{ $parents.onTaskToggleTap }}" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
+                                    <Image tap="onTaskToggleTap" src="{{ completed ? 'res://checkboxchecked' : 'res://checkboxunchecked' }}" class="task-checkbox"
                                         col="0" />
                                     <TextField col="1" text="{{ title }}"
-                                        focus="{{ onTaskFocused }}"
-                                        blur="{{ onTaskBlurred }}"
+                                        focus="onTaskFocused"
+                                        blur="onTaskBlurred"
                                         class="task-title" />
                                 </GridLayout>
-                            </Repeater.itemTemplate>
-                        </Repeater>
+                            </ListView.itemTemplate>
+                        </ListView>
                     </StackLayout>
-                </ScrollView>
+                </StackLayout>
             </GridLayout>
 
             <!-- Chitchat -->

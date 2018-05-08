@@ -1,7 +1,8 @@
-// const config = require('../config/app-config');
-import { Observable } from 'data/observable';
-import { ObservableArray } from 'data/observable-array';
-import { RadDataForm } from 'nativescript-ui-dataform';
+import { Observable } from 'tns-core-modules/data/observable';
+import { ObservableArray } from 'tns-core-modules/data/observable-array';
+import { appConfig } from '~/config/app-config';
+import { PT_ITEM_PRIORITIES, PT_ITEM_STATUSES } from '~/core/constants';
+import { ItemType } from '~/core/constants/pt-item-types';
 import {
   toCreateCommentRequest,
   toCreateTaskRequest,
@@ -15,6 +16,17 @@ import {
 } from '~/core/contracts/services';
 import { PtBacklogService } from '~/core/contracts/services/pt-backlog-service.contract';
 import { AppConfig } from '~/core/models/config/app-config.model';
+import { PtItem, PtUser } from '~/core/models/domain';
+import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
+import { PriorityEnum } from '~/core/models/domain/enums';
+import { PtItemType } from '~/core/models/domain/types';
+import { PtNewComment, PtNewTask } from '~/core/models/dto/backlog';
+import {
+  PtItemDetailsEditFormModel,
+  applyFormModelUpdatesToItem,
+  ptItemToFormModel
+} from '~/core/models/forms';
+import { DetailScreenType } from '~/core/models/types';
 import { getCurrentUserAvatar } from '~/core/services/avatar.service';
 import {
   getAuthService,
@@ -23,25 +35,8 @@ import {
   getTaskService
 } from '~/globals/dependencies/locator';
 import { back } from '~/shared/helpers/navigation/nav.helper';
-import { appConfig } from '../../../../config/app-config';
-import {
-  PT_ITEM_PRIORITIES,
-  PT_ITEM_STATUSES
-} from '../../../../core/constants';
-import { ItemType } from '../../../../core/constants/pt-item-types';
-import { PtItem, PtUser } from '../../../../core/models/domain';
-import { EMPTY_STRING } from '../../../../core/models/domain/constants/strings';
-import { PriorityEnum } from '../../../../core/models/domain/enums';
-import { PtItemType } from '../../../../core/models/domain/types';
-import { PtNewComment, PtNewTask } from '../../../../core/models/dto/backlog';
-import {
-  PtItemDetailsEditFormModel,
-  applyFormModelUpdatesToItem,
-  ptItemToFormModel
-} from '../../../../core/models/forms';
-import { DetailScreenType } from '../../../../core/models/types';
-import { PtCommentModel } from './pt-comment.vm';
-import { PtTaskModel } from './pt-task.vm';
+import { PtCommentViewModel } from './pt-comment.vm';
+import { PtTaskViewModel } from './pt-task.vm';
 
 const config = <AppConfig>appConfig;
 
@@ -67,13 +62,13 @@ export class DetailViewModel extends Observable {
 
   /* tasks */
   public newTaskTitle = EMPTY_STRING;
-  public tasks: ObservableArray<PtTaskModel>;
+  public tasks: ObservableArray<PtTaskViewModel>;
   /* tasks END */
 
   /* comments */
   public currentUserAvatar: string;
   public newCommentText = EMPTY_STRING;
-  public comments: ObservableArray<PtCommentModel>;
+  public comments: ObservableArray<PtCommentViewModel>;
   /* comments END */
 
   public get itemTypeEditorDisplayName() {
@@ -87,14 +82,11 @@ export class DetailViewModel extends Observable {
   public setSelectedAssignee(selectedAssignee: PtUser) {
     if (selectedAssignee) {
       this.set('selectedAssignee', selectedAssignee);
-      this.onPropertyCommitted();
+      this.notifyUpdateItem();
     }
   }
 
-  constructor(
-    private ptItem: PtItem,
-    private itemDetailsDataForm: RadDataForm
-  ) {
+  constructor(private ptItem: PtItem) {
     super();
 
     this.authService = getAuthService();
@@ -103,7 +95,6 @@ export class DetailViewModel extends Observable {
     this.commentService = getCommentService();
 
     this.itemForm = ptItemToFormModel(ptItem);
-    this.itemDetailsDataForm = itemDetailsDataForm;
 
     this.currentUserAvatar = getCurrentUserAvatar(
       config.apiEndpoint,
@@ -112,11 +103,11 @@ export class DetailViewModel extends Observable {
     this.itemTitle = ptItem.title;
     this.selectedAssignee = ptItem.assignee;
 
-    this.tasks = new ObservableArray<PtTaskModel>(
-      ptItem.tasks.map(task => new PtTaskModel(task, ptItem))
+    this.tasks = new ObservableArray<PtTaskViewModel>(
+      ptItem.tasks.map(task => new PtTaskViewModel(task, ptItem))
     );
-    this.comments = new ObservableArray<PtCommentModel>(
-      ptItem.comments.map(comment => new PtCommentModel(comment))
+    this.comments = new ObservableArray<PtCommentViewModel>(
+      ptItem.comments.map(comment => new PtCommentViewModel(comment))
     );
   }
 
@@ -186,7 +177,9 @@ export class DetailViewModel extends Observable {
     this.taskService
       .addNewPtTask(createTaskRequest)
       .then(response => {
-        this.tasks.unshift(new PtTaskModel(response.createdTask, this.ptItem));
+        this.tasks.unshift(
+          new PtTaskViewModel(response.createdTask, this.ptItem)
+        );
         this.set('newTaskTitle', EMPTY_STRING);
       })
       .catch(error => {
@@ -216,7 +209,7 @@ export class DetailViewModel extends Observable {
       .then(response => {
         const addedComment = response.createdComment;
         addedComment.user.avatar = this.currentUserAvatar;
-        this.comments.unshift(new PtCommentModel(addedComment));
+        this.comments.unshift(new PtCommentViewModel(addedComment));
         this.set('newCommentText', EMPTY_STRING);
       })
       .catch(error => {
@@ -225,28 +218,15 @@ export class DetailViewModel extends Observable {
   }
   /* comments END */
 
-  public onPropertyCommitted() {
-    this.notifyUpdateItem();
-  }
+  public notifyUpdateItem() {
+    const updatedItem = applyFormModelUpdatesToItem(
+      this.ptItem,
+      this.itemForm,
+      this.selectedAssignee
+    );
 
-  private notifyUpdateItem() {
-    this.itemDetailsDataForm
-      .validateAll()
-      .then(ok => {
-        if (ok) {
-          const updatedItem = applyFormModelUpdatesToItem(
-            this.ptItem,
-            this.itemForm,
-            this.selectedAssignee
-          );
+    const updateItemRequest = toUpdateItemRequest(config, updatedItem);
 
-          const updateItemRequest = toUpdateItemRequest(config, updatedItem);
-
-          this.backlogService.updatePtItem(updateItemRequest);
-        }
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    this.backlogService.updatePtItem(updateItemRequest);
   }
 }

@@ -1,5 +1,4 @@
-import { EventData, Observable } from 'data/observable';
-import { TextField } from 'ui/text-field';
+import { Observable } from 'tns-core-modules/data/observable';
 import { toUpdateTaskRequest } from '~/core/contracts/requests/backlog';
 import { PtTaskService } from '~/core/contracts/services';
 import { PtItem, PtTask } from '~/core/models/domain';
@@ -7,7 +6,7 @@ import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { PtTaskUpdate } from '~/core/models/dto/backlog/tasks/pt-task-update.model';
 import { getTaskService } from '~/globals/dependencies/locator';
 
-export class PtTaskModel extends Observable implements PtTask {
+export class PtTaskViewModel extends Observable implements PtTask {
   private taskService: PtTaskService;
 
   public id: number;
@@ -19,25 +18,23 @@ export class PtTaskModel extends Observable implements PtTask {
 
   private lastUpdatedTitle = EMPTY_STRING;
 
-  constructor(ptTask: PtTask, private ptItem: PtItem) {
+  constructor(origTask: PtTask, private ptItem: PtItem) {
     super();
-    this.id = ptTask.id;
-    this.title = ptTask.title;
-    this.dateCreated = ptTask.dateCreated;
-    this.dateModified = ptTask.dateModified;
-    this.dateDeleted = ptTask.dateDeleted;
-    this.completed = ptTask.completed;
+    this.id = origTask.id;
+    this.title = origTask.title;
+    this.dateCreated = origTask.dateCreated;
+    this.dateModified = origTask.dateModified;
+    this.dateDeleted = origTask.dateDeleted;
+    this.completed = origTask.completed;
 
     this.taskService = getTaskService();
   }
 
-  public onTaskToggleTap(args) {
-    const task = args.view.bindingContext;
-
+  public onTaskToggleRequested() {
     const taskUpdate: PtTaskUpdate = {
-      task: args.view.bindingContext,
+      task: this,
       toggle: true,
-      newTitle: task.title
+      newTitle: this.title
     };
 
     this.updateTask(taskUpdate).then(response => {
@@ -48,26 +45,22 @@ export class PtTaskModel extends Observable implements PtTask {
     });
   }
 
-  public onTaskFocused(args: EventData) {
-    const textField = <TextField>args.object;
-    this.lastUpdatedTitle = textField.text;
-    textField.on('textChange', a => this.onTextChange(a));
+  public onTaskFocused(text: string) {
+    this.lastUpdatedTitle = text;
   }
 
-  public onTaskBlurred(args) {
-    args.object.off('textChange');
+  public onTaskBlurred() {
     this.lastUpdatedTitle = EMPTY_STRING;
   }
 
-  private onTextChange(args: EventData) {
-    const textField = <TextField>args.object;
-    const changedTitle = textField.text;
+  public onTextChange(text: string) {
+    const changedTitle = text;
 
     if (this.lastUpdatedTitle !== changedTitle) {
       this.lastUpdatedTitle = changedTitle;
 
       const taskUpdate: PtTaskUpdate = {
-        task: textField.bindingContext,
+        task: this,
         toggle: false,
         newTitle: this.lastUpdatedTitle
       };
