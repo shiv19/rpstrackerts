@@ -33,6 +33,10 @@ import { UserRepository } from '~/infrastructure/repositories/user.repository';
 
 const config = <AppConfig>appConfig;
 
+export function getApiEndpoint() {
+  return config.apiEndpoint;
+}
+
 export interface AppDependencies {
   authService: PtAuthService;
   backlogService: PtBacklogService;

@@ -1,6 +1,5 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { appConfig } from '~/config/app-config';
 import {
   toCreateItemRequest,
   toFetchItemsRequest
@@ -10,15 +9,12 @@ import {
   FetchItemsResponse
 } from '~/core/contracts/responses/backlog';
 import { PtAuthService, PtBacklogService } from '~/core/contracts/services';
-import { AppConfig } from '~/core/models/config/app-config.model';
 import { PtItem } from '~/core/models/domain';
 import { PresetType } from '~/core/models/types';
 import {
   getAuthService,
   getBacklogService
 } from '~/globals/dependencies/locator';
-
-const config = <AppConfig>appConfig;
 
 export class BacklogViewModel extends Observable {
   private authService: PtAuthService;

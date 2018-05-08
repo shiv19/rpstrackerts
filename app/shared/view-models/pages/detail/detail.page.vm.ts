@@ -1,6 +1,5 @@
 import { Observable } from 'tns-core-modules/data/observable';
 import { ObservableArray } from 'tns-core-modules/data/observable-array';
-import { appConfig } from '~/config/app-config';
 import { PT_ITEM_PRIORITIES, PT_ITEM_STATUSES } from '~/core/constants';
 import { ItemType } from '~/core/constants/pt-item-types';
 import {
@@ -15,7 +14,6 @@ import {
   PtCommentService,
   PtTaskService
 } from '~/core/contracts/services';
-import { AppConfig } from '~/core/models/config/app-config.model';
 import { PtItem, PtUser } from '~/core/models/domain';
 import { EMPTY_STRING } from '~/core/models/domain/constants/strings';
 import { PriorityEnum } from '~/core/models/domain/enums';
@@ -34,11 +32,10 @@ import {
   getCommentService,
   getTaskService
 } from '~/globals/dependencies/locator';
+import { getApiEndpoint } from '~/globals/dependencies/startup';
 import { back } from '~/shared/helpers/navigation/nav.helper';
 import { PtCommentViewModel } from './pt-comment.vm';
 import { PtTaskViewModel } from './pt-task.vm';
-
-const config = <AppConfig>appConfig;
 
 export class DetailViewModel extends Observable {
   private authService: PtAuthService;
@@ -97,7 +94,7 @@ export class DetailViewModel extends Observable {
     this.itemForm = ptItemToFormModel(ptItem);
 
     this.currentUserAvatar = getCurrentUserAvatar(
-      config.apiEndpoint,
+      getApiEndpoint(),
       this.authService.getCurrentUserId()
     );
     this.itemTitle = ptItem.title;
@@ -225,7 +222,7 @@ export class DetailViewModel extends Observable {
       this.selectedAssignee
     );
 
-    const updateItemRequest = toUpdateItemRequest(config, updatedItem);
+    const updateItemRequest = toUpdateItemRequest(updatedItem);
 
     this.backlogService.updatePtItem(updateItemRequest);
   }
