@@ -86,10 +86,10 @@
 }
 
 .pt-btn-task-add {
+  color: #ffffff;
   background-color: #e4e4e6;
 }
 .pt-btn-task-add.enabled {
-  color: #ffffff;
   background-color: #555c95;
 }
 
@@ -143,10 +143,10 @@
 }
 
 .pt-btn-comment-add {
+  color: #ffffff;
   background-color: #e4e4e6;
 }
 .pt-btn-comment-add.enabled {
-  color: #ffffff;
   background-color: #555c95;
 }
 
