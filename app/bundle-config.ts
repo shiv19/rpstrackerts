@@ -3,6 +3,10 @@ if (global.TNS_WEBPACK) {
   require('bundle-entry-points');
 
   // register application modules
+
+  global.registerModule('nativescript-localize', () =>
+    require('../node_modules/nativescript-localize')
+  );
   global.registerModule('nativescript-ui-sidedrawer', () =>
     require('../node_modules/nativescript-ui-sidedrawer')
   );
