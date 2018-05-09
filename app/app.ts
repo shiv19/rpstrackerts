@@ -8,6 +8,8 @@ import './globals/dependencies/locator';
 import './rxjs-imports';
 import './utils/console-color';
 
+global.__assign = Object.assign;
+
 const authService = getAuthService();
 app.setResources({ L: localize });
 
