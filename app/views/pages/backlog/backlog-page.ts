@@ -3,13 +3,13 @@ import { Button } from 'tns-core-modules/ui/button';
 import { ItemEventData } from 'tns-core-modules/ui/list-view';
 import { EventData, NavigatedData, Page } from 'tns-core-modules/ui/page';
 import { PtItem } from '~/core/models/domain';
-import '~/shared/converters';
 import { showModalNewItem } from '~/shared/helpers/modals';
 import {
   goToDetailPage,
   goToLoginPage
 } from '~/shared/helpers/navigation/nav.helper';
 import { BacklogViewModel } from '~/shared/view-models/pages/backlog/backlog.page.vm';
+import '~/utils/converters';
 
 const backLogVm: BacklogViewModel = new BacklogViewModel();
 let drawer: RadSideDrawer = null;

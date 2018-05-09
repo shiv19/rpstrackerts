@@ -5,7 +5,6 @@ import { TextField } from 'tns-core-modules/ui/text-field';
 import { COLOR_DARK, COLOR_LIGHT } from '~/core/constants';
 import { PriorityEnum } from '~/core/models/domain/enums';
 import { PtItemType } from '~/core/models/domain/types';
-import '~/shared/converters';
 import { showModalAssigneeList } from '~/shared/helpers/modals';
 import {
   getPickerEditorValueText,
@@ -18,6 +17,7 @@ import {
 } from '~/shared/helpers/ui-data-form';
 import { DetailViewModel } from '~/shared/view-models/pages/detail/detail.page.vm';
 import { PtTaskViewModel } from '~/shared/view-models/pages/detail/pt-task.vm';
+import '~/utils/converters';
 
 let detailsVm: DetailViewModel;
 let itemDetailsDataForm: RadDataForm;
