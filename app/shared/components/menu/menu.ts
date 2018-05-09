@@ -1,13 +1,23 @@
+import { EventData } from 'tns-core-modules/ui/page/page';
+import { PresetType } from '~/core/models/types';
 import { getBacklogService } from '~/globals/dependencies/locator';
 import { goToSettingsPage } from '~/shared/helpers/navigation/nav.helper';
 
 let container = null;
 
-export function onLoaded(args) {
+interface ObsWithPreset {
+  preset: PresetType;
+}
+
+interface PresetEventData {
+  object: ObsWithPreset;
+}
+
+export function onLoaded(args: EventData) {
   container = args.object;
 }
 
-export function onSelectPresetTap(args) {
+export function onSelectPresetTap(args: PresetEventData) {
   const backlogService = getBacklogService();
   const selPreset = args.object.preset;
   backlogService.setPreset(selPreset).then(() => {
@@ -15,6 +25,6 @@ export function onSelectPresetTap(args) {
   });
 }
 
-export function onSettingsTap(args) {
+export function onSettingsTap() {
   goToSettingsPage();
 }

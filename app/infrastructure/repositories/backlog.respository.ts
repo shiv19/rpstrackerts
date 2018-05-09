@@ -144,7 +144,7 @@ export class BacklogRepository implements PtBacklogRepository {
       method: 'DELETE'
     })
       .then(handleFetchErrors)
-      .then(data => {
+      .then(() => {
         successHandler();
       })
       .catch(er => {
@@ -230,7 +230,7 @@ export class BacklogRepository implements PtBacklogRepository {
       method: 'DELETE'
     })
       .then(handleFetchErrors)
-      .then(data => {
+      .then(() => {
         successHandler();
       })
       .catch(er => {

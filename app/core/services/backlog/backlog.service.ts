@@ -29,12 +29,10 @@ export class BacklogService implements PtBacklogService {
   }
 
   public setPreset(preset): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      if (appStore.value.selectedPreset !== preset) {
-        appStore.set('selectedPreset', preset);
-        resolve();
-      }
-    });
+    if (appStore.value.selectedPreset !== preset) {
+      appStore.set('selectedPreset', preset);
+    }
+    return Promise.resolve();
   }
 
   public fetchItems(

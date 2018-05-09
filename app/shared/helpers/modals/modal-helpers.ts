@@ -36,7 +36,7 @@ function createModal<T, R>(
     return Promise.reject<R>('A modal dialog is already showing.');
   }
 
-  return new Promise<R>((resolve, reject) => {
+  return new Promise<R>(resolve => {
     modalIsShowing = true;
 
     page.showModal(
@@ -78,7 +78,7 @@ export function showModal<T>(
   fullscreen: boolean,
   context: any
 ): Promise<T> {
-  return new Promise<T>((resolve, reject) => {
+  return new Promise<T>(resolve => {
     page.showModal(route, context, resolve, fullscreen);
   });
 }
@@ -89,7 +89,7 @@ export function showModalAssigneeList(
 ): Promise<PtUser> {
   const userService = getUserService();
 
-  return new Promise<PtUser>((resolve, reject) => {
+  return new Promise<PtUser>(resolve => {
     userService.fetchUsers().then(users => {
       const items = users.map(ptUserToModalListDisplayItem);
       const defaultItem = ptUserToModalListDisplayItem(currentAssignee);

@@ -163,7 +163,7 @@ export class DetailViewModel extends Observable {
   /* details END */
 
   /* tasks START */
-  public onAddTask(args) {
+  public onAddTask() {
     const newTitle = this.newTaskTitle.trim();
     if (newTitle.length === 0) {
       return;
@@ -184,14 +184,14 @@ export class DetailViewModel extends Observable {
         );
         this.set('newTaskTitle', EMPTY_STRING);
       })
-      .catch(error => {
+      .catch(() => {
         console.log('something went wrong when adding task');
       });
   }
   /* tasks END */
 
   /* comments START */
-  public onAddComment(args) {
+  public onAddComment() {
     const newCommentTxt = this.newCommentText.trim();
     if (newCommentTxt.length === 0) {
       return;
@@ -214,7 +214,7 @@ export class DetailViewModel extends Observable {
         this.comments.unshift(new PtCommentViewModel(addedComment));
         this.set('newCommentText', EMPTY_STRING);
       })
-      .catch(error => {
+      .catch(() => {
         console.log('something went wrong when adding comment');
       });
   }

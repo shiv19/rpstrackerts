@@ -10,7 +10,6 @@ import {
 } from '~/core/contracts/responses/backlog';
 import { PtAuthService, PtBacklogService } from '~/core/contracts/services';
 import { PtItem } from '~/core/models/domain';
-import { PresetType } from '~/core/models/types';
 import {
   getAuthService,
   getBacklogService
@@ -29,7 +28,7 @@ export class BacklogViewModel extends Observable {
     this.backlogService = getBacklogService();
   }
 
-  public onPresetSelected(preset: PresetType) {
+  public onPresetSelected() {
     this.refresh();
   }
 

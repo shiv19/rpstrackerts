@@ -57,7 +57,7 @@ export function onTaskFocused(args: EventData) {
   const taskVm = <PtTaskViewModel>textField.bindingContext;
   taskVm.onTaskFocused(textField.text);
 
-  textField.on('textChange', a => taskVm.onTextChange(textField.text));
+  textField.on('textChange', () => taskVm.onTextChange(textField.text));
 }
 
 export function onTaskBlurred(args: EventData) {
