@@ -1,5 +1,5 @@
 import * as localize from 'nativescript-localize';
-import * as app from 'tns-core-modules/application';
+import * as application from 'tns-core-modules/application';
 import { getAuthService } from '~/globals/dependencies/locator';
 import './bundle-config';
 import './globals/dependencies/locator';
@@ -9,7 +9,7 @@ import './utils/console-color';
 global.__assign = Object.assign;
 
 const authService = getAuthService();
-app.setResources({ L: localize });
+application.setResources({ L: localize });
 
 if (authService.isLoggedIn()) {
   /*
@@ -18,7 +18,7 @@ if (authService.isLoggedIn()) {
   };
   */
   // app.start(navEntryLoggedIn);
-  app.run({ moduleName: 'app-root-authenticated.xml' });
+  application.run({ moduleName: 'app-root-authenticated.xml' });
 } else {
   /*
   const navEntryAnon: NavigationEntry = {
@@ -27,7 +27,7 @@ if (authService.isLoggedIn()) {
   };
   */
   // app.start(navEntryAnon);
-  app.run({ moduleName: 'app-root-anonymous.xml' });
+  application.run({ moduleName: 'app-root-anonymous.xml' });
 }
 
 /*
