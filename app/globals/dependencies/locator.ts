@@ -23,11 +23,11 @@ import {
   CommentService,
   TaskService
 } from '~/core/services/backlog';
+import { StorageRepository } from '~/infrastructure/local';
 import {
   AuthRepository,
   BacklogRepository,
   LoggingRepository,
-  StorageRepository,
   UserRepository
 } from '~/infrastructure/repositories';
 
