@@ -33,7 +33,7 @@
                     </StackLayout>
                     
                     <StackLayout row="2" class="menu-container">
-                        <Button tap="{{ onLogoutTap }}" text="LOGOUT" />
+                        <Button tap="onLogoutTap" text="LOGOUT" class="btn-inverse" />
                     </StackLayout>
                 </GridLayout>
             </StackLayout>
@@ -44,7 +44,7 @@
                 <GridLayout class="backlog-container" rows="*, auto">
                     <GridLayout row="0" class="list-container">
                         <nsRefresh:PullToRefresh refresh="onRefreshRequested">
-                            <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="{{ onListItemTap }}" separatorColor="#97a879">
+                            <ListView id="backlogList" class="items-list" items="{{ items }}" itemTap="onListItemTap" separatorColor="#97a879">
                                 <ListView.itemTemplate>
                                     <GridLayout class="li-wrapper" rows="60" columns="10, 50,  *, 100">
                                         <StackLayout class="li-indicator" row="0" col="0">

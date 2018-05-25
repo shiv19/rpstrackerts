@@ -1,5 +1,5 @@
 {
-    "apiEndpoint": "http://192.168.0.105:8080/api",
-    "loggingEnabled": true,
-    "loggingLevel": "Debug"
+  "apiEndpoint": "http://192.168.1.237:8080/api",
+  "loggingEnabled": true,
+  "loggingLevel": "Debug"
 }

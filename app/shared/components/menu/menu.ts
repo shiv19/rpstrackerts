@@ -1,20 +1,30 @@
-import * as backlogService from '../../../services/backlog.service';
-import * as navService from '../../../services/navigation.service';
+import { EventData } from 'tns-core-modules/ui/page/page';
+import { PresetType } from '~/core/models/types';
+import { getBacklogService } from '~/globals/dependencies/locator';
+import { goToSettingsPage } from '~/shared/helpers/navigation/nav.helper';
 
 let container = null;
 
-export function onLoaded(args) {
-    container = args.object;
+interface ObsWithPreset {
+  preset: PresetType;
 }
 
-export function onSelectPresetTap(args) {
-    const selPreset = args.object.preset;
-    backlogService.setPreset(selPreset)
-        .then(() => {
-            container.presetSelected.apply(container.page.bindingContext, [selPreset]);
-        });
+interface PresetEventData {
+  object: ObsWithPreset;
 }
 
-export function onSettingsTap(args) {
-    navService.goToSettingsPage();
+export function onLoaded(args: EventData) {
+  container = args.object;
+}
+
+export function onSelectPresetTap(args: PresetEventData) {
+  const backlogService = getBacklogService();
+  const selPreset = args.object.preset;
+  backlogService.setPreset(selPreset).then(() => {
+    container.presetSelected.apply(container.page.bindingContext, [selPreset]);
+  });
+}
+
+export function onSettingsTap() {
+  goToSettingsPage();
 }
